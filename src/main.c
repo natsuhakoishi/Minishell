@@ -6,11 +6,31 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/23 19:12:08 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:51:04 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	ft_input(t_minishell *mshell)
+{
+	char	*input;
+	char	prompt[100];
+
+	getcwd(mshell->cwd, sizeof(ms->cwd));
+	ft_strlcpy(prompt, "Minishell | ", 13);
+	ft_strlcat(prompt, mshell->cwd, 100);
+	ft_strlcat(prompt, ">", 100);
+	input = readline(prompt);
+	if (!input)
+		exit(0);
+	if (ft_strncmp(input, "", 1))
+		add_history(input);
+	mshell->token = lexer(input, "<>|");
+	if (!mshell->exit_status)
+		ms->exit_status = 0;
+	free(input);
+}
 
 void	init_minishell(t_minishell *mshell, char **envp)
 {
@@ -31,5 +51,17 @@ int	main(int argc, char **argv, char **envp)
 	lst = malloc(sizeof(t_list));
 	init_minishell(mshell, envp);
 	if (argc > 1)
-		//free_function;
+		exit_free(mshell, lst);
+	while (1)
+	{
+		ft_signal(0);
+		ft_input(mshell);
+		if (!check_quotes(mshell))
+		{
+			check_emptystr(mshell);
+		}
+		tcsetattr(STDIN_FILENO, TCSANOW, &mshell->modified_attr);
+		ft_free(mshell, lst);
+	}
+	tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
 }

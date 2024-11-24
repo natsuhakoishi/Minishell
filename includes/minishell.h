@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/23 18:54:29 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:41:49 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@
 
 typedef struct s_minishell
 {
-	char			**input;
-	int				*token;
+	char			**token;
 	char			**envp;
 	char			cwd[1024];
 	int				in_backup;
@@ -44,5 +43,16 @@ typedef struct s_minishell
 	struct termios	modified_attr;
 	struct termios	default_attr;
 }	t_minishell;
+
+//utils
+void	exit_free(t_minishell *mshell, t_list **lst);
+void	ft_free(t_minishell *mshell, t_list **lst);
+void	ft_free2(t_list *current);
+
+//signal
+void	ft_signal(int flag);
+void	ft_sigint(int sigint);
+void	quit_subshell(int sigint);
+void	quit_3(int sigquit);
 
 #endif
