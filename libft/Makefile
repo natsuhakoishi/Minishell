@@ -3,52 +3,35 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+         #
+#    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/18 19:27:00 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/11/23 18:24:38 by yyean-wa         ###   ########.fr        #
+#    Updated: 2024/11/25 00:19:14 by zgoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
-SRCS =	ft_isalpha.c\
-		ft_isdigit.c\
-		ft_isalnum.c\
-		ft_isascii.c\
-		ft_isprint.c\
-		ft_strlen.c\
-		ft_memset.c\
-		ft_bzero.c\
-		ft_memcpy.c\
-		ft_memmove.c\
-		ft_strlcpy.c\
-		ft_strlcat.c\
-		ft_toupper.c\
-		ft_tolower.c\
-		ft_strchr.c\
-		ft_strrchr.c\
-		ft_strncmp.c\
-		ft_memchr.c\
-		ft_memcmp.c\
-		ft_strnstr.c\
-		ft_atoi.c\
-		ft_calloc.c\
-		ft_strdup.c\
-		ft_substr.c\
-		ft_strjoin.c\
-		ft_strtrim.c\
-		ft_split.c\
-		ft_itoa.c\
-		ft_strmapi.c\
-		ft_striteri.c\
-		ft_putchar_fd.c\
-		ft_putstr_fd.c\
-		ft_putendl_fd.c\
-		ft_putnbr_fd.c
 
-OBJS = ${SRCS:.c=.o}
+SRCS =	ft_isalpha.c ft_isdigit.c\
+		ft_isalnum.c ft_isascii.c\
+		ft_isprint.c ft_strlen.c\
+		ft_memset.c ft_bzero.c\
+		ft_memcpy.c ft_memmove.c\
+		ft_strlcpy.c ft_strlcat.c\
+		ft_toupper.c ft_tolower.c\
+		ft_strchr.c ft_strrchr.c\
+		ft_strncmp.c ft_memchr.c\
+		ft_memcmp.c ft_strnstr.c\
+		ft_atoi.c ft_calloc.c\
+		ft_strdup.c ft_substr.c\
+		ft_strjoin.c ft_strtrim.c\
+		ft_split.c ft_itoa.c\
+		ft_strmapi.c ft_striteri.c\
+		ft_putchar_fd.c ft_putstr_fd.c\
+		ft_putendl_fd.c ft_putnbr_fd.c
+OBJS := ${SRCS:.c=.o}
 
 BONUS =	ft_lstnew.c\
 		ft_lstadd_front.c\
@@ -59,28 +42,32 @@ BONUS =	ft_lstnew.c\
 		ft_lstclear.c\
 		ft_lstiter.c\
 		ft_lstmap.c
+BONUSOBJT := ${BONUS:.c=.o}
 
-BONUSOBJT = ${BONUS:.c=.o}
-LIBC = ar rc
-REMOVE = rm -f
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+LIBC = ar rcs
+REMOVE = rm -rf
+
+all: $(NAME)
 
 $(NAME): ${OBJS}
 	@${LIBC} $(NAME) ${OBJS}
+	@echo "Libft mandatory ready."
 
-bonus: ${BONUSOBJT}
+bonus: ${OBJS} ${BONUSOBJT}
 	@${LIBC} $(NAME) ${BONUSOBJT}
+	@echo "Libft bonus ready."
 
-all:$(NAME)
-
-clean :
+clean:
 	@${REMOVE} ${OBJS} ${BONUSOBJT}
+	@echo "Remove libft's objs file"
 
-fclean :clean
+fclean: clean
 	@${REMOVE} $(NAME)
+	@echo "Remove library libft"
 
-re:fclean all
+re: fclean all
 
-%.o : %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-.PHONY: all clean fclean re
+.PHONY: bonus all clean fclean re
