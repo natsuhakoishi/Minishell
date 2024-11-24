@@ -1,32 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_strpos.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/26 23:27:12 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/25 00:52:33 by yyean-wa         ###   ########.fr       */
+/*   Created: 2024/11/25 01:44:23 by yyean-wa          #+#    #+#             */
+/*   Updated: 2024/11/25 02:11:03 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstnew(char **command)
+int	ft_strpos(const char *haystack, const char *needle)
 {
-	//modified for minishell
-	t_list	*node;
+	int	i;
+	int	j;
 
-	node = malloc(sizeof(t_list));
-	if (node == NULL)
-		return (NULL);
-	node->args = command;
-	node->append = 0;
-	node->pipe_fd[0] = -1;
-	node->pipe_fd[1] = -1;
-	node->delimiter = NULL;
-	node->infile = NULL;
-	node->outfile = NULL;
-	node->next = NULL;
-	return (node);
+	i = 0;
+	if (*needle == '\0' || needle == NULL)
+		return (0);
+	while (haystack[i])
+	{
+		j = 0;
+		while (needle[j] == haystack[i + j])
+		{
+			if (needle[j + 1] == '\0')
+				return (i);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }

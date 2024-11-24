@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:37:55 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/24 16:53:38 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/11/25 02:06:38 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	check_quotes(t_minishell *mshell)
 		b = -1;
 		while (mshell->token[a][++b])
 		{
-			if (mshell->token[a][b] == '\'' || mshell->token[a][b] =='\"')
+			if (mshell->token[a][b] == '\'' || mshell->token[a][b] == '\"')
 			{
 				if (qflag == 0)
 					qflag = mshell->token[a][b];

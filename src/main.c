@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/24 16:51:04 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/11/25 02:11:56 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	ft_input(t_minishell *mshell)
 	char	*input;
 	char	prompt[100];
 
-	getcwd(mshell->cwd, sizeof(ms->cwd));
+	getcwd(mshell->cwd, sizeof(mshell->cwd));
 	ft_strlcpy(prompt, "Minishell | ", 13);
 	ft_strlcat(prompt, mshell->cwd, 100);
-	ft_strlcat(prompt, ">", 100);
+	ft_strlcat(prompt, " > ", 100);
 	input = readline(prompt);
 	if (!input)
 		exit(0);
@@ -28,7 +28,7 @@ void	ft_input(t_minishell *mshell)
 		add_history(input);
 	mshell->token = lexer(input, "<>|");
 	if (!mshell->exit_status)
-		ms->exit_status = 0;
+		mshell->exit_status = 0;
 	free(input);
 }
 
@@ -39,7 +39,7 @@ void	init_minishell(t_minishell *mshell, char **envp)
 	tcgetattr(STDIN_FILENO, &mshell->default_attr);
 	mshell->modified_attr = mshell->default_attr;
 	mshell->modified_attr.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDOUT_FILENO, TCSANOW, &mshell->modified_attr;)
+	tcsetattr(STDOUT_FILENO, TCSANOW, &mshell->modified_attr);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -58,6 +58,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_input(mshell);
 		if (!check_quotes(mshell))
 		{
+			check_dollar(mshell);
 			check_emptystr(mshell);
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &mshell->modified_attr);

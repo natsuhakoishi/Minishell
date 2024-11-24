@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:46:54 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/24 16:35:19 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/11/25 02:06:18 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void	lx_split2(char **tokens, const char *input, const char *op, int i[3])
 {
 	if ((input[i[0]] == ' ' || i[0] == ft_strlen(input)
-		|| (input[i[0]] && ft_strchr(op, input[i[0]])))
-		&& i[2] >= 0)
+			|| (input[i[0]] && ft_strchr(op, input[i[0]]))) && i[2] >= 0)
 	{
 		if ((i[0] - i[2]) != 0)
 			tokens[++i[1]] = ft_substr(input, i[2], i[0] - i[2]);
@@ -36,13 +35,18 @@ void	lx_split2(char **tokens, const char *input, const char *op, int i[3])
 	}
 }
 
+//the theree i
+//0 index
+//1 cur pos of token
+//2 pos word start as word count
+
 int	lx_split(char **tokens, const char *input, const char *op)
 {
 	int	i[3];
 
-	i[0] = -1;//index
-	i[1] = -1;//cur pos of token
-	i[2] = -1;//pos word start as word count
+	i[0] = -1;
+	i[1] = -1;
+	i[2] = -1;
 	while (++i[0] <= ft_strlen(input))
 	{
 		if (input[i[0]] != ' ' && i[2] < 0)

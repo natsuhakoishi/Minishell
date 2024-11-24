@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
+#    By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/18 19:27:00 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/11/25 00:19:14 by zgoh             ###   ########.fr        #
+#    Updated: 2024/11/25 01:45:17 by yyean-wa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRCS =	ft_isalpha.c ft_isdigit.c\
 		ft_split.c ft_itoa.c\
 		ft_strmapi.c ft_striteri.c\
 		ft_putchar_fd.c ft_putstr_fd.c\
-		ft_putendl_fd.c ft_putnbr_fd.c
+		ft_putendl_fd.c ft_putnbr_fd.c\
+		ft_strpos.c
 OBJS := ${SRCS:.c=.o}
 
 BONUS =	ft_lstnew.c\
