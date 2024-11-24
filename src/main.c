@@ -6,11 +6,36 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/25 02:11:56 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/11/25 02:26:35 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	split_command(t_list **lst, t_minishell *mshell)
+{
+	char	**temp;
+	int		a;
+	int		b;
+
+	a = -1;
+	b = -1;
+	temp = malloc(sizeof(char *) * (BUFFER + 1));
+	while (mshell->token[++a])
+	{
+		if (!ft_strncmp(mshell->token[a], "|\0", 2))
+		{
+			temp[++b] = NULL;
+			ft_lstadd_back(lst, ft_lstnew(temp));
+			temp = malloc(sizeof(char *) * (BUFFER + 1));
+			b = -1;
+		}
+		else
+			temp[++b] = ft_strdup(mshell->token[a]);
+	}
+	temp[++b] = NULL;
+	ft_lstadd_back(lst, ft_lstnew(temp));
+}
 
 void	ft_input(t_minishell *mshell)
 {
@@ -60,6 +85,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			check_dollar(mshell);
 			check_emptystr(mshell);
+			split_command(lst, mshell);
+			tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &mshell->modified_attr);
 		ft_free(mshell, lst);
