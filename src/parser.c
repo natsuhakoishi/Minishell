@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:37:55 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/25 02:06:38 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:54:51 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void	check_emptystr(t_minishell *mshell)
 	}
 }
 
-// close quote 0, open quote 1 - qflag
-
 int	check_quotes2(t_minishell *mshell, int qflag)
 {
 	if (qflag != 0)
@@ -44,6 +42,8 @@ int	check_quotes2(t_minishell *mshell, int qflag)
 	}
 	return (0);
 }
+//close quote 0, open quote 1 - qflag
+//QUESTION: check for case like this ? ex. "hello, no closing quote for this
 
 int	check_quotes(t_minishell *mshell)
 {
@@ -62,7 +62,7 @@ int	check_quotes(t_minishell *mshell)
 			{
 				if (qflag == 0)
 					qflag = mshell->token[a][b];
-				else if (mshell->token[a][b] == qflag)
+				else if (qflag == mshell->token[a][b])
 					qflag = 0;
 			}
 		}

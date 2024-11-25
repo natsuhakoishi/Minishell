@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:46:54 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/25 02:06:18 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:44:34 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,10 @@ void	lx_split2(char **tokens, const char *input, const char *op, int i[3])
 		i[2] = -1;
 	}
 }
-
-//the theree i
-//0 index
-//1 cur pos of token
-//2 pos word start as word count
+//each index of variable i:
+//0 is index
+//1 is current position of token @ start position of current token
+//2 is pos word start as word count
 
 int	lx_split(char **tokens, const char *input, const char *op)
 {
