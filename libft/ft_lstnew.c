@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 23:27:12 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/30 01:25:24 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/11/30 03:12:40 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ t_list	*ft_lstnew(char **command)
 	node = malloc(sizeof(t_list));
 	if (node == NULL)
 		return (NULL);
-	node->lexemes = command;
+	node->lexem = command;
 	node->append = 0;
 	node->pipe_fd[0] = -1;
 	node->pipe_fd[1] = -1;
 	node->delimiter = NULL;
-	node->infile = NULL;
-	node->outfile = NULL;
+	node->in_path = NULL;
+	node->out_path = NULL;
 	node->next = NULL;
 	return (node);
 }

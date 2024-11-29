@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:58:48 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/30 01:25:59 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/11/30 03:12:56 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 
 typedef struct s_list
 {
-	char			**lexemes;
-	char			*infile;
-	char			*outfile;
+	char			**lexem;
+	char			*in_path;
+	char			*out_path;
 	char			*delimiter;
 	int				append; //1 for >>, 0 for >
 	int				pipe_fd[2]; //0 read, 1 write
