@@ -6,12 +6,14 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/25 18:50:09 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/11/30 01:33:54 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+//split command based on pipe operator
+//and stored each command in seperate node
 void	split_command(t_list **lst, t_minishell *mshell)
 {
 	char	**temp;
@@ -36,6 +38,11 @@ void	split_command(t_list **lst, t_minishell *mshell)
 	temp[++b] = NULL;
 	ft_lstadd_back(lst, ft_lstnew(temp));
 }
+//repeated malloc() should actually cause memory leaks;
+//	but before malloc again, we added temp to linked list,
+//	then malloc give us new address
+//https://chatgpt.com/share/6749ebc2-48e8-8000-842f-798fccf2a9c4
+//https://chatgpt.com/share/6749f8b6-5d70-8000-9608-c2131dd03860
 
 void	ft_input(t_minishell *mshell)
 {
@@ -81,10 +88,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_signal(0);
 		ft_input(mshell);
-		if (!check_quotes(mshell))
+		if (!check_quote(mshell))
 		{
-			check_dollar(mshell);
-			check_emptystr(mshell);
+			check_dollarsign(mshell);
+			check_empty(mshell);
 			split_command(lst, mshell);
 			tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
 		}
@@ -93,4 +100,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
 }
-//quote is error
+//quote not closing, consider as error

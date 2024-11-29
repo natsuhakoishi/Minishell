@@ -6,13 +6,15 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:37:55 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/25 18:54:51 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/11/29 23:56:09 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	check_emptystr(t_minishell *mshell)
+//ensure all tokens carried smth;
+//break away empty token & connect back
+void	check_empty(t_minishell *mshell)
 {
 	int	a;
 
@@ -32,7 +34,7 @@ void	check_emptystr(t_minishell *mshell)
 	}
 }
 
-int	check_quotes2(t_minishell *mshell, int qflag)
+int	check_quote2(t_minishell *mshell, int qflag)
 {
 	if (qflag != 0)
 	{
@@ -42,10 +44,8 @@ int	check_quotes2(t_minishell *mshell, int qflag)
 	}
 	return (0);
 }
-//close quote 0, open quote 1 - qflag
-//QUESTION: check for case like this ? ex. "hello, no closing quote for this
 
-int	check_quotes(t_minishell *mshell)
+int	check_quote(t_minishell *mshell)
 {
 	int	a;
 	int	b;
@@ -66,8 +66,10 @@ int	check_quotes(t_minishell *mshell)
 					qflag = 0;
 			}
 		}
-		if (check_quotes2(mshell, qflag) == 1)
+		if (check_quote2(mshell, qflag) == 1)
 			return (1);
 		return (0);
 	}
 }
+//qflag; true when first quote detected(open quote),
+//		 false when second quote detected(close quote)

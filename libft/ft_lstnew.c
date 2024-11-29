@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 23:27:12 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/25 00:52:33 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/11/30 01:25:24 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+//modified for minishell
 t_list	*ft_lstnew(char **command)
 {
-	//modified for minishell
 	t_list	*node;
 
 	node = malloc(sizeof(t_list));
 	if (node == NULL)
 		return (NULL);
-	node->args = command;
+	node->lexemes = command;
 	node->append = 0;
 	node->pipe_fd[0] = -1;
 	node->pipe_fd[1] = -1;

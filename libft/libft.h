@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:58:48 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/25 02:11:17 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/11/30 01:25:59 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 
 typedef struct s_list
 {
-	void			*content;
-	char			**args;
+	char			**lexemes;
 	char			*infile;
 	char			*outfile;
 	char			*delimiter;
@@ -30,6 +29,7 @@ typedef struct s_list
 	int				flag;
 	struct s_list	*next;
 }					t_list;
+//removed void pointer content
 
 int		ft_isalpha(int a);
 int		ft_isdigit(int a);

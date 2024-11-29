@@ -6,15 +6,16 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:46:54 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/25 18:44:34 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/11/29 23:15:22 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+//split as token when certain conditions meet
 void	lx_split2(char **tokens, const char *input, const char *op, int i[3])
 {
-	if ((input[i[0]] == ' ' || i[0] == ft_strlen(input)
+	if ((input[i[0]] == ' ' || i[0] == ft_strlen(input) \
 			|| (input[i[0]] && ft_strchr(op, input[i[0]]))) && i[2] >= 0)
 	{
 		if ((i[0] - i[2]) != 0)
@@ -22,7 +23,7 @@ void	lx_split2(char **tokens, const char *input, const char *op, int i[3])
 		if (input[i[0]] && ft_strchr(op, input[i[0]]))
 		{
 			i[2] = i[0];
-			if ((input[i[0]] == '>' && input[i[0] + 1] == '>')
+			if ((input[i[0]] == '>' && input[i[0] + 1] == '>') \
 				|| (input[i[0]] == '<' && input[i[0] + 1] == '<'))
 			{
 				tokens[++i[1]] = ft_substr(input, i[2], 2);
@@ -34,11 +35,11 @@ void	lx_split2(char **tokens, const char *input, const char *op, int i[3])
 		i[2] = -1;
 	}
 }
-//each index of variable i:
-//0 is index
-//1 is current position of token @ start position of current token
-//2 is pos word start as word count
+//1th if-statement:
+//2th if-statement: check for operator
 
+//split input into multiple tokens, and return the total number of tokens
+//will ignore content in quote & double quote, as subject asked
 int	lx_split(char **tokens, const char *input, const char *op)
 {
 	int	i[3];
@@ -61,7 +62,11 @@ int	lx_split(char **tokens, const char *input, const char *op)
 	tokens[++i[1]] = NULL;
 	return (i[1]);
 }
+//i[0] stored index
+//i[1] stored current position of token @ start position of current token
+//i[2] is pos word start as word count
 
+//return tokens with optimal memory
 char	**lexer(char *input, const char *op)
 {
 	int		len;
