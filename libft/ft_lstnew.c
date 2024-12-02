@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 23:27:12 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/30 03:12:40 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/02 15:12:53 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,3 +30,4 @@ t_list	*ft_lstnew(char **command)
 	node->next = NULL;
 	return (node);
 }
+//i removed char *content
