@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/29 23:56:32 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/05 02:38:39 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,14 @@ typedef struct s_minishell
 }	t_minishell;
 
 //utils
-
 char	*ft_getenv(t_minishell *mshell, char *evar);
+int		check_built_in(t_list *lst);
+
+//exit related
+
 void	exit_free(t_minishell *mshell, t_list **lst);
 void	ft_free(t_minishell *mshell, t_list **lst);
-void	ft_free2(t_list *current);
+void	free_node(t_list *current);
 
 //signal
 
@@ -76,5 +79,21 @@ void	check_dollarsign(t_minishell *mshell);
 void	process_token(t_minishell *mshell, char *temp, char *result, int i[3]);
 void	handle_expand(t_minishell *mshell, char *temp, char *result, int i[3]);
 void	handle_others(t_minishell *mshell, char *temp, char *result, int i[3]);
+
+//pre-execution
+
+int		redirection(t_minishell *mshell, t_list *lst);
+void	here_doc(t_minishell *mshell, t_list *lst);
+
+//execution
+
+void	execution(t_minishell *mshell, t_list *lst);
+void	built_in(t_minishell *mshell, t_list *lst);
+void	child_process(t_minishell *mshell, t_list *lst);
+
+//pipeline
+void	init_pipe(t_minishell *mshell);
+void	input_setup(t_minishell *mshell, t_list *lst);
+void	output_setup(t_minishell *mshell, t_list *lst);
 
 #endif

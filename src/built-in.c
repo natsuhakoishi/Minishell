@@ -1,60 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   built-in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/05 02:42:30 by zgoh             ###   ########.fr       */
+/*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
+/*   Updated: 2024/12/05 02:43:29 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-char	*ft_getenv(t_minishell *mshell, char *evar)
+//pwd
+//echo
+//exit
+//unset
+//env
+//cd
+//export
+//run
+
+void	built_in(t_minishell *mshell, t_list *lst)
 {
-	char	*value;
-	char	*key;
-	int		a;
-
-	a = -1;
-	value = NULL;
-	if (!ft_strncmp(evar, "?\0", 2))
-		return (ft_itoa(mshell->exit_status));
-	while (mshell->envp[++a])
-	{
-		key = ft_substr(mshell->envp[a], 0,
-				ft_strpos(mshell->envp[a], "="));
-		if (!ft_strncmp(key, evar, ft_strlen(evar) + 1))
-			value = ft_strchr(mshell->envp[a], '=') + 1;
-		free(key);
-	}
-	return (value);
-}
-
-int	check_built_in(t_list *lst)
-{
-	if (!lst->lexem[0])
-		return (0);
+	if (lst->lexem[0] == NULL)
+		return ;
 	if (!ft_strncmp(lst->lexem[0], "pwd\0", 4))
-		;
+		builtin_echo(mshell, lst);
 	else if (!ft_strncmp(lst->lexem[0], "echo\0", 5))
-		;
+		builtin_pwd(mshell, lst);
 	else if (!ft_strncmp(lst->lexem[0], "exit\0", 5))
-		;
+		builtin_export(mshell, lst);
 	else if (!ft_strncmp(lst->lexem[0], "unset\0", 6))
-		;
+		builtin_unset(mshell, lst);
 	else if (!ft_strncmp(lst->lexem[0], "env\0", 4))
-		;
+		builtin_env(mshell, lst);
 	else if (!ft_strncmp(lst->lexem[0], "cd\0", 3))
-		;
+		builtin_cd(mshell, lst);
 	else if (!ft_strncmp(lst->lexem[0], "export\0", 7))
-		;
-	else if ((!ft_strncmp(lst->lexem[0], "./", 2)
-			|| !ft_strncmp(lst->lexem[0], "/", 1)))
-		;
-	else
-		return (0);
-	return (1);
+		builtin_exit(mshell, lst);
+	else if (!ft_strncmp(lst->lexem[0], "./", 2) || \
+				!ft_strncmp(lst->lexem[0], "/", 1))
+		builtin_run(mshell, lst);
 }
+//beware the in & out fd
