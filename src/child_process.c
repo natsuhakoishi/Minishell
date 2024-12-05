@@ -6,14 +6,14 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/05 02:45:44 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/05 15:25:00 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //attempt to form a path & test w/ access() and execve()
-int	get_path(t_minishell *mshell, t_list *lst, char **env_paths, int i)
+void	get_path(t_minishell *mshell, t_list *lst, char **env_paths, int i)
 {
 	char	full_path[10000];
 
@@ -23,7 +23,7 @@ int	get_path(t_minishell *mshell, t_list *lst, char **env_paths, int i)
 	if (access(full_path, F_OK | X_OK) == 0)
 		execve(full_path, lst->lexem, mshell->envp);
 	free(full_path);
-	return (0);
+	mshell->execve_status = -1;
 }
 
 //get environment varialble PATH, then throw one by one to getpath
@@ -38,18 +38,19 @@ int	check_executable(t_minishell *mshell, t_list *lst)
 	env_paths = ft_split(ft_getenv(mshell, "PATH"), ':');
 	while (env_paths && env_paths[++i])
 	{
-		if (get_path(mshell, lst, env_paths, i) == 0)
+		get_path(mshell, lst, env_paths, i);
+		if (mshell->execve_status == -1)
 		{
 			i = -1;
-			while (env_paths[++i])
-				free(env_paths[i]);
+			while (env_paths[i])
+				free (env_paths[i--]);
 			free (env_paths);
 			return (0);
 		}
 	}
 	i = -1;
 	while (env_paths[i])
-		fre (env_paths[i--]);
+		free (env_paths[i--]);
 	free (env_paths);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/05 00:28:24 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/05 15:17:24 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	init_minishell(t_minishell *mshell, char **envp)
 {
 	mshell->envp = envp;
 	mshell->quote = 0;
+	mshell->execve_status = 0;
 	tcgetattr(STDIN_FILENO, &mshell->default_attr);
 	mshell->modified_attr = mshell->default_attr;
 	mshell->modified_attr.c_lflag &= ~ECHOCTL;

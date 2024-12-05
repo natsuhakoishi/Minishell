@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:58:48 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/30 03:12:56 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/05 15:46:12 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ typedef struct s_list
 	char			*in_path;
 	char			*out_path;
 	char			*delimiter;
-	int				append; //1 for >>, 0 for >
-	int				pipe_fd[2]; //0 read, 1 write
-	int				pipe_fd_prev[2]; //save prev pipe fd
-	int				flag;
+	int				append;
+	int				pipe_fd[2];
+	int				pipe_fd_prev[2];
 	struct s_list	*next;
 }					t_list;
 //removed void pointer content
+//removed: 	int				flag;
 
 int		ft_isalpha(int a);
 int		ft_isdigit(int a);
