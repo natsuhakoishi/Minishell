@@ -6,17 +6,41 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/05 16:55:53 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/06 18:10:16 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//echo
 //exit
 //unset
 //export
 //run
+
+//echo -n (string), or, echo (string)
+void	builtin_echo(t_minishell *mshell, t_list *lst)
+{
+	int	newline_flag;
+	int	i;
+	int	j;
+
+	newline_flag = 1;
+	i = -1;
+	if (lst->lexem[1][0] == '-' && lst->lexem[1][1] == 'n')
+	{
+		newline_flag = 0;
+		++i;
+	}
+	while (lst->lexem[++i])
+	{
+		j = -1;
+		while (lst->lexem[i][++j])
+		{
+			
+		}
+	}
+}
+
 
 //change directory; deal w/ relative path or absolute path or default
 //relative path: currect dir (./), parent dir (../) and subdirectory (*/)
