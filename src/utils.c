@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/08 02:33:15 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/09 19:24:37 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,26 @@ char	*remove_quote(char	*s)
 	}
 	s[j] = '\0';
 	return (s);
+}
+
+void	envp_sorting(char **envp, int size)
+{
+	char	*temp;
+	int		i;
+	int		j;
+
+	i = -1;
+	while (++i < size)
+	{
+		j = -1;
+		while (++j < (size - 1) - i)
+		{
+			if (ft_strncmp(envp[j], envp[j + 1], BUFFER) > 0)
+			{
+				temp = envp[j];
+				envp[j] = envp[j + 1];
+				envp[j + 1] = temp;
+			}
+		}
+	}
 }

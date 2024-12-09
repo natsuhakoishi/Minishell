@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 03:58:30 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/08 04:43:05 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/09 19:30:50 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,12 @@ void	builtin_unset(t_minishell *mshell, t_list *lst)
 	// ft_strlcpy(temp, lst->lexem[1], ft_strlen(lst->lexem[1]));
 	temp = remove_quote(lst->lexem[1]);
 	while (mshell->envp[++i])
-	{ 
+	{
 		if (!ft_strncmp(temp, mshell->envp[i], ft_strlen(temp)))
 			mshell->envp[i] = mshell->envp[i + 1];
 	}
 	mshell->exit_status = 0;
-} 
-//i set variable during minishell program, does the original bash should also have this variable set up also?
-//QUESTION: or said; bash & minishell have each own envp; edit: doesnt state in subject
-//edit2: minishell have its own envp; run again will reset it (i mean, only the default envp)
+}
 
 void	builtin_export(t_minishell *mshell, t_list *lst)
 {
@@ -71,41 +68,44 @@ void	builtin_export(t_minishell *mshell, t_list *lst)
 	i = -1;
 	if (lst->lexem[1] == NULL)
 		print_mshell_envp(mshell);
-	while (lst->lexem[++i])
+	else
 	{
-		if (!ft_isalpha(lst->lexem[i][0]) && lst->lexem[i][0] != '_')
+		while (lst->lexem[++i])
 		{
-			printf("Minishell: export: %s not a valid identifier", \
-					lst->lexem[i]);
-			mshell->exit_status = 1;
-			return ;
-		}
-		else
-		{
-			word = remove_quote(lst->lexem[i]);
-			if (word[ft_strpos(word, "=") + 1] == '\0')
-				ft_strlcat(word, "\"\"", (ft_strlen(word) + 2));
-			update_mshell_envp(mshell, word, ft_strpos(word, "="));
+			if (!ft_isalpha(lst->lexem[i][0]) && lst->lexem[i][0] != '_')
+			{
+				printf("Minishell: export: %s not a valid identifier", \
+						lst->lexem[i]);
+				mshell->exit_status = 1;
+				return ;
+			}
+			else
+			{
+				word = remove_quote(lst->lexem[i]);
+				update_mshell_envp(mshell, word, ft_strpos(word, "="));
+			}
 		}
 	}
 	mshell->exit_status = 0;
 }
 
+//update list of envp; either added a new envp / replace old envp with new value
 void	update_mshell_envp(t_minishell *mshell, char *new, int sign)
 {
 	int	i;
-	int 
 
 	i = -1;
+	if (new[ft_strpos(new, "=") + 1] == '\0')//NULL value
+		ft_strlcat(new, "\"\"", (ft_strlen(new) + 2));
 	while (mshell->envp[++i])
 	{
-		if (!ft_strncmp(mshell->envp[i], new, sign - 1))//existed envp; replace old_value with new_value
+		if (!ft_strncmp(mshell->envp[i], new, sign - 1)) //existed envp; replace old_value with new_value
 		{
-			 free(mshell->envp[i + 1]);
-			 mshell->envp[i + 1] = ft_strdup(new);
-			 break;
+			free(mshell->envp[i + 1]);
+			mshell->envp[i + 1] = ft_strdup(new);
+			break ;
 		}
-		else if (mshell->envp[i + 1] == NULL)//surely is new envp then
+		else if (mshell->envp[i + 1] == NULL) //surely is new envp then
 		{
 			free(mshell->envp[i + 1]);
 			mshell->envp[i + 1] = ft_strdup(new);
@@ -115,13 +115,20 @@ void	update_mshell_envp(t_minishell *mshell, char *new, int sign)
 	}
 }
 
+//list out all envp
 void	print_mshell_envp(t_minishell *mshell)
 {
 	int		i;
 	char	*temp;
 	int		sign;
+	int		size;
 
 	i = -1;
+	while (mshell->envp[++i])
+		;
+	size = i;
+	i = -1;
+	envp_sorting(mshell->envp, size);
 	while (mshell->envp[++i])
 	{
 		if (ft_strchr(mshell->envp[i], '='))
@@ -135,10 +142,3 @@ void	print_mshell_envp(t_minishell *mshell)
 			printf("declare -x %s\n", mshell->envp[i]);
 	}
 }
-//todo print out also based on sorting, alphabet or maybe ASCII value ascending order
-//todo print out env with the sequence; variable w/ value first then variable with no value setup
-//declare -x (key)="(value)" then follow by declare -x (key)
-
-//[exit_status 1]
-//export 1234=start => error; follow the rule of naming a identifier;
-//	> "bash: export: 'key=value': not a valid identifier"

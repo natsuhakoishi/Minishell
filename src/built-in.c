@@ -6,11 +6,42 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/08 00:45:43 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/09 19:54:38 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//handle 'exit'
+//>no option; no args / only-numeric args
+void	builtin_exit(t_minishell *mshell, t_list *lst)
+{
+	int	i;
+	int	temp;
+
+	i = -1;
+	printf("exit\n");
+	if (lst->lexem[1])
+	{
+		while (lst->lexem[1][++i])
+		{
+			if (!ft_isdigit(lst->lexem[1][i]))
+			{
+				ft_putstr_fd("Minishell: exit: ", 2);
+				perror(lst->lexem[1]);
+				mshell->exit_status = 2;
+			}
+			break ;
+		}
+		mshell->exit_status = ft_atoi(lst->lexem[1]);
+		if (mshell->exit_status > 256)
+			mshell->exit_status %= 256;
+	}
+	else
+		mshell->exit_status = 0;
+	free_exit(mshell, lst);
+}
+//fix while loop break but didnt totally jump out the if statement, exit status will be wrong
 
 //handle 'echo'
 //>no arg / option -n
@@ -37,6 +68,7 @@ void	builtin_echo(t_minishell *mshell, t_list *lst)
 		ft_putstr_fd("\n", 1);
 	mshell->exit_status = 0;
 }
+//fix didnt handle for multiple args
 
 //handle 'cd'
 //>no args / relative path / absolute path
@@ -69,7 +101,7 @@ void	builtin_cd(t_minishell *mshell, t_list *lst)
 		chdir(ft_getenv(mshell, "HOME"));
 	mshell->exit_status = 0;
 }
-//memo memory management
+//memo memory management for ft_strlcat()
 
 //handle 'env' (no arg)
 //*show err msg if there argument passed in
@@ -101,8 +133,8 @@ void	built_in(t_minishell *mshell, t_list *lst)
 		printf("%s\n", mshell->cwd);
 		mshell->exit_status = 0;
 	}
-	else if (!ft_strncmp(lst->lexem[0], "exit\0", 5)) //didnt handle exit with arugment
-		free_exit(mshell, lst);
+	else if (!ft_strncmp(lst->lexem[0], "exit\0", 5))
+		builtin_exit(mshell, lst);
 	else if (!ft_strncmp(lst->lexem[0], "env\0", 4))
 		builtin_env(mshell, lst);
 	else if (!ft_strncmp(lst->lexem[0], "cd\0", 3))
