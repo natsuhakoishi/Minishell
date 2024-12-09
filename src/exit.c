@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:30:05 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/05 02:47:32 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/07 04:40:35 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_free(t_minishell *mshell, t_list **lst)
 	*lst = NULL;
 }
 
-void	exit_free(t_minishell *mshell, t_list **lst)
+void	free_exit(t_minishell *mshell, t_list **lst)
 {
 	ft_free(mshell, lst);
 	free(lst);

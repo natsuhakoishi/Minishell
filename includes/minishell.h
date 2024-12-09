@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/05 15:17:49 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/07 16:31:05 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include "../libft/libft.h"
 
 # define BUFFER 10000
+
 
 typedef struct s_minishell
 {
@@ -51,7 +52,7 @@ int		check_built_in(t_list *lst);
 
 //exit related
 
-void	exit_free(t_minishell *mshell, t_list **lst);
+void	free_exit(t_minishell *mshell, t_list **lst);
 void	ft_free(t_minishell *mshell, t_list **lst);
 void	free_node(t_list *current);
 
@@ -96,5 +97,14 @@ void	child_process(t_minishell *mshell, t_list *lst);
 void	init_pipe(t_minishell *mshell);
 void	input_setup(t_minishell *mshell, t_list *lst);
 void	output_setup(t_minishell *mshell, t_list *lst);
+
+//built-in
+
+void	builtin_env(t_minishell *mshell, t_list *lst);
+void	builtin_cd(t_minishell *mshell, t_list *lst);
+void	builtin_echo(t_minishell *mshell, t_list *lst);
+void	builtin_unset(t_minishell *mshell, t_list *lst);
+void	builtin_export(t_minishell *mshell, t_list *lst);
+void	executable(t_minishell *mshell, t_list *lst);
 
 #endif
