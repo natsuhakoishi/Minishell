@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/10 15:21:35 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/10 22:54:03 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	get_path(t_minishell *mshell, t_list *lst, char **env_paths, int i)
 int	check_executable(t_minishell *mshell, t_list *lst)
 {
 	char	**env_paths;
-	char	*path;
+	// char	*path;
 	int		i;
 
 	i = -1;
-	path = NULL;
+	// path = NULL;
 	env_paths = ft_split(ft_getenv(mshell, "PATH"), ':');
 	while (env_paths && env_paths[++i])
 	{

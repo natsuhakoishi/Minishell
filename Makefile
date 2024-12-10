@@ -6,7 +6,7 @@
 #    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 17:37:04 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/10 16:15:42 by zgoh             ###   ########.fr        #
+#    Updated: 2024/12/10 22:55:27 by zgoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ RESET = '\033[0;0m'
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	@cc $(CFLAGS) -lreadline $(OBJ) $(LIBFT) -o $(NAME)	
+	@cc $(CFLAGS) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
 	@echo $(GREEN)"Minishell ready."$(RESET)
 
 $(LIBFT):
