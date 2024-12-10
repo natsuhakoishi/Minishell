@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/05 15:25:00 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/10 15:21:35 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	get_path(t_minishell *mshell, t_list *lst, char **env_paths, int i)
 	ft_strlcat(full_path, lst->lexem[0], 10000);
 	if (access(full_path, F_OK | X_OK) == 0)
 		execve(full_path, lst->lexem, mshell->envp);
-	free(full_path);
 	mshell->execve_status = -1;
 }
 

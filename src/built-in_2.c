@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 03:58:30 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/09 19:30:50 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/10 15:21:07 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,35 +56,6 @@ void	builtin_unset(t_minishell *mshell, t_list *lst)
 	{
 		if (!ft_strncmp(temp, mshell->envp[i], ft_strlen(temp)))
 			mshell->envp[i] = mshell->envp[i + 1];
-	}
-	mshell->exit_status = 0;
-}
-
-void	builtin_export(t_minishell *mshell, t_list *lst)
-{
-	int		i;
-	char	*word;
-
-	i = -1;
-	if (lst->lexem[1] == NULL)
-		print_mshell_envp(mshell);
-	else
-	{
-		while (lst->lexem[++i])
-		{
-			if (!ft_isalpha(lst->lexem[i][0]) && lst->lexem[i][0] != '_')
-			{
-				printf("Minishell: export: %s not a valid identifier", \
-						lst->lexem[i]);
-				mshell->exit_status = 1;
-				return ;
-			}
-			else
-			{
-				word = remove_quote(lst->lexem[i]);
-				update_mshell_envp(mshell, word, ft_strpos(word, "="));
-			}
-		}
 	}
 	mshell->exit_status = 0;
 }
@@ -141,4 +112,33 @@ void	print_mshell_envp(t_minishell *mshell)
 		else
 			printf("declare -x %s\n", mshell->envp[i]);
 	}
+}
+
+void	builtin_export(t_minishell *mshell, t_list *lst)
+{
+	int		i;
+	char	*word;
+
+	i = -1;
+	if (lst->lexem[1] == NULL)
+		print_mshell_envp(mshell);
+	else
+	{
+		while (lst->lexem[++i])
+		{
+			if (!ft_isalpha(lst->lexem[i][0]) && lst->lexem[i][0] != '_')
+			{
+				printf("Minishell: export: %s not a valid identifier", \
+						lst->lexem[i]);
+				mshell->exit_status = 1;
+				return ;
+			}
+			else
+			{
+				word = remove_quote(lst->lexem[i]);
+				update_mshell_envp(mshell, word, ft_strpos(word, "="));
+			}
+		}
+	}
+	mshell->exit_status = 0;
 }

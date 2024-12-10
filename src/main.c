@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/05 15:17:24 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/10 15:16:10 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,12 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	*mshell;
 	t_list		*lst;
 
+	(void)argv;
 	mshell = malloc(sizeof(t_minishell));
 	lst = malloc(sizeof(t_list));
 	init_minishell(mshell, envp);
 	if (argc > 1)
-		exit_free(mshell, lst);
+		free_exit(mshell, &lst);
 	while (1)
 	{
 		ft_signal(0);
@@ -100,7 +101,7 @@ int	main(int argc, char **argv, char **envp)
 				execution(mshell, lst);
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &mshell->modified_attr);
-		ft_free(mshell, lst);
+		ft_free(mshell, &lst);
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
 }

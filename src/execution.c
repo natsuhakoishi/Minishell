@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/05 02:47:52 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/10 16:08:37 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
 
 void	execution(t_minishell *mshell, t_list *lst)
 {
-	// t_list	*head;
+	t_list	*head;
 	pid_t	*childs;
 
-	// head = lst;
+	head = lst;
 	childs = malloc(ft_lstsize(lst) * sizeof(pid_t));
 	init_pipe(mshell);
 	ft_signal(1);
@@ -55,7 +55,7 @@ void	execution(t_minishell *mshell, t_list *lst)
 		close(mshell->in_backup);
 		close(mshell->out_backup);
 	}
-	// lst = head;
+	lst = head;
 	free(childs);
 }
 //how bash execute a command:

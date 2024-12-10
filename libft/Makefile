@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+         #
+#    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/18 19:27:00 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/11/25 01:45:17 by yyean-wa         ###   ########.fr        #
+#    Updated: 2024/12/10 16:15:05 by zgoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,23 +51,27 @@ BONUSOBJT := ${BONUS:.c=.o}
 LIBC = ar rcs
 REMOVE = rm -rf
 
+GREEN='\033[1;92m'
+YELLOW='\033[0;93m'
+RESET = '\033[0;0m'
+
 all: $(NAME)
 
 $(NAME): ${OBJS}
 	@${LIBC} $(NAME) ${OBJS}
-	@echo "Libft mandatory ready."
+	@echo $(GREEN)"Libft mandatory ready."$(RESET)
 
 bonus: ${OBJS} ${BONUSOBJT}
 	@${LIBC} $(NAME) ${BONUSOBJT}
-	@echo "Libft bonus ready."
+	@echo $(GREEN)"Libft bonus ready."$(RESET)
 
 clean:
 	@${REMOVE} ${OBJS} ${BONUSOBJT}
-	@echo "Remove libft's objs file"
+	@echo $(YELLOW)"Remove libft's objs file"$(RESET)
 
 fclean: clean
 	@${REMOVE} $(NAME)
-	@echo "Remove library libft"
+	@echo $(YELLOW)"Remove library libft"$(RESET)
 
 re: fclean all
 

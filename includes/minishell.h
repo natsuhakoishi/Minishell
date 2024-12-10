@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/07 16:31:05 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/10 15:53:43 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,17 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <dirent.h>
 # include <signal.h>
 # include <termios.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 
 # include "../libft/libft.h"
 
 # define BUFFER 10000
-
 
 typedef struct s_minishell
 {
@@ -49,6 +48,8 @@ typedef struct s_minishell
 //utils
 char	*ft_getenv(t_minishell *mshell, char *evar);
 int		check_built_in(t_list *lst);
+char	*remove_quote(char *s);
+void	envp_sorting(char **envp, int size);
 
 //exit related
 
@@ -100,6 +101,7 @@ void	output_setup(t_minishell *mshell, t_list *lst);
 
 //built-in
 
+void	builtin_exit(t_minishell *mshell, t_list *lst);
 void	builtin_env(t_minishell *mshell, t_list *lst);
 void	builtin_cd(t_minishell *mshell, t_list *lst);
 void	builtin_echo(t_minishell *mshell, t_list *lst);

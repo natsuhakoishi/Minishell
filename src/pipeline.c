@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:12:01 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/05 02:44:09 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/10 16:05:32 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	input_setup(t_minishell *mshell, t_list *lst)
 
 void	output_setup(t_minishell *mshell, t_list *lst)
 {
-	if (lst->out_path && !lst->append)
+	if (lst->out_path && !(lst->append))
 		mshell->out_fd = open(lst->out_path, O_WRONLY | O_CREAT | O_TRUNC, \
 			0777);
 	else if (lst->out_path && lst->append)

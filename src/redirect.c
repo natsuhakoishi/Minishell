@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:05:48 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/05 00:27:43 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/10 15:22:04 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	redirect_setup(t_minishell *mshell, t_list *lst, int i)
 	int	fd;
 
 	fd = 0;
+	(void)mshell;
 	if (!ft_strncmp(lst->lexem[i], ">\0", 2))
 	{
 		lst->out_path = lst->lexem[i + 1];

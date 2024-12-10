@@ -6,7 +6,7 @@
 #    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 17:37:04 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/11/25 00:20:41 by zgoh             ###   ########.fr        #
+#    Updated: 2024/12/10 16:15:42 by zgoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,12 @@ NAME = minishell
 
 AR = ar rcs
 RM = rm -rf
-CFLAGS = -Wall -Wextra -Werror -Iincludes/
+CFLAGS = -Wall -Wextra -Werror -I./includes/ -I/usr/include/readline/
 
-SRC_FILES = main lexer parser signal utils
+SRC_FILES = main lexer parser expansion \
+			execution built-in built-in_2 child_process \
+			redirect redirect2 pipeline \
+			signal exit utils
 SRC = $(addprefix src/, $(addsuffix .c,  $(SRC_FILES)))
 
 LIBFT_PATH = ./libft/
@@ -29,11 +32,15 @@ OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
 $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
 	@cc $(CFLAGS) -c $< -o $@
 
+GREEN='\033[1;92m'
+YELLOW='\033[0;93m'
+RESET = '\033[0;0m'
+
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	@cc $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
-	@echo "Minishell ready."
+	@cc $(CFLAGS) -lreadline $(OBJ) $(LIBFT) -o $(NAME)	
+	@echo $(GREEN)"Minishell ready."$(RESET)
 
 $(LIBFT):
 	@make -C $(LIBFT_PATH)
@@ -45,12 +52,12 @@ $(OBJ_DIR):
 clean:
 	@make clean -C $(LIBFT_PATH)
 	@$(RM) $(OBJ_DIR)
-	@echo "Remove objs file"
+	@echo  $(YELLOW)"Remove objs file"$(RESET)
 
 fclean: clean
 	@make fclean -C $(LIBFT_PATH) | grep -v "Remove libft's objs file"
 	@$(RM) $(NAME)
-	@echo "Remove program Minishell"
+	@echo $(YELLOW)"Remove program Minishell"$(RESET)
 
 re: fclean all
 

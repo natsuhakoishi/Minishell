@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:46:54 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/29 23:15:22 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/10 15:17:08 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //split as token when certain conditions meet
 void	lx_split2(char **tokens, const char *input, const char *op, int i[3])
 {
-	if ((input[i[0]] == ' ' || i[0] == ft_strlen(input) \
+	if ((input[i[0]] == ' ' || i[0] == (int)ft_strlen(input) \
 			|| (input[i[0]] && ft_strchr(op, input[i[0]]))) && i[2] >= 0)
 	{
 		if ((i[0] - i[2]) != 0)
@@ -47,7 +47,7 @@ int	lx_split(char **tokens, const char *input, const char *op)
 	i[0] = -1;
 	i[1] = -1;
 	i[2] = -1;
-	while (++i[0] <= ft_strlen(input))
+	while (++i[0] <= (int)ft_strlen(input))
 	{
 		if (input[i[0]] != ' ' && i[2] < 0)
 			i[2] = i[0];
