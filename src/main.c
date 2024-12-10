@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/10 15:16:10 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/11 00:03:10 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	split_command(t_list **lst, t_minishell *mshell)
 			temp[++b] = NULL;
 			ft_lstadd_back(lst, ft_lstnew(temp));
 			temp = malloc(sizeof(char *) * (BUFFER + 1));
+			if (!temp)
+				exit(1);
 			b = -1;
 		}
 		else
@@ -37,6 +39,7 @@ void	split_command(t_list **lst, t_minishell *mshell)
 	}
 	temp[++b] = NULL;
 	ft_lstadd_back(lst, ft_lstnew(temp));
+	free(temp);
 }
 //repeated malloc() should actually cause memory leaks;
 //	but before malloc again, we added temp to linked list,
@@ -70,6 +73,12 @@ void	init_minishell(t_minishell *mshell, char **envp)
 	mshell->envp = envp;
 	mshell->quote = 0;
 	mshell->execve_status = 0;
+	mshell->exit_status = 0;
+	mshell->in_backup = -1;
+	mshell->out_backup = -1;
+	mshell->in_fd = -1;
+	mshell->out_fd = -1;
+	mshell->token = NULL;
 	tcgetattr(STDIN_FILENO, &mshell->default_attr);
 	mshell->modified_attr = mshell->default_attr;
 	mshell->modified_attr.c_lflag &= ~ECHOCTL;
@@ -81,11 +90,10 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	*mshell;
 	t_list		*lst;
 
-	(void)argv;
 	mshell = malloc(sizeof(t_minishell));
-	lst = malloc(sizeof(t_list));
+	lst = ft_lstnew(NULL);
 	init_minishell(mshell, envp);
-	if (argc > 1)
+	if (argc > 1 || argv[1])
 		free_exit(mshell, &lst);
 	while (1)
 	{
