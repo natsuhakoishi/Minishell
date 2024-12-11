@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:05:48 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/10 22:54:13 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/11 01:46:48 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	redirect_setup(t_minishell *mshell, t_list *lst, int i)
 }
 //todo: file creating might redundant
 
+//check if consecutive redirect symbol
+//todo check args after redirect symbol is exist
 int	check_redirect_syntax(t_minishell *mshell, t_list *lst, int i)
 {
 	char	*current;

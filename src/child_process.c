@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/10 22:54:03 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/11 01:49:42 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ void	child_process(t_minishell *mshell, t_list *lst)
 	input_setup(mshell, lst);
 	output_setup(mshell, lst);
 	ft_signal(1);
-	if (check_built_in(lst))
-		built_in(mshell, lst);
+	built_in(mshell, lst);
 	cmd(mshell, lst);
 	exit(mshell->exit_status);
 }

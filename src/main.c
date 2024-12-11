@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/11 00:03:10 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/11 02:27:58 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	split_command(t_list **lst, t_minishell *mshell)
 	}
 	temp[++b] = NULL;
 	ft_lstadd_back(lst, ft_lstnew(temp));
-	free(temp);
+	// free(temp);
 }
 //repeated malloc() should actually cause memory leaks;
 //	but before malloc again, we added temp to linked list,
@@ -74,10 +74,6 @@ void	init_minishell(t_minishell *mshell, char **envp)
 	mshell->quote = 0;
 	mshell->execve_status = 0;
 	mshell->exit_status = 0;
-	mshell->in_backup = -1;
-	mshell->out_backup = -1;
-	mshell->in_fd = -1;
-	mshell->out_fd = -1;
 	mshell->token = NULL;
 	tcgetattr(STDIN_FILENO, &mshell->default_attr);
 	mshell->modified_attr = mshell->default_attr;
@@ -113,4 +109,3 @@ int	main(int argc, char **argv, char **envp)
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
 }
-//quote not closing, consider as error

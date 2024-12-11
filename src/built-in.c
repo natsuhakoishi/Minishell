@@ -6,11 +6,41 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/10 15:18:36 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/11 03:57:39 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//ex. './' and '/'
+//absolute path of a command;l ex. /usr/bin/ls
+//executeable file; ex. ./minishell ./pipex
+void	executable(t_minishell *mshell, t_list *lst)
+{
+	int	pid;
+
+	if (access(lst->lexem[0], F_OK) == 0)
+	{
+		pid = fork();
+		if (pid == 0)
+			execve(lst->lexem[0], lst->lexem, mshell->envp);
+		else if (pid > 0)
+		{
+			waitpid(pid, &mshell->exit_status, 0);
+			mshell->exit_status = mshell->exit_status % 255;
+		}
+	}
+	else
+	{
+		ft_putstr_fd("Minishell: ", 2);
+		perror(lst->lexem[0]);
+		mshell->exit_status = 127;
+		return ;
+	}
+	mshell->exit_status = 0;
+}
+//todo have a idea to put path resolution in here too
+//		ex. pass in ../ only, or / or ./ or subdirectory
 
 //handle 'exit'
 //>no option; no args / only-numeric args
@@ -50,11 +80,12 @@ void	builtin_echo(t_minishell *mshell, t_list *lst)
 	int	i;
 
 	newline_flag = 1;
-	i = -1;
-	if (lst->lexem[1][0] == '-' && lst->lexem[1][1] == 'n' && !lst->lexem[1][2])
+	i = 0;
+	if (lst->lexem[1] && lst->lexem[1][0] == '-' && lst->lexem[1][1] == 'n' \
+		&& !lst->lexem[1][2])
 	{
 		newline_flag = 0;
-		i += 2;
+		++i;
 	}
 	while (lst->lexem[++i])
 	{
@@ -78,7 +109,7 @@ void	builtin_cd(t_minishell *mshell, t_list *lst)
 
 	if (lst->lexem[1])
 	{
-		if (lst->lexem[1][0] == '/') // ex. /usr/bin/ls
+		if (lst->lexem[1][0] == '/')
 			chdir(lst->lexem[1]);
 		else
 		{
@@ -89,17 +120,18 @@ void	builtin_cd(t_minishell *mshell, t_list *lst)
 				chdir(path);
 			else
 			{
-				printf("Minishell: cd: %s: No such file or directory", lst->lexem[1]);
+				printf("Minishell: cd: %s: No such file or directory\n", lst->lexem[1]);
 				mshell->exit_status = 1;
 				return ;
 			}
 		}
 	}
-	else if (!lst->lexem[1] || lst->lexem[1][0] == '~')
+	else if (!lst->lexem[1])
 		chdir(ft_getenv(mshell, "HOME"));
 	mshell->exit_status = 0;
 }
-//memo memory management for ft_strlcat()
+//memo now no more handle for ~
+//fix on launch cant perform 'cd' (edit most of cmd)
 
 //handle 'env' (no arg)
 //*show err msg if there argument passed in
@@ -121,37 +153,3 @@ void	builtin_env(t_minishell *mshell, t_list *lst)
 	}
 	mshell->exit_status = 0;
 }
-
-void	built_in(t_minishell *mshell, t_list *lst)
-{
-	if (lst->lexem[0] == NULL)
-		return ;
-	if (!ft_strncmp(lst->lexem[0], "pwd\0", 4))
-	{
-		printf("%s\n", mshell->cwd);
-		mshell->exit_status = 0;
-	}
-	else if (!ft_strncmp(lst->lexem[0], "exit\0", 5))
-		builtin_exit(mshell, lst);
-	else if (!ft_strncmp(lst->lexem[0], "env\0", 4))
-		builtin_env(mshell, lst);
-	else if (!ft_strncmp(lst->lexem[0], "cd\0", 3))
-		builtin_cd(mshell, lst);
-	else if (!ft_strncmp(lst->lexem[0], "echo\0", 5))
-		builtin_echo(mshell, lst);
-	else if (!ft_strncmp(lst->lexem[0], "unset\0", 6))
-		builtin_unset(mshell, lst);
-	else if (!ft_strncmp(lst->lexem[0], "export\0", 7))
-		builtin_export(mshell, lst);
-	else if (!ft_strncmp(lst->lexem[0], "./", 2) || \
-				!ft_strncmp(lst->lexem[0], "/", 1))
-		executable(mshell, lst);
-}
-//memo pwd() not error handling, should have manage in previous stage
-//memo should be able handle multiple argument passed in
-
-//beware the in & out fd
-//todo not enough error handling for some built-in? not sure
-//todo exit_status checking; can replicate same error and 'echo $?' to check
-////doubt deal w/ path only? the path resolution thing
-//todo (should be include) //!ft_strncmp(lst->lexem[0], "../", 3) || !ft_strchr(lst->lexem[0], '/')

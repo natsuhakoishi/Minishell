@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/09 19:24:37 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/11 01:18:56 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,26 @@ char	*ft_getenv(t_minishell *mshell, char *evar)
 
 int	check_built_in(t_list *lst)
 {
-	if (!lst->lexem[0])
+	if (!lst || !lst->lexem || !lst->lexem[0])
 		return (0);
-	if (!ft_strncmp(lst->lexem[0], "pwd\0", 4))
-		;
-	else if (!ft_strncmp(lst->lexem[0], "exit\0", 5))
-		;
-	else if (!ft_strncmp(lst->lexem[0], "env\0", 4))
-		;
-	else if (!ft_strncmp(lst->lexem[0], "cd\0", 3))
-		;
-	else if (!ft_strncmp(lst->lexem[0], "echo\0", 5))
-		;
-	else if (!ft_strncmp(lst->lexem[0], "unset\0", 6))
-		;
-	else if (!ft_strncmp(lst->lexem[0], "export\0", 7))
-		;
+	if (!ft_strncmp(lst->lexem[0], "pwd", 3))
+		return (1);
+	else if (!ft_strncmp(lst->lexem[0], "exit", 4))
+		return (1);
+	else if (!ft_strncmp(lst->lexem[0], "env", 3))
+		return (1);
+	else if (!ft_strncmp(lst->lexem[0], "cd", 2))
+		return (1);
+	else if (!ft_strncmp(lst->lexem[0], "echo", 4))
+		return (1);
+	else if (!ft_strncmp(lst->lexem[0], "unset", 5))
+		return (1);
+	else if (!ft_strncmp(lst->lexem[0], "export", 6))
+		return (1);
 	else if (!ft_strncmp(lst->lexem[0], "./", 2) || \
-				!ft_strncmp(lst->lexem[0], "/", 1))
-		;
+			!ft_strncmp(lst->lexem[0], "/", 1) || \
+			!ft_strncmp(lst->lexem[0], "../", 3))
+		return (1);
 	else
 		return (0);
 	return (1);

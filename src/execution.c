@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/10 16:08:37 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/11 13:52:55 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
 	i = -1;
 	while (lst)
 	{
+		if (lst->next)
+			pipe(lst->next->pipe_fd);
 		if (lst->delimiter != NULL)
 			here_doc(mshell, lst);
 		childs[++i] = fork();
@@ -30,22 +32,50 @@ void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
 		{
 			close(lst->pipe_fd[0]);
 			if (lst->next)
-				close(lst->pipe_fd[1]);
+				close(lst->next->pipe_fd[1]);
 			lst = lst->next;
 		}
 	}
 }
 
+void	built_in(t_minishell *mshell, t_list *lst)
+{
+	if (lst->lexem[0] == NULL)
+		return ;
+	if (!ft_strncmp(lst->lexem[0], "pwd", 3))
+	{
+		printf("%s\n", mshell->cwd);
+		mshell->exit_status = 0;
+	}
+	else if (!ft_strncmp(lst->lexem[0], "exit", 4))
+		builtin_exit(mshell, lst);
+	else if (!ft_strncmp(lst->lexem[0], "env", 3))
+		builtin_env(mshell, lst);
+	else if (!ft_strncmp(lst->lexem[0], "cd", 2))
+		builtin_cd(mshell, lst);
+	else if (!ft_strncmp(lst->lexem[0], "echo", 4))
+		builtin_echo(mshell, lst);
+	else if (!ft_strncmp(lst->lexem[0], "unset", 5))
+		builtin_unset(mshell, lst);
+	else if (!ft_strncmp(lst->lexem[0], "export", 6))
+		builtin_export(mshell, lst);
+	else if (!ft_strncmp(lst->lexem[0], "./", 2) || \
+			!ft_strncmp(lst->lexem[0], "/", 1) || \
+			!ft_strncmp(lst->lexem[0], "../", 3))
+		executable(mshell, lst);
+}
+
 void	execution(t_minishell *mshell, t_list *lst)
 {
-	t_list	*head;
 	pid_t	*childs;
 
-	head = lst;
+	mshell->in_backup = dup(0);
+	mshell->out_backup = dup(1);
+	mshell->in_fd = 0;
+	mshell->out_fd = 1;
 	childs = malloc(ft_lstsize(lst) * sizeof(pid_t));
-	init_pipe(mshell);
 	ft_signal(1);
-	if (!lst->next && check_built_in(lst)) //code optimization&foster execution
+	if (lst->next == NULL && check_built_in(lst))
 		built_in(mshell, lst);
 	else
 	{
@@ -55,8 +85,6 @@ void	execution(t_minishell *mshell, t_list *lst)
 		close(mshell->in_backup);
 		close(mshell->out_backup);
 	}
-	lst = head;
 	free(childs);
 }
-//how bash execute a command:
-//	built-in? :run; :exist in $PATH? : fork child process & run; error;
+//number of child = number of node = number of cmd

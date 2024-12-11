@@ -6,68 +6,50 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 03:58:30 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/10 15:21:07 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/11 03:57:19 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//ex. './' and '/'
-//absolute path of a command;l ex. /usr/bin/ls
-//executeable file; ex. ./minishell ./pipex
-void	executable(t_minishell *mshell, t_list *lst)
-{
-	int	pid;
-
-	if (access(lst->lexem[0], F_OK) == 0)
-	{
-		pid = fork();
-		if (pid == 0)
-			execve(lst->lexem[0], lst->lexem, mshell->envp);
-		else if (pid > 0)
-		{
-			waitpid(pid, &mshell->exit_status, 0);
-			mshell->exit_status = mshell->exit_status % 255;
-		}
-	}
-	else
-	{
-		ft_putstr_fd("Minishell: ", 2);
-		perror(lst->lexem[0]);
-		mshell->exit_status = 127;
-		return ;
-	}
-	mshell->exit_status = 0;
-}
-//todo have a idea to put path resolution in here too
-//		ex. pass in ../ only, or / or ./ or subdirectory
-
+//handle 'unset'
+//>no args
+//ex. lexem[1] will be the key only
 void	builtin_unset(t_minishell *mshell, t_list *lst)
 {
-	char	*temp;
+	char	*key;
 	int		i;
 
 	i = -1;
-	if (!lst->lexem[1])
-		return ;
-	// ft_strlcpy(temp, lst->lexem[1], ft_strlen(lst->lexem[1]));
-	temp = remove_quote(lst->lexem[1]);
-	while (mshell->envp[++i])
+	if (lst->lexem[1])
 	{
-		if (!ft_strncmp(temp, mshell->envp[i], ft_strlen(temp)))
-			mshell->envp[i] = mshell->envp[i + 1];
+		lst->lexem[1] = remove_quote(lst->lexem[1]);
+		while (mshell->envp[++i])
+		{
+			if (ft_strpos(mshell->envp[i], "="))
+				key = ft_substr(mshell->envp[i], 0, ft_strpos(mshell->envp[i], "="));
+			else
+				key = ft_substr(mshell->envp[i], 0, ft_strlen(mshell->envp[i]));
+			if (!ft_strncmp(lst->lexem[1], mshell->envp[i], ft_strlen(temp)))
+			{
+				free(mshell->envp[i]);
+				mshell->envp[i] = mshell->envp[i + 1];
+			}
+		}
+		// mshell->envp[i] = NULL;
 	}
 	mshell->exit_status = 0;
 }
+//fix partial same can remove the env (correction: should 100)
+//fix current only accept one args; forget liao should be more
 
-//update list of envp; either added a new envp / replace old envp with new value
+//update list of envp
+//>either added a new envp / replace old envp with new value
 void	update_mshell_envp(t_minishell *mshell, char *new, int sign)
 {
 	int	i;
 
-	i = -1;
-	if (new[ft_strpos(new, "=") + 1] == '\0')//NULL value
-		ft_strlcat(new, "\"\"", (ft_strlen(new) + 2));
+	i = 0;
 	while (mshell->envp[++i])
 	{
 		if (!ft_strncmp(mshell->envp[i], new, sign - 1)) //existed envp; replace old_value with new_value
@@ -87,6 +69,7 @@ void	update_mshell_envp(t_minishell *mshell, char *new, int sign)
 }
 
 //list out all envp
+//*not given args
 void	print_mshell_envp(t_minishell *mshell)
 {
 	int		i;
@@ -105,8 +88,8 @@ void	print_mshell_envp(t_minishell *mshell)
 		if (ft_strchr(mshell->envp[i], '='))
 		{
 			sign = ft_strpos(mshell->envp[i], "=");
-			temp = ft_substr(mshell->envp[i], 0, sign - 1);
-			printf("declare -x %s\"%s\"\n", temp, \
+			temp = ft_substr(mshell->envp[i], 0, sign);
+			printf("declare -x %s=\"%s\"\n", temp, \
 					ft_strchr(mshell->envp[i], '=') + 1);
 		}
 		else
@@ -114,12 +97,14 @@ void	print_mshell_envp(t_minishell *mshell)
 	}
 }
 
+//handle 'export'
+//>no args / multiple args; follow identifier naming rule
 void	builtin_export(t_minishell *mshell, t_list *lst)
 {
 	int		i;
 	char	*word;
 
-	i = -1;
+	i = 0;
 	if (lst->lexem[1] == NULL)
 		print_mshell_envp(mshell);
 	else
@@ -128,7 +113,7 @@ void	builtin_export(t_minishell *mshell, t_list *lst)
 		{
 			if (!ft_isalpha(lst->lexem[i][0]) && lst->lexem[i][0] != '_')
 			{
-				printf("Minishell: export: %s not a valid identifier", \
+				printf("Minishell: export: %s not a valid identifier\n", \
 						lst->lexem[i]);
 				mshell->exit_status = 1;
 				return ;

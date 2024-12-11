@@ -6,19 +6,19 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:12:01 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/10 16:05:32 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/11 02:25:59 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_pipe(t_minishell *mshell)
-{
-	mshell->in_backup = dup(0);
-	mshell->out_backup = dup(1);
-	mshell->in_fd = 0;
-	mshell->out_fd = 0;
-}
+// void	init_pipe(t_minishell *mshell)
+// {
+// 	mshell->in_backup = dup(0);
+// 	mshell->out_backup = dup(1);
+// 	mshell->in_fd = 0;
+// 	mshell->out_fd = 1;
+// }
 
 void	input_setup(t_minishell *mshell, t_list *lst)
 {
@@ -66,4 +66,3 @@ void	output_setup(t_minishell *mshell, t_list *lst)
 	}
 	close(mshell->out_fd);
 }
-//todo dup2 error hmmm
