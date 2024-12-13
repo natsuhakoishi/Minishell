@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/11 13:52:55 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/13 19:45:41 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ void	built_in(t_minishell *mshell, t_list *lst)
 	else if (!ft_strncmp(lst->lexem[0], "export", 6))
 		builtin_export(mshell, lst);
 	else if (!ft_strncmp(lst->lexem[0], "./", 2) || \
-			!ft_strncmp(lst->lexem[0], "/", 1) || \
-			!ft_strncmp(lst->lexem[0], "../", 3))
+			!ft_strncmp(lst->lexem[0], "/", 1))
 		executable(mshell, lst);
 }
 
@@ -88,3 +87,5 @@ void	execution(t_minishell *mshell, t_list *lst)
 	free(childs);
 }
 //number of child = number of node = number of cmd
+ 
+//memo tested; if only builtin, it do execute directly w/o access child process

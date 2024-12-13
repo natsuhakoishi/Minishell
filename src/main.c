@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/11 02:27:58 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/13 18:32:43 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	init_minishell(t_minishell *mshell, char **envp)
 {
 	mshell->envp = envp;
 	mshell->quote = 0;
-	mshell->execve_status = 0;
 	mshell->exit_status = 0;
 	mshell->token = NULL;
 	tcgetattr(STDIN_FILENO, &mshell->default_attr);

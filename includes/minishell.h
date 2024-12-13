@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/13 13:54:48 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/13 18:38:30 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct s_minishell
 	int				in_fd;
 	int				out_fd;
 	int				exit_status;
-	int				execve_status;
 	int				quote;
 	struct termios	modified_attr;
 	struct termios	default_attr;
@@ -50,11 +49,12 @@ char	*ft_getenv(t_minishell *mshell, char *evar);
 int		check_built_in(t_list *lst);
 void	envp_sorting(char **envp, int size);
 
-//exit related
+//exit & free memory related
 
 void	free_exit(t_minishell *mshell, t_list **lst);
 void	ft_free(t_minishell *mshell, t_list **lst);
 void	free_node(t_list *current);
+void	free_dptr(char **ptr);
 
 //signal
 
@@ -75,28 +75,26 @@ int		check_quote(t_minishell *mshell);
 int		check_quote2(t_minishell *mshell, int qflag);
 void	check_empty(t_minishell *mshell);
 
-//handle variable expansion
+//variable expansion
 
 void	check_dollarsign(t_minishell *mshell);
 void	process_token(t_minishell *mshell, char *temp, char *result, int i[3]);
 void	handle_expand(t_minishell *mshell, char *temp, char *result, int i[3]);
 void	handle_others(t_minishell *mshell, char *temp, char *result, int i[3]);
 
-//pre-execution
+//pre-execution & pipeline
 
 int		redirection(t_minishell *mshell, t_list *lst);
 void	here_doc(t_minishell *mshell, t_list *lst);
+// void	input_setup(t_minishell *mshell, t_list *lst);
+// void	output_setup(t_minishell *mshell, t_list *lst);
 
 //execution
 
 void	execution(t_minishell *mshell, t_list *lst);
 void	built_in(t_minishell *mshell, t_list *lst);
+void	child_management(t_minishell *mshell, t_list *lst);
 void	child_process(t_minishell *mshell, t_list *lst);
-
-//pipeline
-void	init_pipe(t_minishell *mshell);
-void	input_setup(t_minishell *mshell, t_list *lst);
-void	output_setup(t_minishell *mshell, t_list *lst);
 
 //built-in
 

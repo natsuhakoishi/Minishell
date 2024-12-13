@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/13 13:54:35 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/13 19:45:30 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ int	check_built_in(t_list *lst)
 	else if (!ft_strncmp(lst->lexem[0], "export", 6))
 		return (1);
 	else if (!ft_strncmp(lst->lexem[0], "./", 2) || \
-			!ft_strncmp(lst->lexem[0], "/", 1) || \
-			!ft_strncmp(lst->lexem[0], "../", 3))
+			!ft_strncmp(lst->lexem[0], "/", 1))
 		return (1);
 	else
 		return (0);

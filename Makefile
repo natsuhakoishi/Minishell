@@ -6,7 +6,7 @@
 #    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 17:37:04 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/10 22:55:27 by zgoh             ###   ########.fr        #
+#    Updated: 2024/12/13 18:40:32 by zgoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,8 @@ RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror -I./includes/ -I/usr/include/readline/
 
 SRC_FILES = main lexer parser expansion \
-			execution built-in built-in_2 child_process \
-			redirect redirect2 pipeline \
-			signal exit utils
+			execution redirect built-in built-in_2 child_process \
+			signal free_exit utils
 SRC = $(addprefix src/, $(addsuffix .c,  $(SRC_FILES)))
 
 LIBFT_PATH = ./libft/

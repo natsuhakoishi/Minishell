@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/13 15:50:52 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/13 19:38:46 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	executable(t_minishell *mshell, t_list *lst)
 {
 	int	pid;
 
-	printf("actived\n");
 	if (access(lst->lexem[0], F_OK) == 0)
 	{
 		pid = fork();
@@ -51,8 +50,9 @@ void	builtin_exit(t_minishell *mshell, t_list *lst)
 
 	i = -1;
 	printf("exit\n");
-	if (lst->lexem[1])
+	if (lst->lexem[1] && !lst->lexem[2])
 	{
+		
 		while (lst->lexem[1][++i])
 		{
 			if (!ft_isdigit(lst->lexem[1][i]))
@@ -67,12 +67,16 @@ void	builtin_exit(t_minishell *mshell, t_list *lst)
 		if (mshell->exit_status > 256)
 			mshell->exit_status %= 256;
 	}
+	else if (lst->lexem[1] && lst->lexem[2])
+	{
+		ft_putstr_fd("Minishell: exit: too many arguments", 2);
+		mshell->exit_status = 1;
+	}
 	else
 		mshell->exit_status = 0;
 	free_exit(mshell, &lst);
 }
-//fix while loop break but didnt totally jump out the if statement, 
-//	exit status will be wrong
+//todo too many lines ha
 
 //handle 'echo'
 //>no arg / option -n
