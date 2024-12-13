@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/11 01:18:56 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/13 13:54:35 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,6 @@ int	check_built_in(t_list *lst)
 	else
 		return (0);
 	return (1);
-}
-
-char	*remove_quote(char	*s)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	j = 0;
-	while (s[++i])
-	{
-		if (s[i] != '\"' && s[i] != '\'')
-			s[j++] = s[i];
-	}
-	s[j] = '\0';
-	return (s);
 }
 
 void	envp_sorting(char **envp, int size)

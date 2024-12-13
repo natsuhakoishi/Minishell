@@ -6,66 +6,85 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 03:58:30 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/11 03:57:19 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/13 15:37:39 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	builtin_unset_2(t_minishell *mshell, int j)
+{
+	while (mshell->envp[j])
+	{
+		mshell->envp[j] = mshell->envp[j + 1];
+		++j;
+	}
+	mshell->envp[j] = NULL;
+}
+
 //handle 'unset'
-//>no args
-//ex. lexem[1] will be the key only
+//>no args / multiple valid args
+//ex. lexem[1] will be the key only & not include value
 void	builtin_unset(t_minishell *mshell, t_list *lst)
 {
-	char	*key;
 	int		i;
+	int		j;
+	char	*arg;
+	char	*key;
 
-	i = -1;
-	if (lst->lexem[1])
+	i = 0;
+	while (lst->lexem[++i])
 	{
-		lst->lexem[1] = remove_quote(lst->lexem[1]);
-		while (mshell->envp[++i])
+		arg = ft_strtrim(lst->lexem[i], "\'\"");
+		j = -1;
+		while (mshell->envp[++j])
 		{
-			if (ft_strpos(mshell->envp[i], "="))
-				key = ft_substr(mshell->envp[i], 0, ft_strpos(mshell->envp[i], "="));
+			if (ft_strchr(mshell->envp[j], '='))
+				key = ft_substr(mshell->envp[j], 0, \
+						ft_strpos(mshell->envp[j], "="));
 			else
-				key = ft_substr(mshell->envp[i], 0, ft_strlen(mshell->envp[i]));
-			if (!ft_strncmp(lst->lexem[1], mshell->envp[i], ft_strlen(temp)))
-			{
-				free(mshell->envp[i]);
-				mshell->envp[i] = mshell->envp[i + 1];
-			}
+				key = ft_strdup(mshell->envp[j]);
+			if (!ft_strncmp(arg, key, ft_strlen(arg) + 1))
+				builtin_unset_2(mshell, j);
+			free (key);
 		}
-		// mshell->envp[i] = NULL;
+		free (arg);
 	}
 	mshell->exit_status = 0;
 }
-//fix partial same can remove the env (correction: should 100)
-//fix current only accept one args; forget liao should be more
+//supposed break; after unset_2 been called, but no more line
 
 //update list of envp
-//>either added a new envp / replace old envp with new value
-void	update_mshell_envp(t_minishell *mshell, char *new, int sign)
+//>3 situation; existed envp w/ value, existed envp w/o value, or new envp
+//>arg: argument without quote
+//>sign: index of '='
+void	update_mshell_envp(t_minishell *mshell, char *arg, int sign)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	while (mshell->envp[++i])
 	{
-		if (!ft_strncmp(mshell->envp[i], new, sign - 1)) //existed envp; replace old_value with new_value
+		if (!ft_strncmp(mshell->envp[i], arg, sign) && sign)
 		{
-			free(mshell->envp[i + 1]);
-			mshell->envp[i + 1] = ft_strdup(new);
+			mshell->envp[i] = ft_strdup(arg);
 			break ;
 		}
-		else if (mshell->envp[i + 1] == NULL) //surely is new envp then
+		else if (!ft_strncmp(mshell->envp[i], arg, ft_strlen(arg)))
+		{
+			mshell->envp[i] = ft_strdup(arg);
+			break ;
+		}
+		else if (mshell->envp[i + 1] == NULL)
 		{
 			free(mshell->envp[i + 1]);
-			mshell->envp[i + 1] = ft_strdup(new);
+			mshell->envp[i + 1] = ft_strdup(arg);
 			mshell->envp[i + 2] = NULL;
 			break ;
 		}
 	}
+	if (mshell->exit_status != 1)
+		mshell->exit_status = 0;
 }
 
 //list out all envp
@@ -95,6 +114,8 @@ void	print_mshell_envp(t_minishell *mshell)
 		else
 			printf("declare -x %s\n", mshell->envp[i]);
 	}
+	free(temp);
+	mshell->exit_status = 0;
 }
 
 //handle 'export'
@@ -102,7 +123,7 @@ void	print_mshell_envp(t_minishell *mshell)
 void	builtin_export(t_minishell *mshell, t_list *lst)
 {
 	int		i;
-	char	*word;
+	char	*arg;
 
 	i = 0;
 	if (lst->lexem[1] == NULL)
@@ -113,17 +134,19 @@ void	builtin_export(t_minishell *mshell, t_list *lst)
 		{
 			if (!ft_isalpha(lst->lexem[i][0]) && lst->lexem[i][0] != '_')
 			{
-				printf("Minishell: export: %s not a valid identifier\n", \
+				printf("Minishell: export: \'%s\': not a valid identifier\n", \
 						lst->lexem[i]);
 				mshell->exit_status = 1;
-				return ;
+				continue ;
 			}
 			else
 			{
-				word = remove_quote(lst->lexem[i]);
-				update_mshell_envp(mshell, word, ft_strpos(word, "="));
+				arg = ft_strtrim(lst->lexem[i], "\'\"");
+				update_mshell_envp(mshell, arg, ft_strpos(arg, "="));
+				free(arg);
 			}
 		}
 	}
-	mshell->exit_status = 0;
 }
+//memo check if naming valid; if one of the naming not invalid; 
+//	the valid one should continue

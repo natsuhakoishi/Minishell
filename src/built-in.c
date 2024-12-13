@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/11 03:57:39 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/13 15:50:52 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	executable(t_minishell *mshell, t_list *lst)
 {
 	int	pid;
 
+	printf("actived\n");
 	if (access(lst->lexem[0], F_OK) == 0)
 	{
 		pid = fork();
@@ -70,16 +71,19 @@ void	builtin_exit(t_minishell *mshell, t_list *lst)
 		mshell->exit_status = 0;
 	free_exit(mshell, &lst);
 }
-//fix while loop break but didnt totally jump out the if statement, exit status will be wrong
+//fix while loop break but didnt totally jump out the if statement, 
+//	exit status will be wrong
 
 //handle 'echo'
 //>no arg / option -n
 void	builtin_echo(t_minishell *mshell, t_list *lst)
 {
 	int	newline_flag;
+	int	flag;
 	int	i;
 
 	newline_flag = 1;
+	flag = 0;
 	i = 0;
 	if (lst->lexem[1] && lst->lexem[1][0] == '-' && lst->lexem[1][1] == 'n' \
 		&& !lst->lexem[1][2])
@@ -89,7 +93,10 @@ void	builtin_echo(t_minishell *mshell, t_list *lst)
 	}
 	while (lst->lexem[++i])
 	{
+		while (lst->lexem[i] && !ft_strncmp(lst->lexem[i], "-n", 2) && !flag)
+			++i;
 		ft_putstr_fd(lst->lexem[i], 1);
+		flag = 1;
 		if (lst->lexem[i + 1])
 			ft_putstr_fd(" ", 1);
 	}
@@ -97,7 +104,6 @@ void	builtin_echo(t_minishell *mshell, t_list *lst)
 		ft_putstr_fd("\n", 1);
 	mshell->exit_status = 0;
 }
-//fix didnt handle for multiple args
 
 //handle 'cd'
 //>no args / relative path / absolute path
@@ -107,7 +113,7 @@ void	builtin_cd(t_minishell *mshell, t_list *lst)
 {
 	char	path[4096];
 
-	if (lst->lexem[1])
+	if (lst->lexem[1] && ft_strncmp(lst->lexem[1], "~", 1))
 	{
 		if (lst->lexem[1][0] == '/')
 			chdir(lst->lexem[1]);
@@ -126,12 +132,11 @@ void	builtin_cd(t_minishell *mshell, t_list *lst)
 			}
 		}
 	}
-	else if (!lst->lexem[1])
+	else if (!lst->lexem[1] || !ft_strncmp(lst->lexem[1], "~", 1))
 		chdir(ft_getenv(mshell, "HOME"));
 	mshell->exit_status = 0;
 }
-//memo now no more handle for ~
-//fix on launch cant perform 'cd' (edit most of cmd)
+//~: directly refer to home directory, so it is absolute path
 
 //handle 'env' (no arg)
 //*show err msg if there argument passed in
