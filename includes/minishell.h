@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/13 18:38:30 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/14 14:32:26 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_minishell
 char	*ft_getenv(t_minishell *mshell, char *evar);
 int		check_built_in(t_list *lst);
 void	envp_sorting(char **envp, int size);
+void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg);
 
 //exit & free memory related
 

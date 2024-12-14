@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/13 19:45:41 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/14 18:11:04 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
 				close(lst->next->pipe_fd[1]);
 			lst = lst->next;
 		}
+	}
+	i = -1;
+	while (childs[++i])
+	{
+		waitpid(childs[i], &mshell->exit_status, 0);
+		mshell->exit_status = mshell->exit_status % 256;
 	}
 }
 
@@ -84,6 +90,7 @@ void	execution(t_minishell *mshell, t_list *lst)
 		close(mshell->in_backup);
 		close(mshell->out_backup);
 	}
+	unlink(".tmp");
 	free(childs);
 }
 //number of child = number of node = number of cmd

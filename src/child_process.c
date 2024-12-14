@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/13 18:38:21 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/14 16:35:47 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ void	cmd(t_minishell *mshell, t_list *lst)
 {
 	char	*path;
 
+	if (check_built_in(lst))
+		return ;
 	if (lst->lexem && lst->lexem[0])
 	{
 		path = get_path(mshell, lst);
 		if (!path)
 		{
-			ft_putstr_fd("Minishell: command not found:", 2);
-			ft_putstr_fd(lst->lexem[0], 2);
-			ft_putstr_fd("\n", 2);
-			mshell->exit_status = 127;
+			err_msg(mshell, 127, "Minishell: Command '%s' not found\n", \
+					lst->lexem[0]);
 			return ;
 		}
 		execve(path, lst->lexem, mshell->envp);
@@ -114,7 +114,5 @@ void	child_process(t_minishell *mshell, t_list *lst)
 	if (check_built_in(lst))
 		built_in(mshell, lst);
 	cmd(mshell, lst);
-	// printf("hello\n");
 	exit(mshell->exit_status);
 }
-//todo memo; first command / enter will hit debug line

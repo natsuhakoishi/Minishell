@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/13 19:45:30 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/14 17:45:14 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,22 @@ void	envp_sorting(char **envp, int size)
 			}
 		}
 	}
+}
+
+void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg)
+{
+	int	i;
+
+	i = -1;
+	while (msg[++i])
+	{
+		if (msg[i] == '%' && msg[i + 1] == 's' && arg)
+		{
+			ft_putstr_fd(arg, 2);
+			++i;
+			continue ;
+		}
+		ft_putchar_fd(msg[i], 2);
+	}
+	mshell->exit_status = exit_status;
 }

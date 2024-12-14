@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 03:58:30 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/13 15:37:39 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/14 14:57:28 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,9 @@ void	builtin_export(t_minishell *mshell, t_list *lst)
 		{
 			if (!ft_isalpha(lst->lexem[i][0]) && lst->lexem[i][0] != '_')
 			{
-				printf("Minishell: export: \'%s\': not a valid identifier\n", \
+				err_msg(mshell, 1, \
+						"Minishell: export: \'%s\': not a valid identifier\n", \
 						lst->lexem[i]);
-				mshell->exit_status = 1;
 				continue ;
 			}
 			else

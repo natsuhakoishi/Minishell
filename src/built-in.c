@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/13 19:38:46 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/14 19:14:10 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,15 @@
 //executeable file; ex. ./minishell ./pipex
 void	executable(t_minishell *mshell, t_list *lst)
 {
-	int	pid;
+	pid_t	p_id;
 
-	if (access(lst->lexem[0], F_OK) == 0)
+	if (access(lst->lexem[0], F_OK | X_OK) == 0)
 	{
-		pid = fork();
-		if (pid == 0)
+		p_id = fork();
+		if (p_id == 0)
 			execve(lst->lexem[0], lst->lexem, mshell->envp);
-		else if (pid > 0)
-		{
-			waitpid(pid, &mshell->exit_status, 0);
-			mshell->exit_status = mshell->exit_status % 255;
-		}
+		waitpid(p_id, &mshell->exit_status, 0);
+		mshell->exit_status = mshell->exit_status % 256;
 	}
 	else
 	{
@@ -37,10 +34,7 @@ void	executable(t_minishell *mshell, t_list *lst)
 		mshell->exit_status = 127;
 		return ;
 	}
-	mshell->exit_status = 0;
 }
-//todo have a idea to put path resolution in here too
-//		ex. pass in ../ only, or / or ./ or subdirectory
 
 //handle 'exit'
 //>no option; no args / only-numeric args
@@ -52,31 +46,26 @@ void	builtin_exit(t_minishell *mshell, t_list *lst)
 	printf("exit\n");
 	if (lst->lexem[1] && !lst->lexem[2])
 	{
-		
 		while (lst->lexem[1][++i])
 		{
 			if (!ft_isdigit(lst->lexem[1][i]))
 			{
-				ft_putstr_fd("Minishell: exit: ", 2);
-				perror(lst->lexem[1]);
-				mshell->exit_status = 2;
+				err_msg(mshell, 2, \
+						"Minishell: exit: %s: numeric argument required\n", \
+						lst->lexem[1]);
 			}
-			break ;
+			free_exit(mshell, &lst);
 		}
 		mshell->exit_status = ft_atoi(lst->lexem[1]);
 		if (mshell->exit_status > 256)
 			mshell->exit_status %= 256;
 	}
 	else if (lst->lexem[1] && lst->lexem[2])
-	{
-		ft_putstr_fd("Minishell: exit: too many arguments", 2);
-		mshell->exit_status = 1;
-	}
+		err_msg(mshell, 1, "Minishell: exit: too many arguments\n", NULL);
 	else
 		mshell->exit_status = 0;
 	free_exit(mshell, &lst);
 }
-//todo too many lines ha
 
 //handle 'echo'
 //>no arg / option -n
@@ -130,8 +119,9 @@ void	builtin_cd(t_minishell *mshell, t_list *lst)
 				chdir(path);
 			else
 			{
-				printf("Minishell: cd: %s: No such file or directory\n", lst->lexem[1]);
-				mshell->exit_status = 1;
+				err_msg(mshell, 1, \
+						"Minishell: cd: %s: No such file or directory\n", \
+						lst->lexem[1]);
 				return ;
 			}
 		}
@@ -151,8 +141,8 @@ void	builtin_env(t_minishell *mshell, t_list *lst)
 	i = -1;
 	if (lst->lexem[1])
 	{
-		printf("env: '%s': No such file or directory\n", lst->lexem[1]);
-		mshell->exit_status = 127;
+		err_msg(mshell, 127, \
+				"env: '%s': No such file or directory\n", lst->lexem[1]);
 		return ;
 	}
 	while (mshell->envp[++i])
