@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/14 19:14:10 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/16 03:55:44 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@ void	executable(t_minishell *mshell, t_list *lst)
 		p_id = fork();
 		if (p_id == 0)
 			execve(lst->lexem[0], lst->lexem, mshell->envp);
-		waitpid(p_id, &mshell->exit_status, 0);
-		mshell->exit_status = mshell->exit_status % 256;
+		else if (p_id)
+		{
+			waitpid(p_id, &mshell->exit_status, 0);
+			mshell->exit_status = mshell->exit_status % 256;
+		}
 	}
 	else
 	{
@@ -53,8 +56,8 @@ void	builtin_exit(t_minishell *mshell, t_list *lst)
 				err_msg(mshell, 2, \
 						"Minishell: exit: %s: numeric argument required\n", \
 						lst->lexem[1]);
+				free_exit(mshell, &lst);
 			}
-			free_exit(mshell, &lst);
 		}
 		mshell->exit_status = ft_atoi(lst->lexem[1]);
 		if (mshell->exit_status > 256)

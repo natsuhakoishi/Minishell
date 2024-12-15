@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 00:55:19 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/14 19:15:06 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/16 03:58:31 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void	check_dollarsign(t_minishell *mshell)
 		while (mshell->token[i[0]][++i[1]])
 			process_token(mshell, temp, result, i);
 		free(mshell->token[i[0]]);
-		printf("before %s\n", result);
 		mshell->token[i[0]] = ft_strdup(result);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/14 16:35:47 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/16 03:54:29 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,23 @@ void	cmd(t_minishell *mshell, t_list *lst)
 	if (lst->lexem && lst->lexem[0])
 	{
 		path = get_path(mshell, lst);
+		if (!ft_strncmp(lst->lexem[0], ".", 1) \
+			|| !ft_strncmp(lst->lexem[0], "..", 2))
+			path = NULL;
 		if (!path)
 		{
-			err_msg(mshell, 127, "Minishell: Command '%s' not found\n", \
-					lst->lexem[0]);
+			perror("Minishell");
+			ft_putchar_fd('\n', 2);
+			mshell->exit_status = 127;
+			free(path);
 			return ;
 		}
 		execve(path, lst->lexem, mshell->envp);
+		free(path);
 		mshell->exit_status = 1;
 	}
 }
+//memo Bash response to '.' or '..' not the same, atleast the errno not the same; idc liao
 
 void	input_setup(t_minishell *mshell, t_list *lst)
 {

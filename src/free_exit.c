@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   free_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:30:05 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/13 18:32:14 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/16 04:08:19 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,15 @@ void	free_exit(t_minishell *mshell, t_list **lst)
 	int	code;
 
 	code = mshell->exit_status;
-	ft_free(mshell, lst);
-	free(lst);
-	free(mshell);
+	if (mshell || (lst && *lst))
+		ft_free(mshell, lst);
+	if (lst)
+		free(lst);
+	if (mshell)
+		free(mshell);
 	exit(code);
 }
+//todo exit abc -> pointer refer error
 
 void	free_dptr(char **str)
 {
