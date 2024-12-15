@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/14 17:45:14 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/16 07:16:16 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,16 @@ void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg)
 		ft_putchar_fd(msg[i], 2);
 	}
 	mshell->exit_status = exit_status;
+}
+
+void	arg_update(t_list *lst, int i)
+{
+	while(lst->lexem[i])
+	{
+		// printf("%s", lst->lexem[i]);
+		lst->lexem[i] = lst->lexem[i + 2];
+		// printf(" --> %s\n", lst->lexem[i]);
+		++i;
+	}
+	lst->lexem[i] = NULL;
 }

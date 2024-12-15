@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/14 16:10:58 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/16 06:34:59 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	split_command(t_list **lst, t_minishell *mshell)
 	temp = malloc(sizeof(char *) * (BUFFER + 1));
 	while (mshell->token[++a])
 	{
-		if (!ft_strncmp(mshell->token[a], "|\0", 2))
+		if (!ft_strncmp(mshell->token[a], "|", 1))
 		{
 			temp[++b] = NULL;
 			ft_lstadd_back(lst, ft_lstnew(temp));
@@ -94,14 +94,21 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_signal(0);
 		ft_input(mshell);
+		// printf("lexer\n");
 		if (!check_quote(mshell))
 		{
 			check_dollarsign(mshell);
 			check_empty(mshell);
 			split_command(&lst, mshell);
+			// printf("parser\n");
 			tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
 			if (redirection(mshell, lst))
+			{
+				// printf("after redirection\n");
+				// for (int j = 0; lst->lexem && lst->lexem[j]; ++j)
+				// 	printf("%s\t", lst->lexem[j]);
 				execution(mshell, lst);
+			}
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &mshell->modified_attr);
 		ft_free(mshell, &lst);

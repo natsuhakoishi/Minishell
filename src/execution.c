@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/14 18:11:04 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/16 07:17:56 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,16 @@ void	execution(t_minishell *mshell, t_list *lst)
 {
 	pid_t	*childs;
 
+	// printf("start execution\n");
 	mshell->in_backup = dup(0);
 	mshell->out_backup = dup(1);
 	mshell->in_fd = 0;
 	mshell->out_fd = 1;
 	childs = malloc(ft_lstsize(lst) * sizeof(pid_t));
 	ft_signal(1);
+	// for (int j = 0; lst->lexem && lst->lexem[j]; ++j)
+	// 	printf("(%d %s\t)", j, lst->lexem[j]);
+	// printf(".\nbefore execution fak uuuu\n");
 	if (lst->next == NULL && check_built_in(lst))
 		built_in(mshell, lst);
 	else
@@ -94,5 +98,3 @@ void	execution(t_minishell *mshell, t_list *lst)
 	free(childs);
 }
 //number of child = number of node = number of cmd
- 
-//memo tested; if only builtin, it do execute directly w/o access child process

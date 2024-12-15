@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:05:48 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/13 18:39:18 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/16 07:17:23 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,27 @@ void	redirect_setup(t_minishell *mshell, t_list *lst, int i)
 
 	// fd = 0;
 	(void)mshell;
-	if (!ft_strncmp(lst->lexem[i], ">\0", 2))
+	if (!ft_strncmp(lst->lexem[i], ">", 1))
 	{
 		lst->out_path = lst->lexem[i + 1];
 		// fd = open(lst->out_path, O_CREAT, 0777);
 		// close(fd);
 	}
-	else if (!ft_strncmp(lst->lexem[i], "<\0", 2))
+	else if (!ft_strncmp(lst->lexem[i], "<", 1))
 		lst->in_path = lst->lexem[i + 1];
-	else if (!ft_strncmp(lst->lexem[i], ">>\0", 3))
+	else if (!ft_strncmp(lst->lexem[i], ">>", 2))
 	{
 		lst->append = 1;
 		lst->out_path = lst->lexem[i + 1];
 		// fd = open(lst->out_path, O_CREAT, 0777);
 		// close(fd);
 	}
-	else if (!ft_strncmp(lst->lexem[i], "<<\0", 3))
+	else if (!ft_strncmp(lst->lexem[i], "<<", 2))
 		lst->delimiter = lst->lexem[i + 1];
+	if (!ft_strncmp(lst->lexem[i], ">", 1) || \
+		!ft_strncmp(lst->lexem[i], "<", 1) || !ft_strncmp( \
+		lst->lexem[i], ">>", 2) || !ft_strncmp(lst->lexem[i], "<<", 2))
+		arg_update(lst, i);
 }
 //todo: file creating might redundant
 
@@ -89,34 +93,41 @@ int	check_redirect_syntax(t_minishell *mshell, t_list *lst, int i)
 	if ((!ft_strncmp(current, ">\0", 2)) || (!ft_strncmp(current, "<\0", 2)) || \
 		(!ft_strncmp(current, ">>\0", 3)) || (!ft_strncmp(current, "<<\0", 3)))
 	{
-		if ((!ft_strncmp(next, ">\0", 2)) || (!ft_strncmp(next, "<\0", 2)) || \
-			(!ft_strncmp(next, ">>\0", 3)) || (!ft_strncmp(next, "<<\0", 3)))
+		if (next && (\
+			(!ft_strncmp(next, ">\0", 2)) || (!ft_strncmp(next, "<\0", 2)) || \
+			(!ft_strncmp(next, ">>\0", 3)) || (!ft_strncmp(next, "<<\0", 3))))
 		{
 			perror("Minishell: syntax error at redirection\n");
 			mshell->exit_status = -1;
 			return (0);
 		}
+		return (1);
 	}
-	return (1);
+	return (2);
 }
+//fix next args is null then segfault; better checking
 
 int	redirection(t_minishell *mshell, t_list *lst)
 {
 	int		i;
+	int		value;
 
 	while (lst && lst->lexem)
 	{
 		i = -1;
 		while (lst->lexem[++i])
 		{
-			if (!check_redirect_syntax(mshell, lst, i))
+			value = check_redirect_syntax(mshell, lst, i);
+			if (!value)
 				return (0);
-			redirect_setup(mshell, lst, i);
+			else if (value == 1)
+				redirect_setup(mshell, lst, i);
 		}
+		// for (int j = 0; lst->lexem[j]; ++j)
+		// 	printf("%s\t", lst->lexem[j]);
 		lst = lst->next;
 	}
 	return (1);
 }
 //didn't purposely take off redirection and its argumnet from linked list
-//TODO file permission (set properly), 
-//TODO remove redirection related from node, better for following step
+//TODO file permission (set properly)
