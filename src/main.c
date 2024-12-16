@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/16 06:34:59 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/17 04:24:00 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,19 +94,19 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_signal(0);
 		ft_input(mshell);
-		// printf("lexer\n");
+		// printf("lexer\n"); //Debug
 		if (!check_quote(mshell))
 		{
 			check_dollarsign(mshell);
 			check_empty(mshell);
 			split_command(&lst, mshell);
-			// printf("parser\n");
+			// printf("parser\n"); //Debug
 			tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
 			if (redirection(mshell, lst))
 			{
-				// printf("after redirection\n");
-				// for (int j = 0; lst->lexem && lst->lexem[j]; ++j)
-				// 	printf("%s\t", lst->lexem[j]);
+				// printf("after redirection\n"); //Debug
+				// for (int j = 0; lst->lexem && lst->lexem[j]; ++j) //Debug
+				// 	printf("%s\t", lst->lexem[j]); //Debug
 				execution(mshell, lst);
 			}
 		}

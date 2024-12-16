@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/16 03:55:44 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/17 04:23:06 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	builtin_exit(t_minishell *mshell, t_list *lst)
 				err_msg(mshell, 2, \
 						"Minishell: exit: %s: numeric argument required\n", \
 						lst->lexem[1]);
-				free_exit(mshell, &lst);
+				// free_exit(mshell, &lst);/
+				return ;
 			}
 		}
 		mshell->exit_status = ft_atoi(lst->lexem[1]);
@@ -67,8 +68,9 @@ void	builtin_exit(t_minishell *mshell, t_list *lst)
 		err_msg(mshell, 1, "Minishell: exit: too many arguments\n", NULL);
 	else
 		mshell->exit_status = 0;
-	free_exit(mshell, &lst);
+	// free_exit(mshell, &lst);
 }
+//memo called free_exit() again cause double freed
 
 //handle 'echo'
 //>no arg / option -n
