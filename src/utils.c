@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/16 07:16:16 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/16 16:19:32 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*ft_getenv(t_minishell *mshell, char *evar)
 {
 	char	*value;
-	char	*key;
 	int		a;
 
 	a = -1;
@@ -24,12 +23,14 @@ char	*ft_getenv(t_minishell *mshell, char *evar)
 		return (ft_itoa(mshell->exit_status));
 	while (mshell->envp[++a])
 	{
-		key = ft_substr(mshell->envp[a], 0,
-				ft_strpos(mshell->envp[a], "="));
-		if (!ft_strncmp(key, evar, ft_strlen(evar) + 1))
+		if (!ft_strncmp(mshell->envp[a], evar, ft_strlen(evar)) && mshell->envp[a][ft_strlen(evar)] == '=')
+		{
 			value = ft_strchr(mshell->envp[a], '=') + 1;
-		free(key);
+			break;
+		}
 	}
+	if (!value)
+		return ("");
 	return (value);
 }
 

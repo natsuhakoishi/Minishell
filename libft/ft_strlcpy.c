@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 00:05:13 by yyean-wa          #+#    #+#             */
-/*   Updated: 2023/10/30 16:36:51 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:12:01 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,27 @@
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	size_t	a;
+	size_t	src_len;
+	size_t	i;
 
-	a = 0;
-	if (size > 0)
+	src_len = 0;
+	while (src[src_len])
+		src_len++;
+
+	if (size == 0)
+		return (src_len);
+
+	i = 0;
+	while (src[i] && i + 1 < size)
 	{
-		while (*src && a + 1 < size)
-		{
-			*dest++ = *src++;
-			a++;
-		}
+		dest[i] = src[i];
+		i++;
 	}
-	if (a < size)
-		*dest = '\0';
-	while (*src++)
-		a++;
-	return (a);
+	dest[i] = '\0';
+
+	return (src_len);
 }
+
 /*
 #include <stdio.h>
 

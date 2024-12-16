@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 00:55:19 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/16 03:58:31 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/16 16:17:10 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,21 @@ void	handle_expand(t_minishell *mshell, char *temp, char *result, int i[3])
 	{
 		temp[++i[2]] = mshell->token[i[0]][++i[1]];
 		temp[++i[2]] = '\0';
-		envtmp = ft_getenv(mshell, temp);
+		envtmp = ft_itoa(mshell->exit_status);
 		ft_strlcat(result, envtmp, ft_strlen(result) + ft_strlen(envtmp) + 1);
+		free(envtmp);
 	}
 	else
 	{
-		i[2] = -1;
-		while (mshell->token[i[0]][++i[1]] && 
+		while (mshell->token[i[0]][++i[1]] &&
 				(ft_isalnum(mshell->token[i[0]][i[1]]) || \
 				mshell->token[i[0]][i[1]] == '_'))
-		temp[++i[2]] = mshell->token[i[0]][i[1]];
+			temp[++i[2]] = mshell->token[i[0]][i[1]];
+		i[1]--;
 		temp[++i[2]] = '\0';
-		envtmp = ft_getenv(mshell, temp);
-		if (envtmp)
-			ft_strlcat(result, envtmp, ft_strlen(result) + ft_strlen(envtmp) + 1);
-		else
-			envtmp = NULL;
+		if (ft_getenv(mshell, temp))
+			ft_strlcat(result, ft_getenv(mshell, temp),
+				ft_strlen(result) + ft_strlen(ft_getenv(mshell, temp)) + 1);
 	}
 }
 //ft_strlen(result) + ft_strlen(envtmp) + 1
