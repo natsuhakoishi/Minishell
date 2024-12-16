@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/16 03:54:29 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/16 22:13:48 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void	cmd(t_minishell *mshell, t_list *lst)
 			path = NULL;
 		if (!path)
 		{
-			perror("Minishell");
+			err_msg(mshell, 127, "Minishell: '%s': ", lst->lexem[0]);
+			perror(NULL);
 			ft_putchar_fd('\n', 2);
-			mshell->exit_status = 127;
 			free(path);
 			return ;
 		}
@@ -63,7 +63,6 @@ void	cmd(t_minishell *mshell, t_list *lst)
 		mshell->exit_status = 1;
 	}
 }
-//memo Bash response to '.' or '..' not the same, atleast the errno not the same; idc liao
 
 void	input_setup(t_minishell *mshell, t_list *lst)
 {

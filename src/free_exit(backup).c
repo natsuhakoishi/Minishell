@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:30:05 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/16 23:01:57 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/16 04:08:19 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,53 @@
 
 void	free_node(t_list *current)
 {
-	if (!current || !current->lexem)
+	int	a;
+
+	if (!current)
 		return ;
-	free_dptr(current->lexem);
-	current = NULL;
+	if (current->lexem)
+	{
+		a = 0;
+		while (current->lexem[a])
+		{
+			free(current->lexem[a]);
+			a++;
+		}
+		free(current->lexem);
+	}
+	if (current->in_path)
+		free(current->in_path);
+	if (current->out_path)
+		free(current->out_path);
+	if (current->delimiter)
+		free(current->delimiter);
+	free(current);
 }
-//in_path, out_path & delimiter no need free because they no dynamically assigned memory
+//TODO: they malloc? lexem yes;
 
 void	ft_free(t_minishell *mshell, t_list **lst)
 {
 	t_list	*next;
 	t_list	*current;
+	int		a;
 
 	if (lst && *lst)
+		ft_lstclear(lst, free);
+	if (mshell->token)
 	{
-		current = *lst;
-		while (current)
-		{
-			next = current->next;
-			free_node(current);
-			current = next;
-		}
-		*lst = NULL;
+		a = 0;
+		while (mshell->token[a])
+			free(mshell->token[a++]);
+		free(mshell->token);
 	}
-	if (mshell && mshell->token)
-		free_dptr(mshell->token);
+	current = *lst;
+	while (current) //free the linked list
+	{
+		next = current->next;
+		free_node(current);
+		current = next;
+	}
+	*lst = NULL;
 }
 
 void	free_exit(t_minishell *mshell, t_list **lst)
@@ -47,13 +69,14 @@ void	free_exit(t_minishell *mshell, t_list **lst)
 
 	code = mshell->exit_status;
 	if (mshell || (lst && *lst))
-	{
 		ft_free(mshell, lst);
-		// free(mshell);
-		// free(lst);
-	}
+	if (lst)
+		free(lst);
+	if (mshell)
+		free(mshell);
 	exit(code);
 }
+//todo exit abc -> pointer refer error
 
 void	free_dptr(char **str)
 {
@@ -63,5 +86,4 @@ void	free_dptr(char **str)
 	while (str[++i])
 		free(str[i]);
 	free(str);
-	str = NULL;
 }
