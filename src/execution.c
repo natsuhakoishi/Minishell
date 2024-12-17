@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/16 14:04:56 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:01:32 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
 	int	i;
 
 	i = -1;
+	printf("Enter child process\n"); //Debug
 	while (lst)
 	{
 		if (lst->next)
@@ -74,7 +75,7 @@ void	execution(t_minishell *mshell, t_list *lst)
 {
 	pid_t	*childs;
 
-	// printf("start execution\n");
+	printf("start execution\n"); //Debug
 	mshell->in_backup = dup(0);
 	mshell->out_backup = dup(1);
 	mshell->in_fd = 0;

@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/17 04:24:00 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/17 18:19:01 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	ft_input(t_minishell *mshell)
 	char	prompt[100];
 
 	getcwd(mshell->cwd, sizeof(mshell->cwd));
-	ft_strlcpy(prompt, "Minishell | ", 13);
+	ft_strlcpy(prompt, "\033[33mMinishell | \033[4;34m", 30);
 	ft_strlcat(prompt, mshell->cwd, 100);
-	ft_strlcat(prompt, " > ", 100);
+	ft_strlcat(prompt, " \033[0m>\033[0m", 100);
 	input = readline(prompt);
 	if (!input)
 		exit(0);
@@ -67,6 +67,7 @@ void	ft_input(t_minishell *mshell)
 		mshell->exit_status = 0;
 	free(input);
 }
+//memo input line itselt have ady 100?
 
 void	init_minishell(t_minishell *mshell, char **envp)
 {
