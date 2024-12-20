@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/20 23:57:11 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 03:21:55 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ char	*ft_getenv(t_minishell *mshell, char *evar)
 		return (ft_itoa(mshell->exit_status));
 	while (mshell->envp[++a])
 	{
-		if (!ft_strncmp(mshell->envp[a], evar, ft_strlen(evar)) && mshell->envp[a][ft_strlen(evar)] == '=')
+		if (!ft_strncmp(mshell->envp[a], evar, ft_strlen(evar)) && \
+			mshell->envp[a][ft_strlen(evar)] == '=')
 		{
 			value = ft_strchr(mshell->envp[a], '=') + 1;
-			break;
+			break ;
 		}
 	}
 	if (!value)
@@ -38,26 +39,24 @@ int	check_built_in(t_list *lst)
 {
 	if (!lst || !lst->lexem || !lst->lexem[0])
 		return (0);
-	if (!ft_strncmp(lst->lexem[0], "pwd", 3))
+	if (!ft_strncmp(lst->lexem[0], "pwd\0", 4))
 		return (1);
-	else if (!ft_strncmp(lst->lexem[0], "exit", 4))
+	else if (!ft_strncmp(lst->lexem[0], "exit\0", 5))
 		return (1);
-	else if (!ft_strncmp(lst->lexem[0], "env", 3))
+	else if (!ft_strncmp(lst->lexem[0], "env\0", 4))
 		return (1);
-	else if (!ft_strncmp(lst->lexem[0], "cd", 2))
+	else if (!ft_strncmp(lst->lexem[0], "cd\0", 3))
 		return (1);
-	else if (!ft_strncmp(lst->lexem[0], "echo", 4))
+	else if (!ft_strncmp(lst->lexem[0], "echo\0", 5))
 		return (1);
-	else if (!ft_strncmp(lst->lexem[0], "unset", 5))
+	else if (!ft_strncmp(lst->lexem[0], "unset\0", 6))
 		return (1);
-	else if (!ft_strncmp(lst->lexem[0], "export", 6))
+	else if (!ft_strncmp(lst->lexem[0], "export\0", 7))
 		return (1);
 	else if (!ft_strncmp(lst->lexem[0], "./", 2) || \
 			!ft_strncmp(lst->lexem[0], "/", 1))
 		return (1);
-	else
-		return (0);
-	return (1);
+	return (0);
 }
 
 void	envp_sorting(char **envp, int size)
@@ -100,9 +99,9 @@ void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg)
 	mshell->exit_status = exit_status;
 }
 
-void	arg_update(t_list *lst, int i)
+void	lexem_update(t_list *lst, int i)
 {
-	while(lst->lexem[i])
+	while (lst->lexem[i])
 	{
 		// printf("%s", lst->lexem[i]); //Debug
 		lst->lexem[i] = lst->lexem[i + 2];
@@ -111,6 +110,7 @@ void	arg_update(t_list *lst, int i)
 	}
 	lst->lexem[i] = NULL;
 }
+//todo if the node only contain redirection, current didnt consider this
 
 void	print_node(t_list *lst)
 {

@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/21 00:49:55 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 03:34:49 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,22 @@ void	built_in(t_minishell *mshell, t_list *lst)
 {
 	if (lst->lexem[0] == NULL)
 		return ;
-	if (!ft_strncmp(lst->lexem[0], "pwd", 3))
+	if (!ft_strncmp(lst->lexem[0], "pwd\0", 4))
 	{
 		printf("%s\n", mshell->cwd);
 		mshell->exit_status = 0;
 	}
-	else if (!ft_strncmp(lst->lexem[0], "exit", 4))
+	else if (!ft_strncmp(lst->lexem[0], "exit\0", 5))
 		builtin_exit(mshell, lst);
-	else if (!ft_strncmp(lst->lexem[0], "env", 3))
+	else if (!ft_strncmp(lst->lexem[0], "env\0", 4))
 		builtin_env(mshell, lst);
-	else if (!ft_strncmp(lst->lexem[0], "cd", 2))
+	else if (!ft_strncmp(lst->lexem[0], "cd\0", 3))
 		builtin_cd(mshell, lst);
-	else if (!ft_strncmp(lst->lexem[0], "echo", 4))
+	else if (!ft_strncmp(lst->lexem[0], "echo\0", 5))
 		builtin_echo(mshell, lst);
-	else if (!ft_strncmp(lst->lexem[0], "unset", 5))
+	else if (!ft_strncmp(lst->lexem[0], "unset\0", 6))
 		builtin_unset(mshell, lst);
-	else if (!ft_strncmp(lst->lexem[0], "export", 6))
+	else if (!ft_strncmp(lst->lexem[0], "export\0", 7))
 		builtin_export(mshell, lst);
 	else if (!ft_strncmp(lst->lexem[0], "./", 2) || \
 			!ft_strncmp(lst->lexem[0], "/", 1))
@@ -46,9 +46,13 @@ void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
 
 	i = -1;
 	// printf("start kindergarden\n"); //Debug
+	if (pipe(lst->pipe_fd) == -1)
+	{
+		ft_putstr_fd("Pipe setup fail\n", 2);
+	}
 	while (lst)
 	{
-		if (lst->next)
+		if (lst->next != NULL)
 			pipe(lst->next->pipe_fd);
 		if (lst->delimiter != NULL)
 			here_doc(mshell, lst);
@@ -67,7 +71,7 @@ void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
 	while (childs[++i])
 	{
 		waitpid(childs[i], &mshell->exit_status, 0);
-		mshell->exit_status = mshell->exit_status % 256;
+		mshell->exit_status %= 256;
 	}
 }
 
@@ -98,3 +102,4 @@ void	execution(t_minishell *mshell, t_list *lst)
 	free(childs);
 }
 //number of child = number of node = number of cmd
+//memo if didnt do built-in only, all redirection worked with builtin

@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 03:58:30 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/14 14:57:28 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 03:04:17 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	builtin_unset(t_minishell *mshell, t_list *lst)
 	}
 	mshell->exit_status = 0;
 }
-//supposed break; after unset_2 been called, but no more line
+//todosupposed break; after unset_2 been called, but no more line
 
 //update list of envp
 //>3 situation; existed envp w/ value, existed envp w/o value, or new envp
@@ -87,8 +87,7 @@ void	update_mshell_envp(t_minishell *mshell, char *arg, int sign)
 		mshell->exit_status = 0;
 }
 
-//list out all envp
-//*not given args
+//behaviour when no args passed in
 void	print_mshell_envp(t_minishell *mshell)
 {
 	int		i;
@@ -119,7 +118,7 @@ void	print_mshell_envp(t_minishell *mshell)
 }
 
 //handle 'export'
-//>no args / multiple args; follow identifier naming rule
+//>no args / multiple args; (follow identifier naming rule)
 void	builtin_export(t_minishell *mshell, t_list *lst)
 {
 	int		i;
@@ -148,5 +147,3 @@ void	builtin_export(t_minishell *mshell, t_list *lst)
 		}
 	}
 }
-//memo check if naming valid; if one of the naming not invalid; 
-//	the valid one should continue

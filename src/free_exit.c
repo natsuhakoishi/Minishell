@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:30:05 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/20 23:57:19 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 03:17:40 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	ft_free(t_minishell *mshell, t_list **lst)
 	if (mshell && mshell->token){
 		// printf("Freeing mshell->token: %p\n", mshell->token); //Debug
 		free_dptr(mshell->token);}
-	(void)mshell;
 	if (lst && *lst)
 	{
 		current = *lst;

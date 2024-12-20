@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:58:48 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/11 02:01:31 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 03:15:16 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ typedef struct s_list
 	char			*delimiter;
 	int				append;
 	int				pipe_fd[2];
-	int				pipe_fd_prev[2];//?
 	struct s_list	*next;
 	void			*content;
 }					t_list;
+//ptr content actually not used
 
 int		ft_isalpha(int a);
 int		ft_isdigit(int a);

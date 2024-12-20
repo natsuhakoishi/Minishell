@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/20 23:56:22 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 03:16:23 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	split_command(t_list **lst, t_minishell *mshell)
 	temp = malloc(sizeof(char *) * (BUFFER + 1));
 	while (mshell->token[++a])
 	{
-		// printf("token[%d]: %s\n", a, mshell->token[a]); //Debug
 		if (!ft_strncmp(mshell->token[a], "|", 1))
 		{
 			temp[++b] = NULL;
@@ -42,6 +41,7 @@ void	split_command(t_list **lst, t_minishell *mshell)
 	ft_lstadd_back(lst, ft_lstnew(temp));
 	// free(temp);
 }
+// printf("token[%d]: %s\n", a, mshell->token[a]); //Debug
 //TODO actually will have memory unreachable issue
 
 //Minishell's prompt & "scanf()"

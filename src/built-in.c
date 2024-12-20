@@ -6,20 +6,17 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/21 00:49:11 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 03:02:04 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//ex. './' and '/'
-//absolute path of a command;l ex. /usr/bin/ls
-//executeable file; ex. ./minishell ./pipex
+//handle cmd absolute path & executable file
 void	executable(t_minishell *mshell, t_list *lst)
 {
 	pid_t	p_id;
 
-	// printf("Built-in: executable\n");
 	if (access(lst->lexem[0], F_OK | X_OK) == 0)
 	{
 		p_id = fork();
@@ -28,7 +25,7 @@ void	executable(t_minishell *mshell, t_list *lst)
 		else if (p_id)
 		{
 			waitpid(p_id, &mshell->exit_status, 0);
-			mshell->exit_status = mshell->exit_status % 256;
+			mshell->exit_status %= 256;
 		}
 	}
 	else
@@ -135,7 +132,8 @@ void	builtin_cd(t_minishell *mshell, t_list *lst)
 		chdir(ft_getenv(mshell, "HOME"));
 	mshell->exit_status = 0;
 }
-//~: directly refer to home directory, so it is absolute path
+//~: shortcut of $HOME, definitely is absolute path
+//4096 is max path size state in limits.h
 
 //handle 'env' (no arg)
 //*show err msg if there argument passed in
