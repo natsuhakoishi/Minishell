@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:30:05 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/17 04:24:23 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/20 23:57:19 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,19 @@ void	ft_free(t_minishell *mshell, t_list **lst)
 	t_list	*next;
 	t_list	*current;
 
-	if (mshell && mshell->token){printf("Freeing mshell->token: %p\n", mshell->token); //Debug
+	// printf("ft_free trigger\n"); //Debug
+	if (mshell && mshell->token){
+		// printf("Freeing mshell->token: %p\n", mshell->token); //Debug
 		free_dptr(mshell->token);}
 	(void)mshell;
 	if (lst && *lst)
 	{
 		current = *lst;
-		while (current) //traverse linked list
+		while (current)
 		{
 			next = current->next;
-			if (current->lexem && *current->lexem){printf("Freeing lst->lexem: %p\n", current->lexem); // Debug
+			if (current->lexem && *current->lexem){
+				// printf("Freeing lst->lexem: %p\n", current->lexem); // Debug
 				free_dptr(current->lexem);}
 			// printf("Freeing current node: %p\n", current); //Debug
 			free(current);

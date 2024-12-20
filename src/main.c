@@ -6,14 +6,13 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/17 18:19:01 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/20 23:56:22 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//split based on pipe operator
-//result: each command seperate by pipe & stored in individual node
+//split based on pipe operator & duplicate value to linked list
 void	split_command(t_list **lst, t_minishell *mshell)
 {
 	char	**temp;
@@ -25,14 +24,16 @@ void	split_command(t_list **lst, t_minishell *mshell)
 	temp = malloc(sizeof(char *) * (BUFFER + 1));
 	while (mshell->token[++a])
 	{
+		// printf("token[%d]: %s\n", a, mshell->token[a]); //Debug
 		if (!ft_strncmp(mshell->token[a], "|", 1))
 		{
 			temp[++b] = NULL;
 			ft_lstadd_back(lst, ft_lstnew(temp));
+			free(temp);
+			b = -1;
 			temp = malloc(sizeof(char *) * (BUFFER + 1));
 			if (!temp)
 				exit(1);
-			b = -1;
 		}
 		else
 			temp[++b] = ft_strdup(mshell->token[a]);
@@ -41,11 +42,7 @@ void	split_command(t_list **lst, t_minishell *mshell)
 	ft_lstadd_back(lst, ft_lstnew(temp));
 	// free(temp);
 }
-//repeated malloc() should actually cause memory leaks;
-//	but before malloc again, we added temp to linked list,
-//	then malloc give us new address
-//https://chatgpt.com/share/6749ebc2-48e8-8000-842f-798fccf2a9c4
-//https://chatgpt.com/share/6749f8b6-5d70-8000-9608-c2131dd03860
+//TODO actually will have memory unreachable issue
 
 //Minishell's prompt & "scanf()"
 void	ft_input(t_minishell *mshell)
@@ -56,7 +53,7 @@ void	ft_input(t_minishell *mshell)
 	getcwd(mshell->cwd, sizeof(mshell->cwd));
 	ft_strlcpy(prompt, "\033[33mMinishell | \033[4;34m", 30);
 	ft_strlcat(prompt, mshell->cwd, 100);
-	ft_strlcat(prompt, " \033[0m>\033[0m", 100);
+	ft_strlcat(prompt, " \033[0m> \033[0m", 100);
 	input = readline(prompt);
 	if (!input)
 		exit(0);
@@ -67,7 +64,7 @@ void	ft_input(t_minishell *mshell)
 		mshell->exit_status = 0;
 	free(input);
 }
-//memo input line itselt have ady 100?
+//memo what if input line itselt have ady 100?
 
 void	init_minishell(t_minishell *mshell, char **envp)
 {
@@ -87,7 +84,7 @@ int	main(int argc, char **argv, char **envp)
 	t_list		*lst;
 
 	mshell = malloc(sizeof(t_minishell));
-	lst = ft_lstnew(NULL);
+	lst = NULL;
 	init_minishell(mshell, envp);
 	if (argc > 1 || argv[1])
 		free_exit(mshell, &lst);
@@ -95,21 +92,14 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_signal(0);
 		ft_input(mshell);
-		// printf("lexer\n"); //Debug
 		if (!check_quote(mshell))
 		{
 			check_dollarsign(mshell);
 			check_empty(mshell);
 			split_command(&lst, mshell);
-			// printf("parser\n"); //Debug
 			tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
 			if (redirection(mshell, lst))
-			{
-				// printf("after redirection\n"); //Debug
-				// for (int j = 0; lst->lexem && lst->lexem[j]; ++j) //Debug
-				// 	printf("%s\t", lst->lexem[j]); //Debug
 				execution(mshell, lst);
-			}
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &mshell->modified_attr);
 		ft_free(mshell, &lst);

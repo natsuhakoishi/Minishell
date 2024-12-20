@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/16 06:55:33 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/20 21:19:09 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int		check_built_in(t_list *lst);
 void	envp_sorting(char **envp, int size);
 void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg);
 void	arg_update(t_list *lst, int i);
+void	print_node(t_list *lst);
 
 //exit & free memory related
 

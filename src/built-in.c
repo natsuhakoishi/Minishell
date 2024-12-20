@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/17 18:35:47 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 00:49:11 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,12 @@ void	executable(t_minishell *mshell, t_list *lst)
 {
 	pid_t	p_id;
 
-	printf("Built-in: executable\n");
+	// printf("Built-in: executable\n");
 	if (access(lst->lexem[0], F_OK | X_OK) == 0)
 	{
-		printf("is exist\n");
 		p_id = fork();
 		if (p_id == 0)
-		{
-			printf("hello\n");
 			execve(lst->lexem[0], lst->lexem, mshell->envp);
-			printf("nahhh\n");
-		}
 		else if (p_id)
 		{
 			waitpid(p_id, &mshell->exit_status, 0);
@@ -62,13 +57,12 @@ void	builtin_exit(t_minishell *mshell, t_list *lst)
 				err_msg(mshell, 2, \
 						"Minishell: exit: %s: numeric argument required\n", \
 						lst->lexem[1]);
-				// free_exit(mshell, &lst);/
+				// free_exit(mshell, &lst);
 				return ;
 			}
 		}
 		mshell->exit_status = ft_atoi(lst->lexem[1]);
-		if (mshell->exit_status > 256)
-			mshell->exit_status %= 256;
+		mshell->exit_status %= 256;
 	}
 	else if (lst->lexem[1] && lst->lexem[2])
 		err_msg(mshell, 1, "Minishell: exit: too many arguments\n", NULL);

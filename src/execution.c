@@ -6,44 +6,11 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/17 18:01:32 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 00:49:55 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//fork a child process for each node
-//each child process will need handle one commmand with its option/flag
-void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
-{
-	int	i;
-
-	i = -1;
-	printf("Enter child process\n"); //Debug
-	while (lst)
-	{
-		if (lst->next)
-			pipe(lst->next->pipe_fd);
-		if (lst->delimiter != NULL)
-			here_doc(mshell, lst);
-		childs[++i] = fork();
-		if (childs[i] == 0)
-			child_process(mshell, lst);
-		else
-		{
-			close(lst->pipe_fd[0]);
-			if (lst->next)
-				close(lst->next->pipe_fd[1]);
-			lst = lst->next;
-		}
-	}
-	i = -1;
-	while (childs[++i])
-	{
-		waitpid(childs[i], &mshell->exit_status, 0);
-		mshell->exit_status = mshell->exit_status % 256;
-	}
-}
 
 void	built_in(t_minishell *mshell, t_list *lst)
 {
@@ -71,20 +38,52 @@ void	built_in(t_minishell *mshell, t_list *lst)
 		executable(mshell, lst);
 }
 
+//fork a child process for each node
+//each child process will need handle one commmand with its option/flag
+void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
+{
+	int	i;
+
+	i = -1;
+	// printf("start kindergarden\n"); //Debug
+	while (lst)
+	{
+		if (lst->next)
+			pipe(lst->next->pipe_fd);
+		if (lst->delimiter != NULL)
+			here_doc(mshell, lst);
+		childs[++i] = fork();
+		if (childs[i] == 0)
+			child_process(mshell, lst);
+		else
+		{
+			close(lst->pipe_fd[0]);
+			if (lst->next)
+				close(lst->next->pipe_fd[1]);
+			lst = lst->next;
+		}
+	}
+	i = -1;
+	while (childs[++i])
+	{
+		waitpid(childs[i], &mshell->exit_status, 0);
+		mshell->exit_status = mshell->exit_status % 256;
+	}
+}
+
 void	execution(t_minishell *mshell, t_list *lst)
 {
 	pid_t	*childs;
 
-	printf("start execution\n"); //Debug
+	// printf("start execution\n"); //Debug
 	mshell->in_backup = dup(0);
 	mshell->out_backup = dup(1);
 	mshell->in_fd = 0;
 	mshell->out_fd = 1;
+	// printf("total child: %d\n", ft_lstsize(lst)); //Debug
+	// print_node(lst); //Debug
 	childs = malloc(ft_lstsize(lst) * sizeof(pid_t));
 	ft_signal(1);
-	// for (int j = 0; lst->lexem && lst->lexem[j]; ++j)
-	// 	printf("(%d %s\t)", j, lst->lexem[j]);
-	// printf(".\nbefore execution fak uuuu\n");
 	if (lst->next == NULL && check_built_in(lst))
 		built_in(mshell, lst);
 	else

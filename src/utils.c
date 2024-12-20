@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/16 16:19:32 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/20 23:57:11 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,32 @@ void	arg_update(t_list *lst, int i)
 {
 	while(lst->lexem[i])
 	{
-		// printf("%s", lst->lexem[i]);
+		// printf("%s", lst->lexem[i]); //Debug
 		lst->lexem[i] = lst->lexem[i + 2];
-		// printf(" --> %s\n", lst->lexem[i]);
+		// printf(" --> %s\n", lst->lexem[i]); //Debug
 		++i;
 	}
 	lst->lexem[i] = NULL;
 }
+
+void	print_node(t_list *lst)
+{
+	t_list *temp;
+	int	i;
+	int	j;
+
+	i = -1;
+	j = 0;
+	temp = lst;
+	while (temp)
+	{
+		printf("node %dth\n", j);
+		++j;
+		if (temp->lexem)
+			printf("\t%s\n", temp->lexem[0]);
+		else
+			printf("\tno content\n");
+		temp = temp->next;
+	}
+}
+//memo debug function; remove afterward
