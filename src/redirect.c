@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:05:48 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/21 03:37:04 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 17:04:01 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int	redirect_syntax(t_minishell *mshell, t_list *lst, int i)
 	char	*current;
 	char	*next;
 
-	// printf("is %s\n", lst->lexem[i]); //Debug
+	if (!lst->lexem)
+		return (0);
 	current = lst->lexem[i];
 	next = lst->lexem[i + 1];
 	if ((!ft_strncmp(current, ">\0", 2)) || (!ft_strncmp(current, "<\0", 2)) || \
@@ -101,12 +102,12 @@ int	redirection(t_minishell *mshell, t_list *lst)
 		{
 			value = redirect_syntax(mshell, lst, i);
 			if (!value)
-			{
-				if (lst->next == NULL) //only stop checking when at last node
-					return (0);
-			}
+				return (0);
 			else if (value == 1)
+			{
 				redirect_setup(lst, i);
+				--i;
+			}
 		}
 		lst = lst->next;
 	}

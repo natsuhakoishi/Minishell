@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/21 03:28:50 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 16:53:37 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,15 @@ void	input_setup(t_minishell *mshell, t_list *lst)
 		mshell->in_fd = dup(mshell->in_backup);
 	if (mshell->in_fd == -1)
 	{
-		perror("Minishell: Infile can't be used");
+		perror("Minishell: Infile");
 		lst->in_path = NULL;
 		exit(1);
 	}
 	if (dup2(mshell->in_fd, 0) == -1)
 	{
-		perror("Error: infile fd ");
+		perror("Error: infile fd");
 		return ;
 	}
-	close(lst->pipe_fd[1]);
 	close(mshell->in_fd);
 }
 
@@ -106,10 +105,9 @@ void	output_setup(t_minishell *mshell, t_list *lst)
 		mshell->out_fd = dup(mshell->out_backup);
 	if (dup2(mshell->out_fd, 1) == -1)
 	{
-		perror("Error: outfile fd ");
+		perror("Error: outfile fd");
 		return ;
 	}
-	close(lst->pipe_fd[0]);
 	close(mshell->out_fd);
 }
 

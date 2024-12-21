@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/21 12:36:59 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 16:45:23 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
 	int	i;
 
 	i = -1;
-	// printf("start kindergarden\n"); //Debug
 	if (pipe(lst->pipe_fd) == -1)
 	{
 		ft_putstr_fd("Pipe setup fail\n", 2);
@@ -79,17 +78,18 @@ void	execution(t_minishell *mshell, t_list *lst)
 {
 	pid_t	*childs;
 
-	// printf("start execution\n"); //Debug
 	mshell->in_backup = dup(0);
 	mshell->out_backup = dup(1);
 	mshell->in_fd = 0;
 	mshell->out_fd = 1;
-	// printf("total child: %d\n", ft_lstsize(lst)); //Debug
-	// print_node(lst); //Debug
 	childs = malloc(ft_lstsize(lst) * sizeof(pid_t));
 	ft_signal(1);
 	if (lst->next == NULL && check_built_in(lst))
+	{
+		// input_setup(mshell, lst);
+		// output_setup(mshell, lst);
 		built_in(mshell, lst);
+	}
 	else
 	{
 		childs_management(mshell, lst, childs);
@@ -101,5 +101,3 @@ void	execution(t_minishell *mshell, t_list *lst)
 	unlink(".tmp");
 	free(childs);
 }
-//number of child = number of node = number of cmd
-//memo if didnt do built-in only, all redirection worked with builtin

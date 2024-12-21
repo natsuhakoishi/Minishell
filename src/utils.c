@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/21 03:21:55 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 16:31:39 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,13 @@ void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg)
 	mshell->exit_status = exit_status;
 }
 
-void	lexem_update(t_list *lst, int i)
+void	lexem_update(t_list *lst, int i) //grep h < $HOME/input > output
 {
 	while (lst->lexem[i])
 	{
 		// printf("%s", lst->lexem[i]); //Debug
 		lst->lexem[i] = lst->lexem[i + 2];
-		// printf(" --> %s\n", lst->lexem[i]); //Debug
+		// printf(" => %s\n", lst->lexem[i]); //Debug
 		++i;
 	}
 	lst->lexem[i] = NULL;
@@ -125,8 +125,13 @@ void	print_node(t_list *lst)
 	{
 		printf("node %dth\n", j);
 		++j;
-		if (temp->lexem)
-			printf("\t%s\n", temp->lexem[0]);
+		if (temp->lexem != NULL)
+		{
+			for (int a = 0; temp->lexem[a]; ++a)
+				printf("\t%s", temp->lexem[a]);
+			printf("\t(null)");
+			printf("\n");
+		}
 		else
 			printf("\tno content\n");
 		temp = temp->next;

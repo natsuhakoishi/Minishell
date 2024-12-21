@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/21 11:53:33 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 14:48:26 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	main(int argc, char **argv, char **envp)
 	lst = NULL;
 	init_minishell(mshell, envp);
 	if (argc > 1 || argv[1])
-		free_exit(mshell, &lst, 1);
+		free_exit(mshell, &lst, 0);
 	while (1)
 	{
 		ft_signal(0);

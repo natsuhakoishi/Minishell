@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/21 12:36:18 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 12:43:00 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ void	handle_others(t_minishell *mshell, char *temp, char *result, int i[3]);
 
 int		redirection(t_minishell *mshell, t_list *lst);
 void	here_doc(t_minishell *mshell, t_list *lst);
-// void	input_setup(t_minishell *mshell, t_list *lst);
-// void	output_setup(t_minishell *mshell, t_list *lst);
+void	input_setup(t_minishell *mshell, t_list *lst);
+void	output_setup(t_minishell *mshell, t_list *lst);
 
 //execution
 
