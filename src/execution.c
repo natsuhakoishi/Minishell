@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/21 16:45:23 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 20:41:33 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,17 @@ void	built_in(t_minishell *mshell, t_list *lst)
 
 //fork a child process for each node
 //each child process will need handle one commmand with its option/flag
+//< ~/input grep h | cat -e > output
 void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
 {
 	int	i;
 
 	i = -1;
-	if (pipe(lst->pipe_fd) == -1)
-	{
-		ft_putstr_fd("Pipe setup fail\n", 2);
-	}
 	while (lst)
 	{
-		if (lst->next != NULL)
+		if (lst->next)
 			pipe(lst->next->pipe_fd);
-		if (lst->delimiter != NULL)
+		if (lst->delimiter)
 			here_doc(mshell, lst);
 		childs[++i] = fork();
 		if (childs[i] == 0)

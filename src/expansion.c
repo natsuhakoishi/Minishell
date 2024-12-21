@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 00:55:19 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/21 17:32:34 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/21 19:03:53 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	process_token(t_minishell *mshell, char *temp, char *result, int i[3])
 		while (mshell->token[i[0]][++i[1]] && mshell->token[i[0]][i[1]] != '\'')
 			temp[++i[2]] = mshell->token[i[0]][i[1]];
 		temp[++i[2]] = '\0';
-		ft_strlcat(result, temp, ft_strlen(result + ft_strlen(temp) + 1));
+		ft_strlcat(result, temp, (ft_strlen(result) + ft_strlen(temp) + 1));
 	}
 	else if (mshell->token[i[0]][i[1]] == '$' \
 		&& (ft_isalnum(mshell->token[i[0]][i[1] + 1]) \
