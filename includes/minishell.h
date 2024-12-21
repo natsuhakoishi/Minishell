@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/21 03:36:48 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 12:36:18 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	print_node(t_list *lst);
 
 //exit & free memory related
 
-void	free_exit(t_minishell *mshell, t_list **lst);
-void	ft_free(t_minishell *mshell, t_list **lst);
-void	free_node(t_list *current);
+void	free_exit(t_minishell *mshell, t_list **lst, int freed);
+void	ft_free(t_minishell *mshell, t_list **lst, int freed);
+// void	free_node(t_list *current);
 void	free_dptr(char **ptr);
 
 //signal

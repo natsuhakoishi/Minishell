@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/21 03:16:23 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 11:53:33 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	main(int argc, char **argv, char **envp)
 	lst = NULL;
 	init_minishell(mshell, envp);
 	if (argc > 1 || argv[1])
-		free_exit(mshell, &lst);
+		free_exit(mshell, &lst, 1);
 	while (1)
 	{
 		ft_signal(0);
@@ -102,7 +102,7 @@ int	main(int argc, char **argv, char **envp)
 				execution(mshell, lst);
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &mshell->modified_attr);
-		ft_free(mshell, &lst);
+		ft_free(mshell, &lst, 1);
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
 }

@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:30:05 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/21 03:17:40 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/21 12:35:44 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,46 +30,49 @@ void	free_dptr(char **str)
 	str = NULL;
 }
 
-void	ft_free(t_minishell *mshell, t_list **lst)
+void	ft_free(t_minishell *mshell, t_list **lst, int freed)
 {
 	t_list	*next;
 	t_list	*current;
 
 	// printf("ft_free trigger\n"); //Debug
-	if (mshell && mshell->token){
-		// printf("Freeing mshell->token: %p\n", mshell->token); //Debug
-		free_dptr(mshell->token);}
-	if (lst && *lst)
+	if (freed)
 	{
-		current = *lst;
-		while (current)
+		if (mshell && mshell->token){
+			// printf("Freeing mshell->token: %p\n", mshell->token); //Debug
+			free_dptr(mshell->token);}
+		if (lst && *lst)
 		{
-			next = current->next;
-			if (current->lexem && *current->lexem){
-				// printf("Freeing lst->lexem: %p\n", current->lexem); // Debug
-				free_dptr(current->lexem);}
-			// printf("Freeing current node: %p\n", current); //Debug
-			free(current);
-			current = next;
+			current = *lst;
+			while (current)
+			{
+				next = current->next;
+				if (current->lexem && *current->lexem){
+					// printf("Freeing lst->lexem: %p\n", current->lexem); // Debug
+					free_dptr(current->lexem);}
+				// printf("Freeing current node: %p\n", current); //Debug
+				free(current);
+				current = next;
+			}
+			*lst = NULL;
 		}
-		*lst = NULL;
 	}
 }
 
-void	free_exit(t_minishell *mshell, t_list **lst)
+void	free_exit(t_minishell *mshell, t_list **lst, int freed)
 {
 	int	code;
 
 	code = mshell->exit_status;
 	// printf("Freeing resources in free_exit...\n"); //Debug
-	ft_free(mshell, lst);
-	if (lst)
+	ft_free(mshell, lst, freed);
+	if (lst && freed)
 	{
 		// printf("Freeing lst: %p\n", lst); //Debug
 		free(lst);
 		lst = NULL;
 	}
-	if (mshell)
+	if (mshell && freed)
 	{
 		// printf("Freeing mshell: %p\n", mshell); //Debug
 		free(mshell);
