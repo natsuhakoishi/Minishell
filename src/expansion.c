@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 00:55:19 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/16 16:17:10 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/21 17:32:34 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,21 @@
 
 void	handle_others(t_minishell *mshell, char *temp, char *result, int i[3])
 {
+	char	*envtmp;
+
 	if (mshell->token[i[0]][i[1]] == '\"')
 	{
 		if (mshell->quote == 0)
 			mshell->quote = 1;
 		else
 			mshell->quote = 0;
+	}
+	else if (mshell->token[i[0]][i[1]] == '~')
+	{
+		temp[++i[2]] = mshell->token[i[0]][i[1]];
+		temp[++i[2]] = '\0';
+		envtmp = ft_getenv(mshell, "HOME");
+		ft_strlcat(result, envtmp, ft_strlen(result) + ft_strlen(envtmp) + 1);
 	}
 	else
 	{
