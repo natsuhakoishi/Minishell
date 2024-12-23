@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/21 17:34:06 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:56:51 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +115,14 @@ void	lexem_update(t_list *lst, int i) //grep h < $HOME/input > output
 void	print_node(t_list *lst)
 {
 	t_list *temp;
-	// int	i;
 	int	j;
 
-	// i = -1;
 	j = 0;
+	if (!lst)
+	{
+		printf("empty list ha\n");
+		exit (-13);
+	}
 	temp = lst;
 	while (temp)
 	{
