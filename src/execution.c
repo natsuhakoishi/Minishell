@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/26 01:31:07 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/26 03:11:46 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,11 @@ void	execution(t_minishell *mshell, t_list *lst)
 	int		i;
 
 	i = -1;
+	if (!lst->lexem)
+		return ;
 	exec_fd_setup(mshell);
 	childs = malloc(ft_lstsize(lst) * sizeof(pid_t));
-	childs[ft_lstsize(lst)] = -1;
+	// childs[ft_lstsize(lst)] = -1;
 	ft_signal(1);
 	if (lst->next == NULL && check_built_in(lst))
 	{
