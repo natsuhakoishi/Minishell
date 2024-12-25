@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:06:20 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/25 22:29:45 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/26 00:53:17 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	quit_3(int sigquit)
 {
 	(void)sigquit;
-	printf("Quit: 3\n");
+	printf("Quit (core dumped)\n");
 }
 
 void	quit_subshell(int sigint)

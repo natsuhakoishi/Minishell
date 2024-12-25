@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/23 15:56:51 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/26 00:42:38 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,11 @@ void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg)
 	mshell->exit_status = exit_status;
 }
 
-void	lexem_update(t_list *lst, int i) //grep h < $HOME/input > output
+void	lexem_update(t_list *lst, int i)
 {
 	while (lst->lexem[i])
 	{
-		// printf("%s", lst->lexem[i]); //Debug
 		lst->lexem[i] = lst->lexem[i + 2];
-		// printf(" => %s\n", lst->lexem[i]); //Debug
 		++i;
 	}
 	lst->lexem[i] = NULL;

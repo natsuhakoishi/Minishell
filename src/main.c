@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/25 23:04:18 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/26 00:51:37 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_input(t_minishell *mshell)
 	char	*input;
 	char	prompt[100];
 
-	mshell->hd = 0;
+	mshell->here_doc = 0;
 	getcwd(mshell->cwd, sizeof(mshell->cwd));
 	ft_strlcpy(prompt, "\033[33mMinishell | \033[4;34m", 30);
 	ft_strlcat(prompt, mshell->cwd, 100);
@@ -58,7 +58,6 @@ void	ft_input(t_minishell *mshell)
 		mshell->exit_status = 0;
 	free(input);
 }
-//memo what if input line itselt have ady 100?
 
 void	init_minishell(t_minishell *mshell, char **envp)
 {
@@ -90,13 +89,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			check_dollarsign(mshell);
 			check_empty(mshell);
-			// printf("--before split command\n");
-			// printf("token:\n");
-			// for(int i = 0; mshell->token[i]; ++i)
-			// 	printf("\t %s", mshell->token[i]);
 			split_command(&lst, mshell);
-			// printf("--after split command\n");
-			// print_node(lst);
 			tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
 			if (redirection(mshell, lst))
 				execution(mshell, lst);
