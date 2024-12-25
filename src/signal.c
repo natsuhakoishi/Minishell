@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:06:20 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/26 00:53:17 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/26 01:22:38 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_sigint(int sigint)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	g_exit_code = 130;
 }
 
 void	hd_action(int sigint)

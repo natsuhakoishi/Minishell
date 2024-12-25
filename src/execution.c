@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/25 23:11:35 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/26 01:31:07 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	built_in(t_minishell *mshell, t_list *lst)
 
 //fork a child process for each node
 //each child process handle one commmand(including option & arguments)
-void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
+void	kindergarden(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
 {
 	while (lst)
 	{
@@ -67,16 +67,21 @@ void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
 	}
 }
 
+void	exec_fd_setup(t_minishell *mshell)
+{
+	mshell->in_backup = dup(0);
+	mshell->out_backup = dup(1);
+	mshell->in_fd = 0;
+	mshell->out_fd = 1;
+}
+
 void	execution(t_minishell *mshell, t_list *lst)
 {
 	pid_t	*childs;
 	int		i;
 
 	i = -1;
-	mshell->in_backup = dup(0);
-	mshell->out_backup = dup(1);
-	mshell->in_fd = 0;
-	mshell->out_fd = 1;
+	exec_fd_setup(mshell);
 	childs = malloc(ft_lstsize(lst) * sizeof(pid_t));
 	childs[ft_lstsize(lst)] = -1;
 	ft_signal(1);
@@ -89,7 +94,7 @@ void	execution(t_minishell *mshell, t_list *lst)
 		built_in(mshell, lst);
 	}
 	else
-		childs_management(mshell, lst, childs, i);
+		kindergarden(mshell, lst, childs, i);
 	dup2(mshell->in_backup, 0);
 	dup2(mshell->out_backup, 1);
 	close(mshell->in_backup);

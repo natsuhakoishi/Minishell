@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:05:48 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/25 23:10:12 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/26 01:30:30 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	here_doc2(t_minishell *mshell, t_list *lst, int fd, char *input)
 		if (!input)
 		{
 			ft_putstr_fd("Minishell: warning: here-document delimited by", 2);
-			err_msg(mshell, 0 , " end-of-file (wanted '%s')\n", lst->delimiter);
+			err_msg(mshell, 0, " end-of-file (wanted '%s')\n", lst->delimiter);
 			break ;
 		}
 		if (!ft_strncmp(input, lst->delimiter, ft_strlen(lst->delimiter + 1)))
@@ -56,9 +56,8 @@ void	here_doc(t_minishell *mshell, t_list *lst)
 		ft_signal(1);
 		waitpid(p_id, &status, 0);
 		status = WEXITSTATUS(status);
-		if (WIFSIGNALED(status) && status == 42){
+		if (WIFSIGNALED(status) && status == 42)
 			mshell->here_doc = 1;
-		}
 	}
 }
 

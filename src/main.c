@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/26 00:51:37 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/26 01:26:44 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	g_exit_code = 0;
 
 void	split_command(t_list **lst, t_minishell *mshell)
 {
@@ -50,12 +52,12 @@ void	ft_input(t_minishell *mshell)
 	ft_strlcat(prompt, " \033[0m> \033[0m", 100);
 	input = readline(prompt);
 	if (!input)
-		exit(0);
+		exit(g_exit_code);
 	if (ft_strncmp(input, "", 1))
 		add_history(input);
 	mshell->token = lexer(input, "<>|");
-	if (!mshell->exit_status)
-		mshell->exit_status = 0;
+	mshell->exit_status = g_exit_code;
+	g_exit_code = 0;
 	free(input);
 }
 
