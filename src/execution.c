@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/21 20:41:33 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/25 16:47:14 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,9 @@ void	built_in(t_minishell *mshell, t_list *lst)
 }
 
 //fork a child process for each node
-//each child process will need handle one commmand with its option/flag
-//< ~/input grep h | cat -e > output
-void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
+//each child process handle one commmand(including option & arguments)
+void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
 {
-	int	i;
-
-	i = -1;
 	while (lst)
 	{
 		if (lst->next)
@@ -64,7 +60,7 @@ void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
 		}
 	}
 	i = -1;
-	while (childs[++i])
+	while (childs[++i] != 0 && childs[i] != -1)
 	{
 		waitpid(childs[i], &mshell->exit_status, 0);
 		mshell->exit_status = WEXITSTATUS(mshell->exit_status);
@@ -74,27 +70,28 @@ void	childs_management(t_minishell *mshell, t_list *lst, pid_t *childs)
 void	execution(t_minishell *mshell, t_list *lst)
 {
 	pid_t	*childs;
+	int		i;
 
+	i = -1;
 	mshell->in_backup = dup(0);
 	mshell->out_backup = dup(1);
 	mshell->in_fd = 0;
 	mshell->out_fd = 1;
 	childs = malloc(ft_lstsize(lst) * sizeof(pid_t));
+	childs[ft_lstsize(lst)] = -1;
 	ft_signal(1);
 	if (lst->next == NULL && check_built_in(lst))
 	{
-		// input_setup(mshell, lst);
-		// output_setup(mshell, lst);
+		input_setup(mshell, lst);
+		output_setup(mshell, lst);
 		built_in(mshell, lst);
 	}
 	else
-	{
-		childs_management(mshell, lst, childs);
-		dup2(mshell->in_backup, 0);
-		dup2(mshell->out_backup, 1);
-		close(mshell->in_backup);
-		close(mshell->out_backup);
-	}
+		childs_management(mshell, lst, childs, i);
+	dup2(mshell->in_backup, 0);
+	dup2(mshell->out_backup, 1);
+	close(mshell->in_backup);
+	close(mshell->out_backup);
 	unlink(".tmp");
 	free(childs);
 }

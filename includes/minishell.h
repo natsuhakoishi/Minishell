@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/21 12:43:00 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/25 16:45:27 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	print_node(t_list *lst);
 
 void	free_exit(t_minishell *mshell, t_list **lst, int freed);
 void	ft_free(t_minishell *mshell, t_list **lst, int freed);
-// void	free_node(t_list *current);
 void	free_dptr(char **ptr);
 
 //signal
@@ -96,7 +95,6 @@ void	output_setup(t_minishell *mshell, t_list *lst);
 
 void	execution(t_minishell *mshell, t_list *lst);
 void	built_in(t_minishell *mshell, t_list *lst);
-// void	child_management(t_minishell *mshell, t_list *lst);
 void	child_process(t_minishell *mshell, t_list *lst);
 
 //execution - built-ins

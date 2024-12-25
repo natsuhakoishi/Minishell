@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/21 16:53:37 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/25 16:59:35 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,8 @@ void	cmd(t_minishell *mshell, t_list *lst)
 			path = NULL;
 		if (!path)
 		{
-			err_msg(mshell, 127, "Minishell: '%s': ", lst->lexem[0]);
-			perror(NULL);
-			ft_putchar_fd('\n', 2);
+			err_msg(mshell, 127, "Minishell: '%s': command not found\n", \
+					lst->lexem[0]);
 			free(path);
 			return ;
 		}
@@ -66,14 +65,14 @@ void	cmd(t_minishell *mshell, t_list *lst)
 
 void	input_setup(t_minishell *mshell, t_list *lst)
 {
-	if (lst->in_path && lst->delimiter == NULL)
-		mshell->in_fd = open(lst->in_path, O_RDONLY);
-	else if (lst->in_path == NULL && lst->delimiter)
-		mshell->in_fd = open(".tmp", O_RDONLY);
-	else if (lst->pipe_fd[0] != -1 && lst->pipe_fd[0] != 0)
-		mshell->in_fd = lst->pipe_fd[0];
-	else
-		mshell->in_fd = dup(mshell->in_backup);
+	if (lst->in_path && lst->delimiter == NULL){ printf("infile\n");
+		mshell->in_fd = open(lst->in_path, O_RDONLY);}
+	else if (lst->in_path == NULL && lst->delimiter){ printf("heredoc\n");
+		mshell->in_fd = open(".tmp", O_RDONLY);}
+	else if (lst->pipe_fd[0] != -1 && lst->pipe_fd[0] != 0){ printf("pipe in \n");
+		mshell->in_fd = lst->pipe_fd[0];}
+	else{ printf("default in\n");
+		mshell->in_fd = dup(mshell->in_backup);}
 	if (mshell->in_fd == -1)
 	{
 		perror("Minishell: Infile");
@@ -90,19 +89,20 @@ void	input_setup(t_minishell *mshell, t_list *lst)
 
 void	output_setup(t_minishell *mshell, t_list *lst)
 {
-	if (lst->out_path && lst->append == 0)
+	if (lst->out_path && lst->append == 0){ printf("outfile truncate\n");
 		mshell->out_fd = open(lst->out_path, \
-							O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (lst->out_path && lst->append == 1)
+							O_WRONLY | O_CREAT | O_TRUNC, 0644);}
+	else if (lst->out_path && lst->append == 1){ printf("outfile append\n");
 		mshell->out_fd = open(lst->out_path, \
-							O_WRONLY | O_CREAT | O_APPEND, 0644);
+							O_WRONLY | O_CREAT | O_APPEND, 0644);}
 	else if (lst->next)
 	{
+		printf("pipe out\n");
 		mshell->out_fd = lst->next->pipe_fd[1];
 		close(lst->next->pipe_fd[0]);
 	}
-	else
-		mshell->out_fd = dup(mshell->out_backup);
+	else{printf("default out\n");
+		mshell->out_fd = dup(mshell->out_backup);}
 	if (dup2(mshell->out_fd, 1) == -1)
 	{
 		perror("Error: outfile fd");
@@ -120,5 +120,4 @@ void	child_process(t_minishell *mshell, t_list *lst)
 		built_in(mshell, lst);
 	cmd(mshell, lst);
 	exit(mshell->exit_status);
-	// free_exit(mshell, &lst);
 }
