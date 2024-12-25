@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:06:20 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/11/24 15:22:35 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/25 19:48:51 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ void	ft_sigint(int sigint)
 	rl_redisplay();
 }
 
+void	hd_action(int sigint)
+{
+	(void)sigint;
+	unlink(".tmp");
+	printf("\n");
+}
+
 void	ft_signal(int flag)
 {
 	if (flag == 0)
@@ -44,5 +51,10 @@ void	ft_signal(int flag)
 	{
 		signal(SIGINT, quit_subshell);
 		signal(SIGQUIT, quit_3);
+	}
+	else if (flag == 2)
+	{
+		signal(SIGINT, hd_action);
+		signal(SIGQUIT, SIG_IGN);
 	}
 }

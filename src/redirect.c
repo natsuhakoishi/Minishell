@@ -6,48 +6,45 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:05:48 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/21 17:04:01 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/25 19:49:48 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pre_heredoc(t_minishell *mshell)
-{
-	mshell->in_fd = dup(mshell->in_backup);
-	dup2(mshell->in_fd, 0);
-	close(mshell->in_fd);
-	mshell->out_fd = dup(mshell->out_backup);
-	dup2(mshell->out_fd, 1);
-	close(mshell->out_fd);
-}
-
 void	here_doc(t_minishell *mshell, t_list *lst)
 {
 	int		fd;
+	pid_t	p_id;
 	char	*input;
 
-	ft_signal(0);
-	pre_heredoc(mshell);
-	fd = open(".tmp", O_WRONLY | O_CREAT, 0644);
-	input = readline(" > ");
-	while (input != NULL)
+	p_id = fork();
+	input = NULL;
+	if (p_id == 0)
 	{
-		ft_signal(1);
-		if (!(ft_strncmp(input, lst->delimiter, \
-			ft_strlen(lst->delimiter + 1))))
-		{
-			free(input);
-			break ;
-		}
-		write(fd, input, ft_strlen(input));
-		write(fd, "\n", 1);
-		free(input);
+		fd = open(".tmp", O_WRONLY | O_CREAT, 0644);
 		input = readline(" > ");
+		if (!input)
+		{
+			ft_putstr_fd("Minishell: warning: here-document delimited by", 2);
+			err_msg(mshell, 0 , " end-of-file (wanted '%s')\n", lst->delimiter);
+			return ;
+		}
+		while (input != NULL && ft_strncmp(input, lst->delimiter, ft_strlen(lst->delimiter + 1)))
+		{
+			write(fd, input, ft_strlen(input));
+			write(fd, "\n", 1);
+			free(input);
+			input = readline(" > ");
+		}
+		free(input);
+		close(fd);
+		exit (0);
 	}
-	close(fd);
+	else if (p_id)
+		waitpid(p_id, NULL, 0);
 }
-//basically a scanf but need keyword to stop it
+//todo set proper exit status betw. parent & child
 
 void	redirect_setup(t_list *lst, int i)
 {
