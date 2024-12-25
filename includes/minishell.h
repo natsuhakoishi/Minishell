@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/25 16:45:27 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/25 23:09:53 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_minishell
 	int				out_fd;
 	int				exit_status;
 	int				quote;
+	int				here_doc;
 	struct termios	modified_attr;
 	struct termios	default_attr;
 }	t_minishell;

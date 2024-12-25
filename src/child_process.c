@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/25 19:23:58 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/25 23:11:14 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,14 @@ void	input_setup(t_minishell *mshell, t_list *lst)
 		mshell->in_fd = lst->pipe_fd[0];
 	else
 		mshell->in_fd = dup(mshell->in_backup);
-	if (mshell->in_fd == -1)
+	if (mshell->here_doc && mshell->exit_status == 42)
+		exit(1);
+	if (mshell->in_fd == -1 && !mshell->here_doc)
 	{
 		perror("Minishell: Infile");
 		exit(1);
 	}
-	if (dup2(mshell->in_fd, 0) == -1)
+	if (dup2(mshell->in_fd, 0) == -1 && !mshell->here_doc)
 	{
 		perror("Error: infile fd");
 		return ;
@@ -113,6 +115,8 @@ void	output_setup(t_minishell *mshell, t_list *lst)
 void	child_process(t_minishell *mshell, t_list *lst)
 {
 	input_setup(mshell, lst);
+	if (mshell->here_doc)
+		exit(130);
 	output_setup(mshell, lst);
 	ft_signal(1);
 	if (check_built_in(lst))

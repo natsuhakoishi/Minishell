@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/25 16:47:14 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/25 23:11:35 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	execution(t_minishell *mshell, t_list *lst)
 	if (lst->next == NULL && check_built_in(lst))
 	{
 		input_setup(mshell, lst);
+		if (mshell->here_doc)
+			return ;
 		output_setup(mshell, lst);
 		built_in(mshell, lst);
 	}

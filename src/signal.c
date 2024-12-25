@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:06:20 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/25 19:48:51 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/25 22:29:45 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	hd_action(int sigint)
 {
 	(void)sigint;
 	unlink(".tmp");
-	printf("\n");
+	exit(42);
 }
 
 void	ft_signal(int flag)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/23 16:08:14 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/25 23:04:18 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	ft_input(t_minishell *mshell)
 	char	*input;
 	char	prompt[100];
 
+	mshell->hd = 0;
 	getcwd(mshell->cwd, sizeof(mshell->cwd));
 	ft_strlcpy(prompt, "\033[33mMinishell | \033[4;34m", 30);
 	ft_strlcat(prompt, mshell->cwd, 100);
