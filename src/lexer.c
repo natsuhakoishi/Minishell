@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:46:54 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/26 21:48:47 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/27 06:27:25 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,15 @@ char	**lexer(char *input, const char *op)
 	a = -1;
 	if (input == NULL || !ft_strncmp(input, "", ft_strlen(input)))
 		return (NULL);
-	tokens = malloc(sizeof(char *) * BUFFER);
+	tokens = malloc(sizeof(char *) * BUFFER + 1);
 	if (!tokens)
 		return (NULL);
 	len = lx_split(tokens, input, op);
+	if (len == 0)
+	{
+		free(tokens);
+		return (NULL);
+	}
 	ntokens = malloc(sizeof(char *) * (len + 1));
 	if (!ntokens)
 	{
