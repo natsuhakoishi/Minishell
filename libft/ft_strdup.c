@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 17:31:15 by yyean-wa          #+#    #+#             */
-/*   Updated: 2023/10/30 16:34:44 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/26 22:31:55 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(const char *s)
 	char	*str;
 	char	*cpy;
 
+	if (!s)
+		return (NULL);
 	str = (char *)malloc(ft_strlen(s) + 1);
 	if (str == NULL)
 		return (NULL);

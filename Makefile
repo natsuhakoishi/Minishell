@@ -6,7 +6,7 @@
 #    By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 17:37:04 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/26 21:50:05 by yyean-wa         ###   ########.fr        #
+#    Updated: 2024/12/26 22:13:25 by yyean-wa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 AR = ar rcs
 RM = rm -rf
 ASAN = -fsanitize=address -g3
-CFLAGS = -Wall -Wextra -Werror -I./includes/ -I/usr/include/readline/ $(ASAN)
+CFLAGS = -Wall -Wextra -Werror -I./includes/ -I/usr/include/readline/ #$(ASAN)
 
 SRC_FILES = main lexer parser expansion \
 			execution redirect built-in built-in_2 child_process \

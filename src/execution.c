@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/26 20:00:45 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/26 22:24:15 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	kindergarden(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
 			child_process(mshell, lst);
 		else
 		{
-			close(lst->pipe_fd[0]);
+			// if (lst->pipe_fd[0] != -1)
+			// 	close(lst->pipe_fd[0]);
 			if (lst->next)
 				close(lst->next->pipe_fd[1]);
 			lst = lst->next;

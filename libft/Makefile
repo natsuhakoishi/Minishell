@@ -6,14 +6,14 @@
 #    By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/18 19:27:00 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/26 21:50:29 by yyean-wa         ###   ########.fr        #
+#    Updated: 2024/12/26 22:13:30 by yyean-wa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 CC = gcc
 ASAN = -fsanitize=address -g3
-CFLAGS = -Wall -Werror -Wextra $(ASAN)
+CFLAGS = -Wall -Werror -Wextra #$(ASAN)
 
 SRCS =	ft_isalpha.c ft_isdigit.c\
 		ft_isalnum.c ft_isascii.c\
