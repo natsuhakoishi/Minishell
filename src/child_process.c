@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/27 01:52:07 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/27 02:59:53 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	input_setup(t_minishell *mshell, t_list *lst)
 	}
 	close(mshell->in_fd);
 }
-//todo if infile cant open, might have leak
 
 void	output_setup(t_minishell *mshell, t_list *lst)
 {

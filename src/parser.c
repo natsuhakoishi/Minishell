@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:37:55 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/27 01:59:56 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/27 02:59:44 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,13 @@ int	check_quote(t_minishell *mshell)
 	}
 	return (0);
 }
+
 //qflag; true when first quote detected(open quote),
 //		 false when second quote detected(close quote)
 int	check_pipe(t_minishell *mshell)
 {
+	if (!mshell->token || !mshell->token[0])
+		return (1);
 	if (mshell->token[0][0] == '|')
 	{
 		ft_putstr_fd("Error: Pipe at start\n", 2);
