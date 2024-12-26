@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:46:54 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/10 15:17:08 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/26 21:48:47 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,23 @@ char	**lexer(char *input, const char *op)
 	int		len;
 	int		a;
 	char	**tokens;
+	char	**ntokens;
 
 	a = -1;
-	if (!input)
+	if (input == NULL || !ft_strncmp(input, "", ft_strlen(input)))
 		return (NULL);
 	tokens = malloc(sizeof(char *) * BUFFER);
-	len = lx_split(tokens, input, op);
-	while (tokens[++a])
-		free(tokens[a]);
-	free(tokens);
-	tokens = malloc(sizeof(char *) * (len + 1));
 	if (!tokens)
 		return (NULL);
-	lx_split(tokens, input, op);
-	return (tokens);
+	len = lx_split(tokens, input, op);
+	ntokens = malloc(sizeof(char *) * (len + 1));
+	if (!ntokens)
+	{
+		free(tokens);
+		return (NULL);
+	}
+	while (++a <= len)
+		ntokens[a] = tokens[a];
+	free(tokens);
+	return (ntokens);
 }

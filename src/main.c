@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/26 03:30:46 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/26 22:00:23 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	split_command(t_list **lst, t_minishell *mshell)
 	}
 	temp[++b] = NULL;
 	ft_lstadd_back(lst, ft_lstnew(temp));
+	free_dptr(mshell->token);
 }
 
 //Minishell's prompt & "scanf()"
@@ -89,7 +90,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_signal(0);
 		ft_input(mshell);
-		if (!check_quote(mshell))
+		if (mshell->token != NULL && !check_quote(mshell))
 		{
 			check_dollarsign(mshell);
 			check_empty(mshell);

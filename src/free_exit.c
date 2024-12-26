@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:30:05 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/21 12:35:44 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/26 21:59:47 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ void	ft_free(t_minishell *mshell, t_list **lst, int freed)
 	// printf("ft_free trigger\n"); //Debug
 	if (freed)
 	{
-		if (mshell && mshell->token){
-			// printf("Freeing mshell->token: %p\n", mshell->token); //Debug
-			free_dptr(mshell->token);}
+		(void)mshell;
+		// if (mshell && mshell->token){
+		// 	// printf("Freeing mshell->token: %p\n", mshell->token); //Debug
+		// 	free_dptr(mshell->token);}
 		if (lst && *lst)
 		{
 			current = *lst;
