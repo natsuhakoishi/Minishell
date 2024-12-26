@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:37:55 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/10 15:17:47 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/27 01:59:56 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_quote2(t_minishell *mshell, int qflag)
 {
 	if (qflag != 0)
 	{
-		printf("Error: Quotes.\n");
+		ft_putstr_fd("Error: Quotes.\n", 2);
 		mshell->exit_status = 130;
 		return (1);
 	}
@@ -73,3 +73,13 @@ int	check_quote(t_minishell *mshell)
 }
 //qflag; true when first quote detected(open quote),
 //		 false when second quote detected(close quote)
+int	check_pipe(t_minishell *mshell)
+{
+	if (mshell->token[0][0] == '|')
+	{
+		ft_putstr_fd("Error: Pipe at start\n", 2);
+		mshell->exit_status = 1;
+		return (0);
+	}
+	return (1);
+}

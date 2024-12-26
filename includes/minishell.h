@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/26 01:18:04 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/27 02:00:26 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	lx_split2(char **tokens, const char *input, const char *op, int i[3]);
 int		check_quote(t_minishell *mshell);
 int		check_quote2(t_minishell *mshell, int qflag);
 void	check_empty(t_minishell *mshell);
+int		check_pipe(t_minishell *mshell);
 
 //variable expansion
 

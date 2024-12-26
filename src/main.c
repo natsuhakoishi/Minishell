@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/26 22:44:06 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/27 02:00:34 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	split_command(t_list **lst, t_minishell *mshell)
 	temp = malloc(sizeof(char *) * (BUFFER + 1));
 	while (mshell->token[++a])
 	{
-		printf("\n");
 		if (!ft_strncmp(mshell->token[a], "|\0", 2))
 		{
 			temp[++b] = NULL;
@@ -95,7 +94,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_signal(0);
 		ft_input(mshell);
-		if (mshell->token != NULL && !check_quote(mshell))
+		if (mshell->token != NULL && !check_quote(mshell) && check_pipe(mshell))
 		{
 			check_dollarsign(mshell);
 			check_empty(mshell);
