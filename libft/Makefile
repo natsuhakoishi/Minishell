@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
+#    By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/18 19:27:00 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/10 16:15:05 by zgoh             ###   ########.fr        #
+#    Updated: 2024/12/26 19:42:30 by yyean-wa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 
 SRCS =	ft_isalpha.c ft_isdigit.c\
 		ft_isalnum.c ft_isascii.c\

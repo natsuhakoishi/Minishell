@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/26 03:11:46 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/26 20:00:45 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	kindergarden(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
 		}
 	}
 	i = -1;
-	while (childs[++i] != 0 && childs[i] != -1)
+	while (childs[++i] != -1)
 	{
 		waitpid(childs[i], &mshell->exit_status, 0);
 		mshell->exit_status = WEXITSTATUS(mshell->exit_status);
@@ -81,11 +81,13 @@ void	execution(t_minishell *mshell, t_list *lst)
 	int		i;
 
 	i = -1;
-	if (!lst->lexem)
+	if (!lst || !lst->lexem)
 		return ;
 	exec_fd_setup(mshell);
-	childs = malloc(ft_lstsize(lst) * sizeof(pid_t));
-	// childs[ft_lstsize(lst)] = -1;
+	childs = malloc((ft_lstsize(lst) + 1) * sizeof(pid_t));
+	if (!childs)
+		return ;
+	childs[ft_lstsize(lst)] = -1;
 	ft_signal(1);
 	if (lst->next == NULL && check_built_in(lst))
 	{
