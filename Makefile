@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+         #
+#    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 17:37:04 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/27 23:00:01 by yyean-wa         ###   ########.fr        #
+#    Updated: 2024/12/28 02:02:39 by zgoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,11 @@ NAME = minishell
 AR = ar rcs
 RM = rm -rf
 ASAN = -fsanitize=address -g3
-CFLAGS = -Wall -Wextra -Werror -I./includes/ -I/usr/include/readline/ $(ASAN)
+CFLAGS = -Wall -Wextra -Werror -I./includes/ -I/usr/include/readline/
 
 SRC_FILES = main lexer parser expansion \
 			execution redirect built-in built-in_2 child_process \
-			signal free_exit utils
+			signal free utils
 SRC = $(addprefix src/, $(addsuffix .c,  $(SRC_FILES)))
 
 LIBFT_PATH = ./libft/

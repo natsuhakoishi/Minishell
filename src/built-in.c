@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/27 12:22:31 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/28 04:44:30 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	executable(t_minishell *mshell, t_list *lst)
 		{
 			waitpid(p_id, &mshell->exit_status, 0);
 			mshell->exit_status = WEXITSTATUS(mshell->exit_status);
+			// printf("get %d\n", mshell->exit_status);
 		}
 	}
 	else

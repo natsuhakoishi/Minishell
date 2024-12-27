@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+         #
+#    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/18 19:27:00 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/27 23:00:07 by yyean-wa         ###   ########.fr        #
+#    Updated: 2024/12/28 02:02:11 by zgoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 CC = gcc
 ASAN = -fsanitize=address -g3
-CFLAGS = -Wall -Werror -Wextra $(ASAN)
+CFLAGS = -Wall -Werror -Wextra
 
 SRCS =	ft_isalpha.c ft_isdigit.c\
 		ft_isalnum.c ft_isascii.c\

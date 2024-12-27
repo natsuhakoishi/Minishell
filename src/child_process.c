@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/27 23:21:34 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/28 01:51:27 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	input_setup(t_minishell *mshell, t_list *lst)
 	if (mshell->in_fd == -1 && !mshell->here_doc)
 	{
 		perror("Minishell: Infile");
-		return (42);
+		return (1);
 	}
 	if (dup2(mshell->in_fd, 0) == -1 && !mshell->here_doc)
 	{
@@ -114,10 +114,8 @@ void	output_setup(t_minishell *mshell, t_list *lst)
 
 void	child_process(t_minishell *mshell, t_list *lst)
 {
-	printf("child process\n");
 	if (input_setup(mshell, lst) == 0)
 	{
-		printf("hello\n");
 		if (mshell->here_doc)
 			exit(130);
 		output_setup(mshell, lst);
@@ -125,12 +123,6 @@ void	child_process(t_minishell *mshell, t_list *lst)
 		if (check_built_in(lst))
 			built_in(mshell, lst);
 		cmd(mshell, lst);
-		printf("end of world\n");
 	}
-	printf("fuck\n");
-	// else
-	// 	mshell->exit_status = 42;
-	//printf("child cleaning\n\t");
-	// free_lst(mshell, &lst);
 	exit(mshell->exit_status);
 }

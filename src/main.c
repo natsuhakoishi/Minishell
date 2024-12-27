@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/27 23:30:15 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/28 01:46:08 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ void	split_command(t_list **lst, t_minishell *mshell)
 			temp = malloc(sizeof(char *) * (BUFFER + 1));
 			b = -1;
 		}
-		else{
-			printf("something: %s\n", mshell->token[a]);
+		else
 			temp[++b] = ft_strdup(mshell->token[a]);
-		}
 	}
 	temp[++b] = NULL;
 	ft_lstadd_back(lst, ft_lstnew(temp));
@@ -52,17 +50,13 @@ void	ft_input(t_minishell *mshell)
 
 	mshell->here_doc = 0;
 	mshell->flag = 1;
-	// mshell->success = 1;
 	getcwd(mshell->cwd, sizeof(mshell->cwd));
 	ft_strlcpy(prompt, "\033[33mMinishell | \033[4;34m", 30);
 	ft_strlcat(prompt, mshell->cwd, 100);
 	ft_strlcat(prompt, " \033[0m> \033[0m", 100);
 	input = readline(prompt);
 	if (!input)
-	{
-		// mshell->success = 0;
 		exit(g_exit_code);
-	}
 	if (ft_strncmp(input, "", 1))
 		add_history(input);
 	mshell->token = lexer(input, "<>|");
@@ -97,26 +91,17 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_signal(0);
 		ft_input(mshell);
-		// if (!mshell->success)
-		// 	free_lst(mshell, &lst);
 		if (mshell->token != NULL && !check_quote(mshell) && check_pipe(mshell))
 		{
 			check_dollarsign(mshell);
 			check_empty(mshell);
 			split_command(&lst, mshell);
 			tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
-			printf("before exec\n");
-			if (redirection(mshell, lst)){
-				printf("execution\n");
+			if (redirection(mshell, lst))
 				execution(mshell, lst);
-			}
-			printf("after exec\n");
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &mshell->modified_attr);
-		printf("prompt clean up\n");
 		free_lst(mshell, &lst);
 	}
-	free(mshell);
-	free(lst);
 	tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
 }

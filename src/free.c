@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:30:05 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/27 23:53:22 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/28 02:01:19 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@ void	free_dptr(char **str)
 
 	if (!str || !(*str))
 		return ;
-	// printf("Start: double pointer(%p)\n", str); //Debug
 	i = -1;
 	while (str[++i])
 	{
-		// printf("Freeing string [%d]: %p\n", i, str[i]); //Debug
 		free(str[i]);
 		str[i] = NULL;
 	}

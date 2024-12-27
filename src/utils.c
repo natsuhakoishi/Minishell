@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/27 13:04:42 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/28 03:44:51 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,13 @@ void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg)
 
 void	lexem_update(t_list *lst, int i)
 {
+	free(lst->lexem[i]);
 	while (lst->lexem[i])
 	{
 		lst->lexem[i] = lst->lexem[i + 2];
 		++i;
 	}
-	lst->lexem[i] = NULL;
 }
-//todo if the node only contain redirection, current didnt consider this
 
 void	print_node(t_list *lst)
 {
@@ -136,4 +135,3 @@ void	print_node(t_list *lst)
 		temp = temp->next;
 	}
 }
-//memo debug function; remove afterward

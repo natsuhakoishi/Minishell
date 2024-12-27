@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/27 23:20:33 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/28 04:43:21 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,20 @@ void	kindergarden(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
 	{
 		waitpid(childs[i], &mshell->exit_status, 0);
 		mshell->exit_status = WEXITSTATUS(mshell->exit_status);
-		// if (mshell->exit_status == 42)
-		// 	return ;
 	}
+}
+
+void	only_built_in(t_minishell *mshell, t_list *lst)
+{
+	int	status;
+
+	status = input_setup(mshell, lst);
+	if (status)
+		return ;
+	if (mshell->here_doc)
+		return ;
+	output_setup(mshell, lst);
+	built_in(mshell, lst);
 }
 
 void	exec_fd_setup(t_minishell *mshell)
@@ -82,33 +93,21 @@ void		execution(t_minishell *mshell, t_list *lst)
 {
 	pid_t	*childs;
 	int		i;
-	int		status;
+	int	status;
 
 	i = -1;
 	if (!lst || !lst->lexem)
 		return ;
 	exec_fd_setup(mshell);
-	printf("after exec fd setep\n");
 	childs = malloc((ft_lstsize(lst) + 1) * sizeof(pid_t));
 	if (!childs)
 		return ;
 	childs[ft_lstsize(lst)] = -1;
 	ft_signal(1);
 	if (lst->next == NULL && check_built_in(lst))
-	{
-		status = input_setup(mshell, lst);
-		if (status)
-			return ;
-		if (mshell->here_doc) //here doc fail, stop
-			return ;
-		output_setup(mshell, lst);
-		built_in(mshell, lst);
-	}
+		only_built_in(mshell, lst);
 	else
-	{
 		kindergarden(mshell, lst, childs, i);
-		// free_lst(mshell, &lst);
-	}
 	dup2(mshell->in_backup, 0);
 	dup2(mshell->out_backup, 1);
 	close(mshell->in_backup);
