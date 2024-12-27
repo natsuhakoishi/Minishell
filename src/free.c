@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_exit.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:30:05 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/28 02:01:19 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/28 04:49:18 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	free_dptr(char **str)
 	str = NULL;
 }
 
-void free_lst(t_minishell *mshell, t_list **lst)
+void	free_lst(t_minishell *mshell, t_list **lst)
 {
 	t_list	*tmp;
 	t_list	*tmp_next;

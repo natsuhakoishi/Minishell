@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 01:44:23 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/11 17:42:04 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/28 04:48:40 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	ft_strpos(const char *haystack, const char *needle)
 	while (haystack[i])
 	{
 		j = 0;
-		while (needle[j] == haystack[i + j])//found character matched betw. needle & haystack
+		while (needle[j] == haystack[i + j])
 		{
-			if (needle[j + 1] == '\0')//return the index of character fonud in haystack; if finish compared needle
+			if (needle[j + 1] == '\0')
 				return (i);
 			j++;
 		}
@@ -34,3 +34,6 @@ int	ft_strpos(const char *haystack, const char *needle)
 	}
 	return (0);
 }
+//when same character found at both needle & haystack
+//then check if needle totally matched;
+//  if true, return the start(index) of needle in haystack

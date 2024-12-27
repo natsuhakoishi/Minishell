@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:46:54 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/27 06:27:25 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/28 04:53:22 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,23 @@ int	lx_split(char **tokens, const char *input, const char *op)
 //i[1] stored current position of token @ start position of current token
 //i[2] is pos word start as word count
 
+void	lexer_copy(char **ntokens, char **tokens, int len)
+{
+	int	a;
+
+	a = -1;
+	while (++a <= len)
+		ntokens[a] = tokens[a];
+	free(tokens);
+}
+
 //return tokens with optimal memory
 char	**lexer(char *input, const char *op)
 {
 	int		len;
-	int		a;
 	char	**tokens;
 	char	**ntokens;
 
-	a = -1;
 	if (input == NULL || !ft_strncmp(input, "", ft_strlen(input)))
 		return (NULL);
 	tokens = malloc(sizeof(char *) * BUFFER + 1);
@@ -92,8 +100,6 @@ char	**lexer(char *input, const char *op)
 		free(tokens);
 		return (NULL);
 	}
-	while (++a <= len)
-		ntokens[a] = tokens[a];
-	free(tokens);
+	lexer_copy(ntokens, tokens, len);
 	return (ntokens);
 }

@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/28 04:43:21 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/28 04:52:46 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,10 @@ void	exec_fd_setup(t_minishell *mshell)
 	mshell->out_fd = 1;
 }
 
-void		execution(t_minishell *mshell, t_list *lst)
+void	execution(t_minishell *mshell, t_list *lst)
 {
 	pid_t	*childs;
 	int		i;
-	int	status;
 
 	i = -1;
 	if (!lst || !lst->lexem)

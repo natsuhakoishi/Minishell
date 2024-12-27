@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/27 15:03:10 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/28 04:45:26 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_minishell
 	int				quote;
 	int				here_doc;
 	int				flag;
-	// int				success;
 	struct termios	modified_attr;
 	struct termios	default_attr;
 }	t_minishell;
@@ -59,8 +58,6 @@ void	print_node(t_list *lst);
 
 //exit & free memory related
 
-// void	free_exit(t_minishell *mshell, t_list **lst, int freed);
-// void	ft_free(t_minishell *mshell, t_list **lst, int freed);
 void	free_dptr(char **ptr);
 void	free_lst(t_minishell *mshell, t_list **lst);
 
