@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/27 15:05:09 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/27 23:30:15 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void	split_command(t_list **lst, t_minishell *mshell)
 			temp = malloc(sizeof(char *) * (BUFFER + 1));
 			b = -1;
 		}
-		else
+		else{
+			printf("something: %s\n", mshell->token[a]);
 			temp[++b] = ft_strdup(mshell->token[a]);
+		}
 	}
 	temp[++b] = NULL;
 	ft_lstadd_back(lst, ft_lstnew(temp));
@@ -103,8 +105,12 @@ int	main(int argc, char **argv, char **envp)
 			check_empty(mshell);
 			split_command(&lst, mshell);
 			tcsetattr(STDIN_FILENO, TCSANOW, &mshell->default_attr);
-			if (redirection(mshell, lst))
+			printf("before exec\n");
+			if (redirection(mshell, lst)){
+				printf("execution\n");
 				execution(mshell, lst);
+			}
+			printf("after exec\n");
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &mshell->modified_attr);
 		printf("prompt clean up\n");

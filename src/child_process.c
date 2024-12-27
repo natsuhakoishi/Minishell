@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/27 15:04:35 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/27 23:21:34 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	child_process(t_minishell *mshell, t_list *lst)
 	printf("child process\n");
 	if (input_setup(mshell, lst) == 0)
 	{
+		printf("hello\n");
 		if (mshell->here_doc)
 			exit(130);
 		output_setup(mshell, lst);
@@ -126,6 +127,7 @@ void	child_process(t_minishell *mshell, t_list *lst)
 		cmd(mshell, lst);
 		printf("end of world\n");
 	}
+	printf("fuck\n");
 	// else
 	// 	mshell->exit_status = 42;
 	//printf("child cleaning\n\t");

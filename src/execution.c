@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/27 15:04:24 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/27 23:20:33 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void		execution(t_minishell *mshell, t_list *lst)
 	if (!lst || !lst->lexem)
 		return ;
 	exec_fd_setup(mshell);
+	printf("after exec fd setep\n");
 	childs = malloc((ft_lstsize(lst) + 1) * sizeof(pid_t));
 	if (!childs)
 		return ;

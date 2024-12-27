@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
+#    By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 17:37:04 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/27 12:48:01 by zgoh             ###   ########.fr        #
+#    Updated: 2024/12/27 23:00:01 by yyean-wa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 AR = ar rcs
 RM = rm -rf
 ASAN = -fsanitize=address -g3
-CFLAGS = -Wall -Wextra -Werror -I./includes/ -I/usr/include/readline/ #$(ASAN)
+CFLAGS = -Wall -Wextra -Werror -I./includes/ -I/usr/include/readline/ $(ASAN)
 
 SRC_FILES = main lexer parser expansion \
 			execution redirect built-in built-in_2 child_process \
@@ -42,7 +42,7 @@ $(NAME): $(LIBFT) $(OBJ)
 	@cc $(CFLAGS) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
 	@echo $(GREEN)"Minishell ready."$(RESET)
 
-debug: CFLAGS += $(ASAN) 
+debug: CFLAGS += $(ASAN)
 debug: clean $(OBJ)
 	@make debug -C $(LIBFT_PATH)
 	@cc $(CFLAGS) $(OBJ) -lreadline $(LIBFT) -o $(NAME)

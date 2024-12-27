@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:05:48 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/26 01:30:30 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/27 23:47:30 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	redirect_setup(t_list *lst, int i)
 		lst->append = 1;
 		lst->out_path = lst->lexem[i + 1];
 	}
+	free(lst->lexem[i]);
 	if (lst->in_path || lst->out_path || lst->append || lst->delimiter)
 		lexem_update(lst, i);
 }
