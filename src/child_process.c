@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/27 02:59:53 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/27 15:04:35 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	cmd(t_minishell *mshell, t_list *lst)
 	}
 }
 
-void	input_setup(t_minishell *mshell, t_list *lst)
+int	input_setup(t_minishell *mshell, t_list *lst)
 {
 	if (lst->in_path && lst->delimiter == NULL)
 		mshell->in_fd = open(lst->in_path, O_RDONLY);
@@ -74,18 +74,19 @@ void	input_setup(t_minishell *mshell, t_list *lst)
 	else
 		mshell->in_fd = dup(mshell->in_backup);
 	if (mshell->here_doc && mshell->exit_status == 42)
-		exit(1);
+		return (1);
 	if (mshell->in_fd == -1 && !mshell->here_doc)
 	{
 		perror("Minishell: Infile");
-		exit(1);
+		return (42);
 	}
 	if (dup2(mshell->in_fd, 0) == -1 && !mshell->here_doc)
 	{
 		perror("Error: infile fd");
-		return ;
+		return (1);
 	}
 	close(mshell->in_fd);
+	return (0);
 }
 
 void	output_setup(t_minishell *mshell, t_list *lst)
@@ -113,13 +114,21 @@ void	output_setup(t_minishell *mshell, t_list *lst)
 
 void	child_process(t_minishell *mshell, t_list *lst)
 {
-	input_setup(mshell, lst);
-	if (mshell->here_doc)
-		exit(130);
-	output_setup(mshell, lst);
-	ft_signal(1);
-	if (check_built_in(lst))
-		built_in(mshell, lst);
-	cmd(mshell, lst);
+	printf("child process\n");
+	if (input_setup(mshell, lst) == 0)
+	{
+		if (mshell->here_doc)
+			exit(130);
+		output_setup(mshell, lst);
+		ft_signal(1);
+		if (check_built_in(lst))
+			built_in(mshell, lst);
+		cmd(mshell, lst);
+		printf("end of world\n");
+	}
+	// else
+	// 	mshell->exit_status = 42;
+	//printf("child cleaning\n\t");
+	// free_lst(mshell, &lst);
 	exit(mshell->exit_status);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+         #
+#    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 17:37:04 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/27 06:28:30 by yyean-wa         ###   ########.fr        #
+#    Updated: 2024/12/27 12:48:01 by zgoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,12 @@ $(NAME): $(LIBFT) $(OBJ)
 	@cc $(CFLAGS) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
 	@echo $(GREEN)"Minishell ready."$(RESET)
 
+debug: CFLAGS += $(ASAN) 
+debug: clean $(OBJ)
+	@make debug -C $(LIBFT_PATH)
+	@cc $(CFLAGS) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
+	@echo $(GREEN)"Minishell (with ASAN)ready."$(RESET)
+
 $(LIBFT):
 	@make -C $(LIBFT_PATH)
 	@make bonus -C $(LIBFT_PATH)
@@ -61,4 +67,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re debug

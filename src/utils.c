@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/26 00:42:38 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/27 13:04:42 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,7 @@ void	print_node(t_list *lst)
 
 	j = 0;
 	if (!lst)
-	{
 		printf("empty list ha\n");
-		exit (-13);
-	}
 	temp = lst;
 	while (temp)
 	{
@@ -128,6 +125,7 @@ void	print_node(t_list *lst)
 		++j;
 		if (temp->lexem != NULL)
 		{
+			printf("\t");
 			for (int a = 0; temp->lexem[a]; ++a)
 				printf("\t%s", temp->lexem[a]);
 			printf("\t(null)");

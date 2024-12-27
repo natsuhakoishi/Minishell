@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/27 02:01:21 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/27 15:04:24 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	kindergarden(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
 	{
 		waitpid(childs[i], &mshell->exit_status, 0);
 		mshell->exit_status = WEXITSTATUS(mshell->exit_status);
+		// if (mshell->exit_status == 42)
+		// 	return ;
 	}
 }
 
@@ -76,10 +78,11 @@ void	exec_fd_setup(t_minishell *mshell)
 	mshell->out_fd = 1;
 }
 
-void	execution(t_minishell *mshell, t_list *lst)
+void		execution(t_minishell *mshell, t_list *lst)
 {
 	pid_t	*childs;
 	int		i;
+	int		status;
 
 	i = -1;
 	if (!lst || !lst->lexem)
@@ -92,14 +95,19 @@ void	execution(t_minishell *mshell, t_list *lst)
 	ft_signal(1);
 	if (lst->next == NULL && check_built_in(lst))
 	{
-		input_setup(mshell, lst);
-		if (mshell->here_doc)
+		status = input_setup(mshell, lst);
+		if (status)
+			return ;
+		if (mshell->here_doc) //here doc fail, stop
 			return ;
 		output_setup(mshell, lst);
 		built_in(mshell, lst);
 	}
 	else
+	{
 		kindergarden(mshell, lst, childs, i);
+		// free_lst(mshell, &lst);
+	}
 	dup2(mshell->in_backup, 0);
 	dup2(mshell->out_backup, 1);
 	close(mshell->in_backup);

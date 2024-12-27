@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+         #
+#    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/18 19:27:00 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/27 06:28:23 by yyean-wa         ###   ########.fr        #
+#    Updated: 2024/12/27 12:47:57 by zgoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,11 @@ bonus: ${OBJS} ${BONUSOBJT}
 	@${LIBC} $(NAME) ${BONUSOBJT}
 	@echo $(GREEN)"Libft bonus ready."$(RESET)
 
+debug: CFLAGS += $(ASAN)
+debug: clean ${OBJS} ${BONUSOBJT}
+	@${LIBC} $(NAME) ${OBJS} ${BONUSOBJT}
+	@echo $(GREEN)"Libft (with ASAN) ready."$(RESET)
+
 clean:
 	@${REMOVE} ${OBJS} ${BONUSOBJT}
 	@echo $(YELLOW)"Remove libft's objs file"$(RESET)
@@ -76,4 +81,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: bonus all clean fclean re
+.PHONY: bonus all clean fclean re debug
