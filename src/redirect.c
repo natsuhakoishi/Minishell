@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:05:48 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/28 19:48:07 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/29 04:54:06 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,59 +61,50 @@ void	here_doc(t_minishell *mshell, t_list *lst)
 	}
 }
 
-void	redirect_setup(t_list *lst, int i)
+void	redirect_setup2(t_list *lst, int i)
 {
-	if (!ft_strncmp(lst->lexem[i], "<\0", 2))
-	{
-		// if (lst->in_path)
-		// 	free(lst->in_path);
+	int	status;
+
+	status = check_if_redirect(lst, i);
+	if (status == 1)
 		lst->in_path = ft_strdup(lst->lexem[i + 1]);
-	}
-	else if (!ft_strncmp(lst->lexem[i], ">\0", 2))
-	{
-		// if (lst->out_path)
-		// 	free(lst->out_path);
+	else if (status == 2 || status == 4)
 		lst->out_path = ft_strdup(lst->lexem[i + 1]);
-	}
-	else if (!ft_strncmp(lst->lexem[i], "<<\0", 3))
-	{
-		// if (lst->delimiter)
-		// 	free(lst->delimiter);
+	else if (status == 3)
 		lst->delimiter = ft_strdup(lst->lexem[i + 1]);
-	}
-	else if (!ft_strncmp(lst->lexem[i], ">>\0", 3))
-	{
-		lst->append = 1;
-		// if (lst->out_path)
-		// 	free(lst->out_path);
-		lst->out_path = ft_strdup(lst->lexem[i + 1]);
-	}
 	if (lst->in_path || lst->out_path || lst->delimiter)
 		lexem_update(lst, i);
 }
 
-int	redirect_syntax(t_minishell *mshell, t_list *lst, int i)
+void	redirect_setup(t_list *lst, int i)
 {
-	char	*current;
-	char	*next;
+	int status;
 
-	if (!lst->lexem || !(*lst->lexem))
-		return (0);
-	current = lst->lexem[i];
-	next = lst->lexem[i + 1];
-	if ((!ft_strncmp(current, ">\0", 2)) || (!ft_strncmp(current, "<\0", 2)) || \
-		(!ft_strncmp(current, ">>\0", 3)) || (!ft_strncmp(current, "<<\0", 3)))
+	status = check_if_redirect(lst, i);
+	if (status)
 	{
-		if (next == NULL || (next && \
-			((!ft_strncmp(next, ">\0", 2)) || (!ft_strncmp(next, "<\0", 2)) || \
-			(!ft_strncmp(next, ">>\0", 3)) || (!ft_strncmp(next, "<<\0", 3)))))
+		if (status == 1)
 		{
-			err_msg(mshell, 2, "Error: syntax near redirection.\n", NULL);
-			return (0);
+			if (lst->in_path)
+				free(lst->in_path);
 		}
-		return (1);
+		else if (status == 2 || status == 4)
+		{
+			
+			if (lst->out_path)
+			{
+				open(lst->out_path, O_WRONLY | O_CREAT, 0644);
+				free(lst->out_path);
+			}
+			if (status == 4)
+				lst->append = 1;
+		}
+		else if (status == 3)
+		{
+			if (lst->delimiter)
+				free(lst->delimiter);
+		}
 	}
-	return (2);
 }
 
 int	redirection(t_minishell *mshell, t_list *lst)
@@ -133,9 +124,9 @@ int	redirection(t_minishell *mshell, t_list *lst)
 				return (0);
 			else if (value == 1)
 			{
-				printf("found %s %s\n", tmp->lexem[i], tmp->lexem[i + 1]);
 				redirect_setup(tmp, i);
-				++i;
+				redirect_setup2(tmp, i);
+				i -= 2;
 			}
 			++i;
 		}

@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/28 04:45:26 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/29 04:52:58 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ void	envp_sorting(char **envp, int size);
 void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg);
 void	lexem_update(t_list *lst, int i);
 void	print_node(t_list *lst);
+int		check_if_redirect(t_list *lst, int i);
+void	redirect_setup2(t_list *lst, int i);
+int		redirect_syntax(t_minishell *mshell, t_list *lst, int i);
 
 //exit & free memory related
 

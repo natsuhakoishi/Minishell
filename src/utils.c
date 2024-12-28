@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/28 19:51:09 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/29 04:51:36 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	envp_sorting(char **envp, int size)
 	}
 }
 
-
 void	lexem_update(t_list *lst, int i)
 {
 	free(lst->lexem[i]);
@@ -90,9 +89,7 @@ void	lexem_update(t_list *lst, int i)
 	{
 		lst->lexem[i] = lst->lexem[i + 2];
 		++i;
-		printf("\t%s", lst->lexem[i + 2]);
 	}
-	printf("\n");
 	lst->lexem[i] = NULL;
 }
 
@@ -121,3 +118,34 @@ void	lexem_update(t_list *lst, int i)
 // 		temp = temp->next;
 // 	}
 // }
+
+int	check_if_redirect(t_list *lst, int i)
+{
+	if (!ft_strncmp(lst->lexem[i], "<\0", 2))
+		return (1);
+	else if (!ft_strncmp(lst->lexem[i], ">\0", 2))
+		return (2);
+	else if (!ft_strncmp(lst->lexem[i], "<<\0", 3))
+		return (3);
+	else if (!ft_strncmp(lst->lexem[i], ">>\0", 3))
+		return (4);
+	else
+		return (0);
+}
+
+
+int	redirect_syntax(t_minishell *mshell, t_list *lst, int i)
+{
+	if (!lst->lexem || !(*lst->lexem))
+		return (0);
+	if (check_if_redirect(lst, i))
+	{
+		if (!lst->lexem[i + 1] || check_if_redirect(lst, i + 1))
+		{
+			err_msg(mshell, 2, "Syntax error near redirection.\n", NULL);
+			return (0);
+		}
+		return (1);
+	}
+	return (2);
+}

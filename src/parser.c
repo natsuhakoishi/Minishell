@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:37:55 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/27 02:59:44 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/29 05:31:35 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_quote2(t_minishell *mshell, int qflag)
 	if (qflag != 0)
 	{
 		ft_putstr_fd("Error: Quotes.\n", 2);
-		mshell->exit_status = 130;
+		mshell->exit_status = 2;
 		return (1);
 	}
 	return (0);
@@ -81,7 +81,7 @@ int	check_pipe(t_minishell *mshell)
 	if (mshell->token[0][0] == '|')
 	{
 		ft_putstr_fd("Error: Pipe at start\n", 2);
-		mshell->exit_status = 1;
+		mshell->exit_status = 2;
 		return (0);
 	}
 	return (1);
