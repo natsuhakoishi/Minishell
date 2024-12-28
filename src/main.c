@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:54:49 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/28 01:46:08 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/29 04:34:18 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	ft_input(t_minishell *mshell)
 	if (ft_strncmp(input, "", 1))
 		add_history(input);
 	mshell->token = lexer(input, "<>|");
-	mshell->exit_status = g_exit_code;
+	if (g_exit_code == 130)
+		mshell->exit_status = g_exit_code;
 	g_exit_code = 0;
 	free(input);
 }
