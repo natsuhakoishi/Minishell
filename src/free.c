@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:30:05 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/28 04:49:18 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/28 17:37:42 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,22 @@ void	free_lst(t_minishell *mshell, t_list **lst)
 	*lst = NULL;
 	if (mshell->flag)
 		mshell->flag = 0;
+}
+
+void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg)
+{
+	int	i;
+
+	i = -1;
+	while (msg[++i])
+	{
+		if (msg[i] == '%' && msg[i + 1] == 's' && arg)
+		{
+			ft_putstr_fd(arg, 2);
+			++i;
+			continue ;
+		}
+		ft_putchar_fd(msg[i], 2);
+	}
+	mshell->exit_status = exit_status;
 }

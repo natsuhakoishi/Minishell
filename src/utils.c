@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/28 03:44:51 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/28 19:51:09 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,57 +81,43 @@ void	envp_sorting(char **envp, int size)
 	}
 }
 
-void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg)
-{
-	int	i;
-
-	i = -1;
-	while (msg[++i])
-	{
-		if (msg[i] == '%' && msg[i + 1] == 's' && arg)
-		{
-			ft_putstr_fd(arg, 2);
-			++i;
-			continue ;
-		}
-		ft_putchar_fd(msg[i], 2);
-	}
-	mshell->exit_status = exit_status;
-}
 
 void	lexem_update(t_list *lst, int i)
 {
 	free(lst->lexem[i]);
-	while (lst->lexem[i])
+	free(lst->lexem[i + 1]);
+	while (lst->lexem[i + 2])
 	{
 		lst->lexem[i] = lst->lexem[i + 2];
 		++i;
+		printf("\t%s", lst->lexem[i + 2]);
 	}
+	printf("\n");
+	lst->lexem[i] = NULL;
 }
 
-void	print_node(t_list *lst)
-{
-	t_list *temp;
-	int	j;
-
-	j = 0;
-	if (!lst)
-		printf("empty list ha\n");
-	temp = lst;
-	while (temp)
-	{
-		printf("node %dth\n", j);
-		++j;
-		if (temp->lexem != NULL)
-		{
-			printf("\t");
-			for (int a = 0; temp->lexem[a]; ++a)
-				printf("\t%s", temp->lexem[a]);
-			printf("\t(null)");
-			printf("\n");
-		}
-		else
-			printf("\tno content\n");
-		temp = temp->next;
-	}
-}
+// void	print_node(t_list *lst)
+// {
+// 	t_list *temp;
+// 	int	j;
+// 	j = 0;
+// 	if (!lst)
+// 		printf("empty list ha\n");
+// 	temp = lst;
+// 	while (temp)
+// 	{
+// 		printf("node %dth\n", j);
+// 		++j;
+// 		if (temp->lexem != NULL)
+// 		{
+// 			printf("\t");
+// 			for (int a = 0; temp->lexem[a]; ++a)
+// 				printf("\t%s", temp->lexem[a]);
+// 			printf("\t(null)");
+// 			printf("\n");
+// 		}
+// 		else
+// 			printf("\tno content\n");
+// 		temp = temp->next;
+// 	}
+// }
