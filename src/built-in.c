@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   built-in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/28 17:08:23 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/30 07:38:52 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //handle cmd absolute path & executable file
-
-			// printf("get %d\n", mshell->exit_status);
-
 void	executable(t_minishell *mshell, t_list *lst)
 {
 	pid_t	p_id;

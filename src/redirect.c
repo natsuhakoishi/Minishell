@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:05:48 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/29 04:54:06 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/30 07:18:42 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	redirect_setup2(t_list *lst, int i)
 	else if (status == 3)
 		lst->delimiter = ft_strdup(lst->lexem[i + 1]);
 	if (lst->in_path || lst->out_path || lst->delimiter)
-		lexem_update(lst, i);
+		lexem_update(&lst, i);
 }
 
 void	redirect_setup(t_list *lst, int i)
@@ -117,7 +117,7 @@ int	redirection(t_minishell *mshell, t_list *lst)
 	while (tmp)
 	{
 		i = 0;
-		while (tmp->lexem[i])
+		while (tmp->lexem && tmp->lexem[i])
 		{
 			value = redirect_syntax(mshell, tmp, i);
 			if (!value)
@@ -126,7 +126,7 @@ int	redirection(t_minishell *mshell, t_list *lst)
 			{
 				redirect_setup(tmp, i);
 				redirect_setup2(tmp, i);
-				i -= 2;
+				++i;
 			}
 			++i;
 		}
