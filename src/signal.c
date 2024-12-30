@@ -6,7 +6,7 @@
 /*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:06:20 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/26 01:22:38 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/30 14:38:50 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	quit_3(int sigquit)
 {
 	(void)sigquit;
 	printf("Quit (core dumped)\n");
+	g_exit_code = 131;
 }
 
 void	quit_subshell(int sigint)
