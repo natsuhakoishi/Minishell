@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:05:48 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/30 07:18:42 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/31 07:57:03 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,8 @@ void	here_doc(t_minishell *mshell, t_list *lst)
 	}
 }
 
-void	redirect_setup2(t_list *lst, int i)
+void	redirect_setup2(t_list *lst, int i, int status)
 {
-	int	status;
-
 	status = check_if_redirect(lst, i);
 	if (status == 1)
 		lst->in_path = ft_strdup(lst->lexem[i + 1]);
@@ -76,10 +74,8 @@ void	redirect_setup2(t_list *lst, int i)
 		lexem_update(&lst, i);
 }
 
-void	redirect_setup(t_list *lst, int i)
+void	redirect_setup(t_list *lst, int i, int status)
 {
-	int status;
-
 	status = check_if_redirect(lst, i);
 	if (status)
 	{
@@ -90,7 +86,6 @@ void	redirect_setup(t_list *lst, int i)
 		}
 		else if (status == 2 || status == 4)
 		{
-			
 			if (lst->out_path)
 			{
 				open(lst->out_path, O_WRONLY | O_CREAT, 0644);
@@ -112,23 +107,24 @@ int	redirection(t_minishell *mshell, t_list *lst)
 	t_list	*tmp;
 	int		i;
 	int		value;
+	int		status;
 
 	tmp = lst;
+	status = 0;
 	while (tmp)
 	{
-		i = 0;
-		while (tmp->lexem && tmp->lexem[i])
+		i = -1;
+		while (tmp->lexem && tmp->lexem[++i])
 		{
-			value = redirect_syntax(mshell, tmp, i);
+			value = check_redirect_syntax(mshell, tmp, i);
 			if (!value)
 				return (0);
 			else if (value == 1)
 			{
-				redirect_setup(tmp, i);
-				redirect_setup2(tmp, i);
+				redirect_setup(tmp, i, status);
+				redirect_setup2(tmp, i, status);
 				++i;
 			}
-			++i;
 		}
 		tmp = tmp->next;
 	}

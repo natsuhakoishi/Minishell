@@ -6,7 +6,7 @@
 #    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 17:37:04 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/30 10:45:08 by zgoh             ###   ########.fr        #
+#    Updated: 2024/12/31 07:37:40 by zgoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,8 @@ VAL = -ggdb3
 CFLAGS = -Wall -Wextra -Werror -I./includes/ -I/usr/include/readline/
 
 SRC_FILES = main lexer parser expansion \
-			execution redirect built-in built-in_2 child_process \
-			signal free utils
+			redirect execution child_process built-in built-in_2 \
+			signal free utils utils2
 SRC = $(addprefix src/, $(addsuffix .c,  $(SRC_FILES)))
 
 LIBFT_PATH = ./libft/

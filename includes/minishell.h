@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:56:27 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/30 07:08:15 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/31 07:27:34 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,13 @@ typedef struct s_minishell
 
 //utils
 char	*ft_getenv(t_minishell *mshell, char *evar);
-int		check_built_in(t_list *lst);
 void	envp_sorting(char **envp, int size);
-void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg);
 void	lexem_update(t_list **lst, int i);
-void	print_node(t_list *lst);
+void	err_msg(t_minishell *mshell, int exit_status, char *msg, char *arg);
 int		check_if_redirect(t_list *lst, int i);
-void	redirect_setup2(t_list *lst, int i);
-int		redirect_syntax(t_minishell *mshell, t_list *lst, int i);
+int		check_redirect_syntax(t_minishell *mshell, t_list *lst, int i);
+int		check_built_in(t_list *lst);
+// void	print_node(t_list *lst);
 
 //exit & free memory related
 
@@ -104,7 +103,7 @@ void	execution(t_minishell *mshell, t_list *lst);
 void	built_in(t_minishell *mshell, t_list *lst);
 void	child_process(t_minishell *mshell, t_list *lst);
 
-//execution - built-ins
+//built-in
 
 void	builtin_exit(t_minishell *mshell, t_list *lst);
 void	builtin_env(t_minishell *mshell, t_list *lst);
