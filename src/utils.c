@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/30 07:31:39 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/30 09:19:15 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,10 @@ void	lexem_update(t_list **lst, int i)
 {
 	t_list	*tmp;
 
-	// printf("%p\n", (*lst)->lexem[i]);
 	free((*lst)->lexem[i]);
 	free((*lst)->lexem[i + 1]);
 	while ((*lst)->lexem[i + 2])
 	{
-		// printf("hello\n");
 		(*lst)->lexem[i] = (*lst)->lexem[i + 2];
 		++i;
 	}
@@ -103,7 +101,6 @@ void	lexem_update(t_list **lst, int i)
 		*lst = tmp;
 	}
 }
-//todo deal with empty node after update
 
 // void	print_node(t_list *lst)
 // {
