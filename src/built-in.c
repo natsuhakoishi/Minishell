@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/30 07:38:52 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/30 09:59:47 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	builtin_exit(t_minishell *mshell, t_list *lst)
 				err_msg(mshell, 2, \
 						"Minishell: exit: %s: numeric argument required\n", \
 						lst->lexem[1]);
+				free_dptr(lst->lexem);
 				exit(mshell->exit_status);
 			}
 		}

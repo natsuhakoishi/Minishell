@@ -6,13 +6,14 @@
 #    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/18 19:27:00 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/28 02:02:11 by zgoh             ###   ########.fr        #
+#    Updated: 2024/12/30 10:47:52 by zgoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 CC = gcc
 ASAN = -fsanitize=address -g3
+VAL = -ggdb3
 CFLAGS = -Wall -Werror -Wextra
 
 SRCS =	ft_isalpha.c ft_isdigit.c\
@@ -66,10 +67,15 @@ bonus: ${OBJS} ${BONUSOBJT}
 	@${LIBC} $(NAME) ${BONUSOBJT}
 	@echo $(GREEN)"Libft bonus ready."$(RESET)
 
+test: CFLAGS += $(VAL)
+test: fclean clean $(OBJS) $(BONUSOBJT)
+	@$(LIBC) $(NAME) $(OBJS) $(BONUSOBJT)
+	@echo $(GREEN)"Libft ready."$(RESET)
+
 debug: CFLAGS += $(ASAN)
-debug: clean ${OBJS} ${BONUSOBJT}
+debug: fclean clean ${OBJS} ${BONUSOBJT}
 	@${LIBC} $(NAME) ${OBJS} ${BONUSOBJT}
-	@echo $(GREEN)"Libft (with ASAN) ready."$(RESET)
+	@echo $(GREEN)"Libft ready."$(RESET)
 
 clean:
 	@${REMOVE} ${OBJS} ${BONUSOBJT}
@@ -81,4 +87,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: bonus all clean fclean re debug
+.PHONY: bonus all clean fclean re debug test
