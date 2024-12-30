@@ -6,7 +6,7 @@
 #    By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 17:37:04 by yyean-wa          #+#    #+#              #
-#    Updated: 2024/12/28 02:02:39 by zgoh             ###   ########.fr        #
+#    Updated: 2024/12/30 10:45:08 by zgoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME = minishell
 AR = ar rcs
 RM = rm -rf
 ASAN = -fsanitize=address -g3
+VAL = -ggdb3
 CFLAGS = -Wall -Wextra -Werror -I./includes/ -I/usr/include/readline/
 
 SRC_FILES = main lexer parser expansion \
@@ -26,7 +27,7 @@ LIBFT_PATH = ./libft/
 LIBFT = ./libft/libft.a
 
 #object files
-OBJ_DIR = objs/
+OBJ_DIR = objs
 OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
 
 $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
@@ -42,11 +43,17 @@ $(NAME): $(LIBFT) $(OBJ)
 	@cc $(CFLAGS) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
 	@echo $(GREEN)"Minishell ready."$(RESET)
 
+test: CFLAGS += $(VAL)
+test: fclean clean $(OBJ)
+	@make test -C $(LIBFT_PATH)
+	@cc $(CFLAGS) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
+	@echo $(GREEN)"Minishell detail debug --ready."$(RESET)
+
 debug: CFLAGS += $(ASAN)
-debug: clean $(OBJ)
+debug: fclean clean $(OBJ)
 	@make debug -C $(LIBFT_PATH)
 	@cc $(CFLAGS) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
-	@echo $(GREEN)"Minishell (with ASAN)ready."$(RESET)
+	@echo $(GREEN)"Minishell with ASAN  -ready."$(RESET)
 
 $(LIBFT):
 	@make -C $(LIBFT_PATH)
@@ -67,4 +74,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re debug
+.PHONY: all clean fclean re debug test
