@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/28 04:52:46 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/31 02:56:42 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	built_in(t_minishell *mshell, t_list *lst)
 //each child process handle one commmand(including option & arguments)
 void	kindergarden(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
 {
+	int	status;
+
 	while (lst)
 	{
 		if (lst->next)
@@ -50,7 +52,10 @@ void	kindergarden(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
 			here_doc(mshell, lst);
 		childs[++i] = fork();
 		if (childs[i] == 0)
+		{
+			ft_signal(1);
 			child_process(mshell, lst);
+		}
 		else
 		{
 			if (lst->pipe_fd[0] != -1)
@@ -63,8 +68,11 @@ void	kindergarden(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
 	i = -1;
 	while (childs[++i] != -1)
 	{
-		waitpid(childs[i], &mshell->exit_status, 0);
-		mshell->exit_status = WEXITSTATUS(mshell->exit_status);
+		waitpid(childs[i], &status, 0);
+		if (WIFSIGNALED(status))
+			mshell->exit_status = 128 + WTERMSIG(status);
+		else if (WIFEXITED(status))
+			mshell->exit_status = WEXITSTATUS(mshell->exit_status);
 	}
 }
 
