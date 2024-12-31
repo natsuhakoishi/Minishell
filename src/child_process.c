@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:14:54 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/30 10:28:01 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/31 08:40:19 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	child_process(t_minishell *mshell, t_list *lst)
 	if (input_setup(mshell, lst) == 0)
 	{
 		if (mshell->here_doc)
-			exit(130);
+			exit(mshell->exit_status);
 		output_setup(mshell, lst);
 		ft_signal(1);
 		if (check_built_in(lst))

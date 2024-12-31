@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 03:58:30 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/21 03:04:17 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/31 10:30:39 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	builtin_unset(t_minishell *mshell, t_list *lst)
 	}
 	mshell->exit_status = 0;
 }
-//todosupposed break; after unset_2 been called, but no more line
 
 //update list of envp
 //>3 situation; existed envp w/ value, existed envp w/o value, or new envp

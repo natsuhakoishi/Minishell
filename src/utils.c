@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/31 08:00:47 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/31 10:16:17 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ void	kindergarden_end(pid_t *childs, t_minishell *mshell)
 		if (WIFSIGNALED(status))
 			mshell->exit_status = 128 + WTERMSIG(status);
 		else if (WIFEXITED(status))
-			mshell->exit_status = WEXITSTATUS(mshell->exit_status);
+		{
+			status = WEXITSTATUS(status);
+			mshell->exit_status = status;
+		}
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:38:23 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/30 09:59:47 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/31 10:27:40 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	executable(t_minishell *mshell, t_list *lst)
 	{
 		p_id = fork();
 		if (p_id == 0)
+		{
+			ft_signal(1);
 			execve(lst->lexem[0], lst->lexem, mshell->envp);
+		}
 		else if (p_id)
 		{
 			waitpid(p_id, &mshell->exit_status, 0);

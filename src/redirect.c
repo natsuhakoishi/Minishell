@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:05:48 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/31 07:57:03 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/31 08:40:06 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	here_doc2(t_minishell *mshell, t_list *lst, int fd, char *input)
 		input = readline(" > ");
 	}
 	close(fd);
-	exit (0);
+	exit (mshell->exit_status);
 }
 
 void	here_doc(t_minishell *mshell, t_list *lst)
@@ -50,14 +50,19 @@ void	here_doc(t_minishell *mshell, t_list *lst)
 	input = NULL;
 	fd = 0;
 	if (p_id == 0)
-		here_doc2(mshell, lst, fd, input);
-	else if (p_id)
 	{
 		ft_signal(1);
+		here_doc2(mshell, lst, fd, input);
+	}
+	else if (p_id)
+	{
 		waitpid(p_id, &status, 0);
 		status = WEXITSTATUS(status);
 		if (WIFSIGNALED(status) && status == 42)
+		{
 			mshell->here_doc = 1;
+			mshell->exit_status = 130;
+		}
 	}
 }
 
