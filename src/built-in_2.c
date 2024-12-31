@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built-in_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 03:58:30 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/31 10:30:39 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/31 13:11:35 by yyean-wa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	builtin_unset_2(t_minishell *mshell, int j)
 {
+	free(mshell->envp[j]);
 	while (mshell->envp[j])
 	{
 		mshell->envp[j] = mshell->envp[j + 1];
