@@ -6,7 +6,7 @@
 /*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:53:21 by yyean-wa          #+#    #+#             */
-/*   Updated: 2024/12/31 07:25:53 by zgoh             ###   ########.fr       */
+/*   Updated: 2024/12/31 08:00:47 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,22 @@ void	lexem_update(t_list **lst, int i)
 		free_dptr((*lst)->lexem);
 		free(*lst);
 		*lst = tmp;
+	}
+}
+
+void	kindergarden_end(pid_t *childs, t_minishell *mshell)
+{
+	int	status;
+	int	i;
+
+	i = -1;
+	while (childs[++i] != -1)
+	{
+		waitpid(childs[i], &status, 0);
+		if (WIFSIGNALED(status))
+			mshell->exit_status = 128 + WTERMSIG(status);
+		else if (WIFEXITED(status))
+			mshell->exit_status = WEXITSTATUS(mshell->exit_status);
 	}
 }
 

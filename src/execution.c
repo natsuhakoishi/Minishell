@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyean-wa < yyean-wa@student.42kl.edu.my    +#+  +:+       +#+        */
+/*   By: zgoh <zgoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 00:35:43 by zgoh              #+#    #+#             */
-/*   Updated: 2024/12/31 02:56:42 by yyean-wa         ###   ########.fr       */
+/*   Updated: 2024/12/31 08:04:03 by zgoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,11 @@ void	built_in(t_minishell *mshell, t_list *lst)
 
 //fork a child process for each node
 //each child process handle one commmand(including option & arguments)
-void	kindergarden(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
+void	kindergarden(t_minishell *mshell, t_list *lst, pid_t *childs)
 {
-	int	status;
+	int	i;
 
+	i = -1;
 	while (lst)
 	{
 		if (lst->next)
@@ -65,15 +66,7 @@ void	kindergarden(t_minishell *mshell, t_list *lst, pid_t *childs, int i)
 			lst = lst->next;
 		}
 	}
-	i = -1;
-	while (childs[++i] != -1)
-	{
-		waitpid(childs[i], &status, 0);
-		if (WIFSIGNALED(status))
-			mshell->exit_status = 128 + WTERMSIG(status);
-		else if (WIFEXITED(status))
-			mshell->exit_status = WEXITSTATUS(mshell->exit_status);
-	}
+	kindergarden_end(childs, mshell);
 }
 
 void	only_built_in(t_minishell *mshell, t_list *lst)
@@ -100,9 +93,7 @@ void	exec_fd_setup(t_minishell *mshell)
 void	execution(t_minishell *mshell, t_list *lst)
 {
 	pid_t	*childs;
-	int		i;
 
-	i = -1;
 	if (!lst || !lst->lexem)
 		return ;
 	exec_fd_setup(mshell);
@@ -114,7 +105,7 @@ void	execution(t_minishell *mshell, t_list *lst)
 	if (lst->next == NULL && check_built_in(lst))
 		only_built_in(mshell, lst);
 	else
-		kindergarden(mshell, lst, childs, i);
+		kindergarden(mshell, lst, childs);
 	dup2(mshell->in_backup, 0);
 	dup2(mshell->out_backup, 1);
 	close(mshell->in_backup);
